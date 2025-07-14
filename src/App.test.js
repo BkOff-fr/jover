@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import App from "./App";
 
 test('renders accueil link', () => {
@@ -32,13 +32,15 @@ test('transition image scales after scrolling past threshold', () => {
   const { container } = render(<App />);
 
   // Fast-forward the loading timer
-  jest.runAllTimers();
+  act(() => {
+    jest.runAllTimers();
+  });
 
   const transitionImage = container.querySelector('#transitionImage');
   expect(transitionImage).toBeTruthy();
 
-  // Initial transform should contain scale(1)
-  expect(transitionImage.style.transform).toMatch(/scale\(1\)/);
+  // Initial transform should be translateY(0px)
+  expect(transitionImage.style.transform).toBe('translateY(0px)');
 
   // Scroll past the threshold by updating the section top and pageYOffset
   sectionTop = 0;
