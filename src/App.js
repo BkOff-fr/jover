@@ -36,11 +36,6 @@ function App() {
   
   // Refs for DOM elements to avoid repeated querySelector calls
   const domElementsRef = useRef({});
-  
-  // Memoized parallax images array
-  const parallaxImages = useMemo(() => [
-    image1, image2, image3, image4, image11
-  ], []);
 
   // Cache DOM elements on first access
   const getDOMElement = useCallback((id, selector) => {

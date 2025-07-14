@@ -40,7 +40,7 @@ test('transition image scales after scrolling past threshold', () => {
   expect(transitionImage).toBeTruthy();
 
   // Initial transform should be translateY(0px)
-  expect(transitionImage.style.transform).toContain("translateY(0px)");
+  expect(transitionImage.style.transform).toBe('translateY(0px)');
 
   // Scroll past the threshold by updating the section top and pageYOffset
   sectionTop = 0;
