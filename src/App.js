@@ -288,7 +288,7 @@ function App() {
       {/* Main Content */}
       <main className="main-content">
         {/* Hero Section */}
-        <section className="hero-section">
+        <section id="accueil" className="hero-section">
           <img src={logo} className="main-logo" alt="logo" />
           
           {/* Scroll Indicator */}
@@ -318,7 +318,7 @@ function App() {
         </section>
 
         {/* Images Gallery Section */}
-        <section className="images-gallery">
+        <section id="portfolio" className="images-gallery">
           <div 
             className="parallax-image transition-image" 
             data-speed="0.3" 
@@ -340,6 +340,11 @@ function App() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* Contact Section */}
+        <section id="contact" className="contact-section">
+          <h2>Contact</h2>
         </section>
       </main>
     </div>

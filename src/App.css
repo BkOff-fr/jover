@@ -425,6 +425,7 @@ body.dark-theme .main-logo {
     z-index: 15;
     border-radius: 0;
     will-change: transform;
+    transform: scale(1);
 }
 
 /* Experience Transition Section */
@@ -521,6 +522,15 @@ body.dark-theme .main-logo {
 
 .App.dark-theme .experience-title {
     color: white;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 80px 40px;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Responsive */
