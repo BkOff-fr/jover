@@ -404,6 +404,7 @@ body.dark-theme .main-logo {
     top: 130vh;
     padding: 100px 40px;
     min-height: 200vh;
+    overflow: visible; /* Allow images to be visible outside section bounds */
 }
 
 .parallax-gallery-image {
@@ -507,10 +508,9 @@ body.dark-theme .main-logo {
 .transition-image {
     width: 320px !important;
     height: 450px !important;
-    top: 380% !important;
+    top: 110% !important;
     right: 10% !important;
     z-index: 15 !important;
-    transition: none !important;
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
@@ -518,6 +518,8 @@ body.dark-theme .main-logo {
     opacity: 1 !important;
     position: absolute !important;
     border-radius: 20px;
+    will-change: transform;
+    transition: border-radius 0.3s ease-out;
 }
 
 /* Experience Transition Section */
@@ -529,7 +531,61 @@ body.dark-theme .main-logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow: visible; /* Allow image to be visible outside section bounds */
+}
+
+/* Overlay de transition avec dégradé */
+.transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(
+        135deg,
+        rgba(42, 42, 42, 0.6) 0%,
+        rgba(42, 42, 42, 0.8) 30%,
+        rgba(42, 42, 42, 0.95) 70%,
+        #2a2a2a 100%
+    );
+    z-index: 250;
+    opacity: 0;
+    display: none;
+    transition: opacity 0.8s ease-out;
+    pointer-events: none;
+}
+
+/* Animation additionnelle pour le fondu final */
+.transition-overlay.final-fade {
+    background: linear-gradient(
+        135deg,
+        rgba(42, 42, 42, 0.9) 0%,
+        #2a2a2a 50%,
+        #2a2a2a 100%
+    );
+    animation: finalFade 2s ease-out forwards;
+}
+
+@keyframes finalFade {
+    0% {
+        opacity: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(42, 42, 42, 0.6) 0%,
+            rgba(42, 42, 42, 0.8) 30%,
+            rgba(42, 42, 42, 0.95) 70%,
+            #2a2a2a 100%
+        );
+    }
+    100% {
+        opacity: 1;
+        background: linear-gradient(
+            135deg,
+            #2a2a2a 0%,
+            #2a2a2a 50%,
+            #2a2a2a 100%
+        );
+    }
 }
 
 .experience-title-container {
