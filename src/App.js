@@ -176,35 +176,29 @@ function App() {
           const letters = experienceTitle.querySelectorAll('.letter');
           if (progress > 0.6) {
             const titleProgress = Math.max(0, Math.min(1, (progress - 0.6) / 0.4));
-            
-            letters.forEach((letter, index) => {
+
+            letters.forEach((letter) => {
               const letterIndex = parseInt(letter.getAttribute('data-index'));
               const totalLetters = letters.length;
-              
-              // Letters at extremities (L and E) come last
-              let delay = 0;
-              if (letterIndex === 0 || letterIndex === totalLetters - 1) {
-                delay = 0.8; // L and E come last
-              } else if (letterIndex === 1 || letterIndex === totalLetters - 2) {
-                delay = 0.6; // Second letters come second to last
-              } else {
-                delay = letterIndex / totalLetters * 0.4; // Center letters come first
-              }
-              
+
+              const center = (totalLetters - 1) / 2;
+              const distance = (letterIndex - center) * 30;
+
+              // Delay based on distance from center so inner letters appear first
+              const delay = Math.abs(letterIndex - center) / center * 0.5;
               const letterProgress = Math.max(0, Math.min(1, (titleProgress - delay) / (1 - delay)));
-              
-              if (letterProgress > 0) {
-                letter.style.transform = `translateY(${(1 - letterProgress) * 100}px)`;
-                letter.style.opacity = letterProgress;
-              } else {
-                letter.style.transform = 'translateY(100px)';
-                letter.style.opacity = '0';
-              }
+
+              letter.style.transform = `translateX(${distance * (1 - letterProgress)}px)`;
+              letter.style.opacity = letterProgress;
             });
           } else {
             // Reset letters
-            letters.forEach(letter => {
-              letter.style.transform = 'translateY(100px)';
+            letters.forEach((letter) => {
+              const letterIndex = parseInt(letter.getAttribute('data-index'));
+              const totalLetters = letters.length;
+              const center = (totalLetters - 1) / 2;
+              const distance = (letterIndex - center) * 30;
+              letter.style.transform = `translateX(${distance}px)`;
               letter.style.opacity = '0';
             });
           }
