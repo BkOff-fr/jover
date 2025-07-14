@@ -128,17 +128,24 @@ function App() {
         const sectionRect = experienceSection.getBoundingClientRect();
         const sectionTop = sectionRect.top;
         
-        // Start animation when section is 800px below viewport
-        const triggerPoint = windowHeight + 800;
+        // Calculate animation progress based on viewport
+        const startPoint = windowHeight;
         let progress = 0;
-        
-        if (sectionTop <= triggerPoint) {
-          // Progress from 0 when section is 800px below to 1 when section reaches viewport center
-          progress = Math.max(0, Math.min(1, (triggerPoint - sectionTop) / (triggerPoint + windowHeight * 0.2)));
+        const minProgress = 0.05;
+
+        if (sectionTop <= startPoint) {
+          progress = Math.max(
+            0,
+            Math.min(
+              1,
+              (startPoint - sectionTop) /
+                (startPoint - windowHeight * 0.2)
+            )
+          );
         }
         
         // Apply scroll-based transforms
-        if (progress > 0) {
+        if (progress > minProgress) {
           // Image animation: scale and move to center, then expand horizontally
           const scale = 1 + (progress * 15); // Scale from 1 to 16
           const rotation = progress * 45; // Rotate from 0 to 45 degrees
@@ -210,8 +217,8 @@ function App() {
           }
           
         } else {
-          // Reset to normal state
-          transitionImage.style.transform = `translateY(${-(scrollTop * 0.1)}px) scale(1) rotate(0deg)`;
+          // Reset to normal state but keep parallax transform from gallery loop
+          // transitionImage.style.transform is already handled by the gallery-parallax effect
           transitionImage.style.zIndex = '15';
           transitionImage.style.borderRadius = '20px';
           
