@@ -609,7 +609,7 @@ body.dark-theme .main-logo {
 
 .experience-title .letter {
     display: inline-block;
-    transform: translateY(100px);
+    transform: translate(-50%, 0) scale(0);
     opacity: 0;
     transition: none;
 }
