@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jover - Portfolio Photographie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }NP
+
+        body {
+            font-family: 'Pathway Extreme', sans-serif;
+            overflow-x: hidden;
+            background: white;
+            transition: background-color 0.8s ease;
+        }
+
+        body.dark-theme {
+            background: #2a2a2a;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-logo {
+            width: 150px;
+            height: auto;
+            animation: logoLoad 2s ease-in-out;
+        }
+
+        @keyframes logoLoad {
+            0% {
+                transform: scale(0.5) rotate(-180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            width: 60px;
+            height: auto;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: black;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: black;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        body.dark-theme nav a {
+            color: white;
+        }
+
+        body.dark-theme nav a::after {
+            background: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: 500vh;
+            position: relative;
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: scrollIndicatorFade 2s ease-out 4s both;
+        }
+
+        .scroll-text {
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            color: #666;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .scroll-arrow {
+            width: 20px;
+            height: 30px;
+            border: 2px solid #666;
+            border-radius: 15px;
+            position: relative;
+            transition: border-color 0.3s ease;
+        }
+
+        .scroll-arrow::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: #666;
+            border-radius: 2px;
+            animation: scrollDot 2s ease-in-out infinite;
+            transition: background 0.3s ease;
+        }
+
+        @keyframes scrollDot {
+            0% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-50%) translateY(8px);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes scrollIndicatorFade {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Hide scroll indicator when scrolling */
+        .scroll-indicator.hidden {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        /* Dark theme styles for scroll indicator */
+        body.dark-theme .scroll-text {
+            color: #ccc;
+        }
+
+        body.dark-theme .scroll-arrow {
+            border-color: #ccc;
+        }
+
+        body.dark-theme .scroll-arrow::before {
+            background: #ccc;
+        }
+
+        .main-logo {
+            width: 300px;
+            height: auto;
+            animation: mainLogoEntrance 2s ease-out 2.5s both;
+        }
+
+        @keyframes mainLogoEntrance {
+            0% {
+                transform: scale(0.8) translateY(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Images avec effet parallaxe */
+        .parallax-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 300vh;
+            pointer-events: none;
+        }
+
+        .parallax-image {
+            position: absolute;
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(200, 200, 200, 0.8) 90deg 180deg
+            );
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .parallax-image:nth-child(1) {
+            width: 200px;
+            height: 300px;
+            top: 20%;
+            left: 10%;
+            z-index: 3;
+        }
+
+        .parallax-image:nth-child(2) {
+            width: 250px;
+            height: 400px;
+            top: 60%;
+            right: 15%;
+            z-index: 2;
+        }
+
+        .parallax-image:nth-child(3) {
+            width: 180px;
+            height: 250px;
+            top: 40%;
+            left: 60%;
+            z-index: 4;
+        }
+
+        .parallax-image:nth-child(4) {
+            width: 300px;
+            height: 200px;
+            top: 80%;
+            left: 20%;
+            z-index: 1;
+        }
+
+        .parallax-image:nth-child(5) {
+            width: 220px;
+            height: 350px;
+            top: 120%;
+            right: 10%;
+            z-index: 5;
+        }
+
+        .parallax-image:nth-child(6) {
+            width: 280px;
+            height: 180px;
+            top: 140%;
+            left: 40%;
+            z-index: 2;
+        }
+
+        .parallax-image:nth-child(7) {
+            width: 160px;
+            height: 280px;
+            top: 180%;
+            right: 30%;
+            z-index: 3;
+        }
+
+        body.dark-theme .parallax-image {
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(100, 100, 100, 0.6) 90deg 180deg
+            );
+        }
+
+        /* Text Section */
+        .text-section {
+            position: relative;
+            z-index: 100;
+            top: 100vh;
+            padding: 100px 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .text-content {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+        }
+
+        .text-content .word {
+            display: inline-block;
+            color: #ccc;
+            transition: color 0.3s ease;
+            margin-right: 0.3em;
+        }
+
+        .text-content .word.active {
+            color: black;
+        }
+
+        body.dark-theme .text-content .word.active {
+            color: white;
+        }
+
+        /* Images Gallery Section */
+        .images-gallery {
+            position: relative;
+            z-index: 100;
+            top: 130vh;
+            padding: 100px 40px;
+            min-height: 200vh;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-image {
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(200, 200, 200, 0.8) 90deg 180deg
+            );
+            border-radius: 15px;
+            aspect-ratio: 3/4;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .gallery-image.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .gallery-image:nth-child(1) { transition-delay: 0.1s; }
+        .gallery-image:nth-child(2) { transition-delay: 0.2s; }
+        .gallery-image:nth-child(3) { transition-delay: 0.3s; }
+        .gallery-image:nth-child(4) { transition-delay: 0.4s; }
+        .gallery-image:nth-child(5) { transition-delay: 0.5s; }
+        .gallery-image:nth-child(6) { transition-delay: 0.6s; }
+        .gallery-image:nth-child(7) { transition-delay: 0.7s; }
+        .gallery-image:nth-child(8) { transition-delay: 0.8s; }
+        .gallery-image:nth-child(9) { transition-delay: 0.9s; }
+        .gallery-image:nth-child(10) { transition-delay: 1.0s; }
+        .gallery-image:nth-child(11) { transition-delay: 1.1s; }
+        .gallery-image:nth-child(12) { transition-delay: 1.2s; }
+
+        body.dark-theme .gallery-image {
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(100, 100, 100, 0.6) 90deg 180deg
+            );
+        }
+
+        /* Full Screen Images Section */
+        .fullscreen-images {
+            position: relative;
+            z-index: 100;
+            top: 150vh;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+        }
+
+        .fullscreen-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            height: 80vh;
+            max-width: 1400px;
+            opacity: 0;
+            transition: all 1s ease;
+        }
+
+        .fullscreen-grid.visible {
+            opacity: 1;
+        }
+
+        .fullscreen-item {
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(200, 200, 200, 0.8) 90deg 180deg
+            );
+            border-radius: 10px;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .fullscreen-item:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .fullscreen-item:nth-child(1) { grid-column: 1/3; grid-row: 1/2; }
+        .fullscreen-item:nth-child(2) { grid-column: 3/4; grid-row: 1/3; }
+        .fullscreen-item:nth-child(3) { grid-column: 4/5; grid-row: 1/2; }
+        .fullscreen-item:nth-child(4) { grid-column: 1/2; grid-row: 2/4; }
+        .fullscreen-item:nth-child(5) { grid-column: 2/4; grid-row: 2/3; }
+        .fullscreen-item:nth-child(6) { grid-column: 4/5; grid-row: 2/4; }
+        .fullscreen-item:nth-child(7) { grid-column: 2/3; grid-row: 3/4; }
+        .fullscreen-item:nth-child(8) { grid-column: 3/4; grid-row: 3/4; }
+
+        body.dark-theme .fullscreen-item {
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(100, 100, 100, 0.6) 90deg 180deg
+            );
+        }
+
+        /* Zoom to Single Image Section */
+        .zoom-to-single {
+            position: relative;
+            z-index: 100;
+            top: 170vh;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+        }
+
+        .single-image-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            max-width: 80vw;
+            max-height: 60vh;
+        }
+
+        .single-image {
+            width: 100%;
+            height: 100%;
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(200, 200, 200, 0.8) 90deg 180deg
+            );
+            border-radius: 20px;
+            transition: all 1s ease;
+            transform: scale(0.1);
+            opacity: 0;
+        }
+
+        .single-image.zoomed {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        body.dark-theme .single-image {
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(100, 100, 100, 0.6) 90deg 180deg
+            );
+        }
+
+        .single-title {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            color: black;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(-50%) translateY(30px);
+            transition: all 1s ease 0.5s;
+        }
+
+        .single-title.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Zoom In Section */
+        .zoom-section {
+            position: relative;
+            z-index: 100;
+            top: 170vh;
+            padding: 200px 40px;
+            text-align: center;
+        }
+
+        .zoom-trigger {
+            width: 400px;
+            height: 300px;
+            margin: 0 auto;
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(200, 200, 200, 0.8) 90deg 180deg
+            );
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .zoom-trigger:hover {
+            transform: scale(1.05);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+
+        .zoom-text {
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            color: black;
+            z-index: 2;
+            position: relative;
+        }
+
+        body.dark-theme .zoom-trigger {
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 90deg,
+                rgba(100, 100, 100, 0.6) 90deg 180deg
+            );
+        }
+
+        body.dark-theme .zoom-text {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+
+            nav {
+                gap: 20px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .main-logo {
+                width: 200px;
+            }
+
+            .text-section {
+                padding: 50px 20px;
+            }
+
+            .text-content {
+                font-size: 20px;
+            }
+
+            .zoom-trigger {
+                width: 300px;
+                height: 200px;
+            }
+
+            .single-image-container {
+                width: 250px;
+                height: 444px; /* Format 9:16 adapté mobile */
+            }
+
+            .single-title {
+                font-size: 32px;
+                bottom: -60px;
+            }
+
+            .parallax-gallery-image {
+                transform: scale(0.8) !important;
+            }
+
+            .parallax-gallery-image:nth-child(1) {
+                width: 200px;
+                height: 300px;
+                left: 2%;
+            }
+
+            .parallax-gallery-image:nth-child(2) {
+                width: 150px;
+                height: 225px;
+                right: 5%;
+            }
+
+            .parallax-gallery-image:nth-child(3) {
+                width: 240px;
+                height: 160px;
+                left: 15%;
+            }
+
+            .parallax-gallery-image:nth-child(4) {
+                width: 130px;
+                height: 200px;
+                right: 20%;
+            }
+
+            .parallax-gallery-image:nth-child(5) {
+                width: 180px;
+                height: 120px;
+                left: 5%;
+            }
+
+            .parallax-gallery-image:nth-child(6) {
+                width: 220px;
+                height: 330px;
+                right: 2%;
+            }
+
+            .parallax-gallery-image:nth-child(7) {
+                width: 120px;
+                height: 180px;
+                left: 30%;
+            }
+
+            .parallax-gallery-image:nth-child(8) {
+                width: 250px;
+                height: 140px;
+                right: 10%;
+            }
+
+            .parallax-gallery-image:nth-child(9) {
+                width: 160px;
+                height: 240px;
+                left: 10%;
+            }
+
+            .parallax-gallery-image:nth-child(10) {
+                width: 200px;
+                height: 130px;
+                right: 25%;
+            }
+
+            .parallax-gallery-image:nth-child(11) {
+                width: 140px;
+                height: 200px;
+                left: 40%;
+            }
+
+            .parallax-gallery-image:nth-child(12) {
+                width: 190px;
+                height: 280px;
+                right: 5%;
+            }
+
+            .scroll-text {
+                font-size: 12px;
+            }
+
+            .scroll-arrow {
+                width: 18px;
+                height: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <svg class="loader-logo" width="150" height="101" viewBox="0 0 394 266" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_i_17_4_loader)">
+                <path d="M201.429 0.22789C207.615 -0.0177242 214.011 -0.180248 219.979 0.366562L219.978 0.367538C220.897 0.450444 222.164 0.492351 223.837 1.16539L223.847 1.1693C225.713 1.92536 227.136 3.59399 228.04 4.79234C229.083 6.17436 230.081 7.83109 230.957 9.4525C232.037 11.4517 233.033 13.5891 233.775 15.3929L243.533 15.5316H243.56L243.586 15.5326C246.206 15.6041 249.316 15.4807 252.484 15.4095C255.3 15.3463 258.366 15.3153 260.629 15.6488C263.706 15.6936 266.388 16.3678 268.65 17.6937C271 19.0719 272.638 21.0022 273.771 23.099C275.93 27.0965 276.383 31.9988 276.646 35.6361L276.827 38.3236C278.559 65.8741 275.672 86.7288 265.789 112.707C255.72 139.177 241.718 167.097 228.556 191.975L228.555 191.974C226.014 196.78 221.578 205.398 216.769 213.554C214.362 217.635 211.824 221.667 209.342 225.096C207.067 228.24 204.657 231.135 202.284 233.05L201.811 233.42C199.516 235.148 197.178 236.363 194.803 236.718C192.25 237.1 189.921 236.442 188.047 234.932C186.317 233.537 185.204 231.606 184.449 229.749C183.678 227.856 183.151 225.722 182.771 223.583C182.013 219.32 181.746 214.476 181.547 210.419C181.446 208.343 181.364 206.495 181.25 204.91C181.133 203.275 180.997 202.193 180.85 201.583L180.738 201.118V200.639L180.756 175.416L171.329 177.656C171.195 178.469 171.082 179.322 170.962 180.246C170.735 182 170.479 184.037 169.955 186.144L169.954 186.147C168.244 193.005 163.729 201.921 157.52 208.327C151.348 214.696 142.401 219.55 132.568 215.111C127.787 212.953 125.37 208.881 124.256 204.817C123.166 200.838 123.214 196.549 123.519 193.114C123.62 191.972 123.82 190.856 124.06 189.79C123.673 190.077 123.296 190.359 122.933 190.634C119.656 193.116 116.78 195.573 114.662 198.223L114.663 198.224C112.397 201.063 110.581 206.093 108.802 212.269C107.243 217.681 105.712 223.994 103.897 228.815L103.53 229.758C101.187 235.585 96.8225 244.156 91.181 251.394C85.732 258.385 78.1969 265.287 69.345 265.517L69.346 265.518C60.844 265.743 53.3598 258.864 53.1478 250.172C53.0111 244.566 55.2492 238.881 58.4202 233.599C61.6239 228.263 66.0123 222.957 70.7171 218.012C79.5553 208.724 89.8892 200.323 96.555 194.98C99.3089 145.572 75.6936 110.495 51.1556 86.1927C38.7279 73.8844 26.1429 64.4198 16.6595 57.264C11.9803 53.7333 7.90158 50.6509 5.08916 48.1029C3.69168 46.8368 2.41294 45.5326 1.51006 44.225C0.694991 43.0444 -0.393493 41.033 0.142869 38.6752V38.6732C0.913509 35.2931 3.47055 33.2837 6.22295 32.7064C8.81802 32.1622 11.6843 32.837 13.8138 34.641L14.8196 35.4935L15.0491 36.4711C15.1652 36.6396 15.3743 36.908 15.7171 37.2884C16.4397 38.0905 17.5221 39.1376 18.9866 40.4564C21.9151 43.0934 25.9898 46.4806 30.9495 50.6634C40.7957 58.9674 53.793 70.1301 66.6019 83.5502C90.2432 108.32 113.93 141.483 115.306 179.319C126.349 170.595 138.452 163.028 149.205 155.098L149.629 154.785L150.12 154.592C153.512 153.264 156.978 152.995 160.256 153.953C163.521 154.908 166.269 156.984 168.414 159.785C168.912 160.434 169.323 161.221 169.588 161.742C169.839 162.233 170.007 162.577 170.19 162.939L179.874 160.169C179.971 154.52 179.793 148.604 179.463 142.936L179.462 142.932C179.435 142.46 179.291 141.566 179.051 140.068C178.834 138.711 178.571 137.034 178.423 135.39C178.28 133.807 178.209 131.93 178.524 130.255C178.802 128.771 179.704 125.917 182.775 124.994L182.777 124.993C185.127 124.288 187.404 124.457 189.421 125.389C191.347 126.279 192.767 127.735 193.786 129.185C195.785 132.026 196.804 135.623 197.18 138.216C198.964 150.504 198.501 163.647 198.108 176.398C197.739 188.368 197.43 200.028 198.848 211.025C200.352 208.605 202.083 205.71 203.835 202.722C208.296 195.115 212.795 187.089 213.939 185.08L216.8 180.036C231.139 154.648 245.816 126.88 255.691 100.139C263.324 79.4759 265.448 58.6331 263.423 36.3265C263.123 33.0325 262.886 31.2614 262.18 30.1244C261.834 29.5674 261.021 28.5365 257.356 28.5365C253.874 28.5365 234.58 28.6311 212.162 28.7455C235.327 34.3988 252.455 59.2809 243.242 86.0814C239.835 95.9921 234.148 102.789 226.919 107.267C219.787 111.685 211.405 113.692 202.783 114.536C194.163 115.379 185.004 115.082 176.213 114.683C167.311 114.279 158.85 113.777 151.181 114.105L151.14 114.107L151.099 114.108H151.088C151.081 114.108 151.071 114.108 151.057 114.109C151.029 114.109 150.988 114.11 150.935 114.111C150.827 114.113 150.669 114.117 150.467 114.121C150.063 114.13 149.481 114.144 148.772 114.16C147.353 114.191 145.425 114.234 143.387 114.279C139.315 114.368 134.792 114.466 133.025 114.499C129.504 114.566 124.923 114.573 120.563 111.784L120.561 111.783C114.729 108.046 112.316 101.101 111.807 95.5326L111.649 93.6947C110.1 74.6484 111.334 53.8705 111.601 34.6214C111.68 28.8964 113.744 23.8977 117.887 20.3959C121.123 17.6607 125.333 16.0875 130.179 15.5609C130.645 13.1862 131.879 10.7577 134.615 9.13316L134.914 8.96617C135.621 8.597 136.364 8.37354 136.947 8.22691C137.673 8.04411 138.469 7.90513 139.267 7.79625C140.867 7.57802 142.715 7.45014 144.514 7.38902C147.974 7.2715 151.888 7.38057 153.839 7.76988L153.846 7.77086C158.164 8.63991 160.742 11.8414 161.701 15.3539H171.827C173.126 12.5795 174.679 9.18446 176.308 6.6068L176.31 6.60387C176.614 6.12274 177.337 4.86368 178.09 3.89781C178.902 2.85747 180.22 1.48847 182.232 0.857773L182.863 0.660507L183.523 0.676132C189.128 0.809323 195.149 0.477258 201.429 0.22789Z" fill="url(#paint0_linear_17_4_loader)"/>
+            </g>
+            <defs>
+                <filter id="filter0_i_17_4_loader" x="0" y="0" width="393.888" height="272.523" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dy="7"/>
+                    <feGaussianBlur stdDeviation="8.15"/>
+                    <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                    <feBlend mode="normal" in2="shape" result="effect1_innerShadow_17_4_loader"/>
+                </filter>
+                <linearGradient id="paint0_linear_17_4_loader" x1="296.46" y1="-4.53729" x2="-23.374" y2="304.585" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#717171"/>
+                    <stop offset="1"/>
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <svg class="logo" width="60" height="40" viewBox="0 0 394 266" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_i_17_4)">
+                <path d="M201.429 0.22789C207.615 -0.0177242 214.011 -0.180248 219.979 0.366562L219.978 0.367538C220.897 0.450444 222.164 0.492351 223.837 1.16539L223.847 1.1693C225.713 1.92536 227.136 3.59399 228.04 4.79234C229.083 6.17436 230.081 7.83109 230.957 9.4525C232.037 11.4517 233.033 13.5891 233.775 15.3929L243.533 15.5316H243.56L243.586 15.5326C246.206 15.6041 249.316 15.4807 252.484 15.4095C255.3 15.3463 258.366 15.3153 260.629 15.6488C263.706 15.6936 266.388 16.3678 268.65 17.6937C271 19.0719 272.638 21.0022 273.771 23.099C275.93 27.0965 276.383 31.9988 276.646 35.6361L276.827 38.3236C278.559 65.8741 275.672 86.7288 265.789 112.707C255.72 139.177 241.718 167.097 228.556 191.975L228.555 191.974C226.014 196.78 221.578 205.398 216.769 213.554C214.362 217.635 211.824 221.667 209.342 225.096C207.067 228.24 204.657 231.135 202.284 233.05L201.811 233.42C199.516 235.148 197.178 236.363 194.803 236.718C192.25 237.1 189.921 236.442 188.047 234.932C186.317 233.537 185.204 231.606 184.449 229.749C183.678 227.856 183.151 225.722 182.771 223.583C182.013 219.32 181.746 214.476 181.547 210.419C181.446 208.343 181.364 206.495 181.25 204.91C181.133 203.275 180.997 202.193 180.85 201.583L180.738 201.118V200.639L180.756 175.416L171.329 177.656C171.195 178.469 171.082 179.322 170.962 180.246C170.735 182 170.479 184.037 169.955 186.144L169.954 186.147C168.244 193.005 163.729 201.921 157.52 208.327C151.348 214.696 142.401 219.55 132.568 215.111C127.787 212.953 125.37 208.881 124.256 204.817C123.166 200.838 123.214 196.549 123.519 193.114C123.62 191.972 123.82 190.856 124.06 189.79C123.673 190.077 123.296 190.359 122.933 190.634C119.656 193.116 116.78 195.573 114.662 198.223L114.663 198.224C112.397 201.063 110.581 206.093 108.802 212.269C107.243 217.681 105.712 223.994 103.897 228.815L103.53 229.758C101.187 235.585 96.8225 244.156 91.181 251.394C85.732 258.385 78.1969 265.287 69.345 265.517L69.346 265.518C60.844 265.743 53.3598 258.864 53.1478 250.172C53.0111 244.566 55.2492 238.881 58.4202 233.599C61.6239 228.263 66.0123 222.957 70.7171 218.012C79.5553 208.724 89.8892 200.323 96.555 194.98C99.3089 145.572 75.6936 110.495 51.1556 86.1927C38.7279 73.8844 26.1429 64.4198 16.6595 57.264C11.9803 53.7333 7.90158 50.6509 5.08916 48.1029C3.69168 46.8368 2.41294 45.5326 1.51006 44.225C0.694991 43.0444 -0.393493 41.033 0.142869 38.6752V38.6732C0.913509 35.2931 3.47055 33.2837 6.22295 32.7064C8.81802 32.1622 11.6843 32.837 13.8138 34.641L14.8196 35.4935L15.0491 36.4711C15.1652 36.6396 15.3743 36.908 15.7171 37.2884C16.4397 38.0905 17.5221 39.1376 18.9866 40.4564C21.9151 43.0934 25.9898 46.4806 30.9495 50.6634C40.7957 58.9674 53.793 70.1301 66.6019 83.5502C90.2432 108.32 113.93 141.483 115.306 179.319C126.349 170.595 138.452 163.028 149.205 155.098L149.629 154.785L150.12 154.592C153.512 153.264 156.978 152.995 160.256 153.953C163.521 154.908 166.269 156.984 168.414 159.785C168.912 160.434 169.323 161.221 169.588 161.742C169.839 162.233 170.007 162.577 170.19 162.939L179.874 160.169C179.971 154.52 179.793 148.604 179.463 142.936L179.462 142.932C179.435 142.46 179.291 141.566 179.051 140.068C178.834 138.711 178.571 137.034 178.423 135.39C178.28 133.807 178.209 131.93 178.524 130.255C178.802 128.771 179.704 125.917 182.775 124.994L182.777 124.993C185.127 124.288 187.404 124.457 189.421 125.389C191.347 126.279 192.767 127.735 193.786 129.185C195.785 132.026 196.804 135.623 197.18 138.216C198.964 150.504 198.501 163.647 198.108 176.398C197.739 188.368 197.43 200.028 198.848 211.025C200.352 208.605 202.083 205.71 203.835 202.722C208.296 195.115 212.795 187.089 213.939 185.08L216.8 180.036C231.139 154.648 245.816 126.88 255.691 100.139C263.324 79.4759 265.448 58.6331 263.423 36.3265C263.123 33.0325 262.886 31.2614 262.18 30.1244C261.834 29.5674 261.021 28.5365 257.356 28.5365C253.874 28.5365 234.58 28.6311 212.162 28.7455C235.327 34.3988 252.455 59.2809 243.242 86.0814C239.835 95.9921 234.148 102.789 226.919 107.267C219.787 111.685 211.405 113.692 202.783 114.536C194.163 115.379 185.004 115.082 176.213 114.683C167.311 114.279 158.85 113.777 151.181 114.105L151.14 114.107L151.099 114.108H151.088C151.081 114.108 151.071 114.108 151.057 114.109C151.029 114.109 150.988 114.11 150.935 114.111C150.827 114.113 150.669 114.117 150.467 114.121C150.063 114.13 149.481 114.144 148.772 114.16C147.353 114.191 145.425 114.234 143.387 114.279C139.315 114.368 134.792 114.466 133.025 114.499C129.504 114.566 124.923 114.573 120.563 111.784L120.561 111.783C114.729 108.046 112.316 101.101 111.807 95.5326L111.649 93.6947C110.1 74.6484 111.334 53.8705 111.601 34.6214C111.68 28.8964 113.744 23.8977 117.887 20.3959C121.123 17.6607 125.333 16.0875 130.179 15.5609C130.645 13.1862 131.879 10.7577 134.615 9.13316L134.914 8.96617C135.621 8.597 136.364 8.37354 136.947 8.22691C137.673 8.04411 138.469 7.90513 139.267 7.79625C140.867 7.57802 142.715 7.45014 144.514 7.38902C147.974 7.2715 151.888 7.38057 153.839 7.76988L153.846 7.77086C158.164 8.63991 160.742 11.8414 161.701 15.3539H171.827C173.126 12.5795 174.679 9.18446 176.308 6.6068L176.31 6.60387C176.614 6.12274 177.337 4.86368 178.09 3.89781C178.902 2.85747 180.22 1.48847 182.232 0.857773L182.863 0.660507L183.523 0.676132C189.128 0.809323 195.149 0.477258 201.429 0.22789Z" fill="url(#paint0_linear_17_4)"/>
+            </g>
+            <defs>
+                <filter id="filter0_i_17_4" x="0" y="0" width="393.888" height="272.523" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dy="7"/>
+                    <feGaussianBlur stdDeviation="8.15"/>
+                    <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                    <feBlend mode="normal" in2="shape" result="effect1_innerShadow_17_4"/>
+                </filter>
+                <linearGradient id="paint0_linear_17_4" x1="296.46" y1="-4.53729" x2="-23.374" y2="304.585" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#717171"/>
+                    <stop offset="1"/>
+                </linearGradient>
+            </defs>
+        </svg>
+        <nav>
+            <a href="#accueil">ACCUEIL</a>
+            <a href="#experience">L'EXPÉRIENCE</a>
+            <a href="#portfolio">PORTFOLIO</a>
+            <a href="#contact">CONTACT</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <svg class="main-logo" width="300" height="203" viewBox="0 0 394 266" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#filter0_i_17_4_main)">
+                    <path d="M201.429 0.22789C207.615 -0.0177242 214.011 -0.180248 219.979 0.366562L219.978 0.367538C220.897 0.450444 222.164 0.492351 223.837 1.16539L223.847 1.1693C225.713 1.92536 227.136 3.59399 228.04 4.79234C229.083 6.17436 230.081 7.83109 230.957 9.4525C232.037 11.4517 233.033 13.5891 233.775 15.3929L243.533 15.5316H243.56L243.586 15.5326C246.206 15.6041 249.316 15.4807 252.484 15.4095C255.3 15.3463 258.366 15.3153 260.629 15.6488C263.706 15.6936 266.388 16.3678 268.65 17.6937C271 19.0719 272.638 21.0022 273.771 23.099C275.93 27.0965 276.383 31.9988 276.646 35.6361L276.827 38.3236C278.559 65.8741 275.672 86.7288 265.789 112.707C255.72 139.177 241.718 167.097 228.556 191.975L228.555 191.974C226.014 196.78 221.578 205.398 216.769 213.554C214.362 217.635 211.824 221.667 209.342 225.096C207.067 228.24 204.657 231.135 202.284 233.05L201.811 233.42C199.516 235.148 197.178 236.363 194.803 236.718C192.25 237.1 189.921 236.442 188.047 234.932C186.317 233.537 185.204 231.606 184.449 229.749C183.678 227.856 183.151 225.722 182.771 223.583C182.013 219.32 181.746 214.476 181.547 210.419C181.446 208.343 181.364 206.495 181.25 204.91C181.133 203.275 180.997 202.193 180.85 201.583L180.738 201.118V200.639L180.756 175.416L171.329 177.656C171.195 178.469 171.082 179.322 170.962 180.246C170.735 182 170.479 184.037 169.955 186.144L169.954 186.147C168.244 193.005 163.729 201.921 157.52 208.327C151.348 214.696 142.401 219.55 132.568 215.111C127.787 212.953 125.37 208.881 124.256 204.817C123.166 200.838 123.214 196.549 123.519 193.114C123.62 191.972 123.82 190.856 124.06 189.79C123.673 190.077 123.296 190.359 122.933 190.634C119.656 193.116 116.78 195.573 114.662 198.223L114.663 198.224C112.397 201.063 110.581 206.093 108.802 212.269C107.243 217.681 105.712 223.994 103.897 228.815L103.53 229.758C101.187 235.585 96.8225 244.156 91.181 251.394C85.732 258.385 78.1969 265.287 69.345 265.517L69.346 265.518C60.844 265.743 53.3598 258.864 53.1478 250.172C53.0111 244.566 55.2492 238.881 58.4202 233.599C61.6239 228.263 66.0123 222.957 70.7171 218.012C79.5553 208.724 89.8892 200.323 96.555 194.98C99.3089 145.572 75.6936 110.495 51.1556 86.1927C38.7279 73.8844 26.1429 64.4198 16.6595 57.264C11.9803 53.7333 7.90158 50.6509 5.08916 48.1029C3.69168 46.8368 2.41294 45.5326 1.51006 44.225C0.694991 43.0444 -0.393493 41.033 0.142869 38.6752V38.6732C0.913509 35.2931 3.47055 33.2837 6.22295 32.7064C8.81802 32.1622 11.6843 32.837 13.8138 34.641L14.8196 35.4935L15.0491 36.4711C15.1652 36.6396 15.3743 36.908 15.7171 37.2884C16.4397 38.0905 17.5221 39.1376 18.9866 40.4564C21.9151 43.0934 25.9898 46.4806 30.9495 50.6634C40.7957 58.9674 53.793 70.1301 66.6019 83.5502C90.2432 108.32 113.93 141.483 115.306 179.319C126.349 170.595 138.452 163.028 149.205 155.098L149.629 154.785L150.12 154.592C153.512 153.264 156.978 152.995 160.256 153.953C163.521 154.908 166.269 156.984 168.414 159.785C168.912 160.434 169.323 161.221 169.588 161.742C169.839 162.233 170.007 162.577 170.19 162.939L179.874 160.169C179.971 154.52 179.793 148.604 179.463 142.936L179.462 142.932C179.435 142.46 179.291 141.566 179.051 140.068C178.834 138.711 178.571 137.034 178.423 135.39C178.28 133.807 178.209 131.93 178.524 130.255C178.802 128.771 179.704 125.917 182.775 124.994L182.777 124.993C185.127 124.288 187.404 124.457 189.421 125.389C191.347 126.279 192.767 127.735 193.786 129.185C195.785 132.026 196.804 135.623 197.18 138.216C198.964 150.504 198.501 163.647 198.108 176.398C197.739 188.368 197.43 200.028 198.848 211.025C200.352 208.605 202.083 205.71 203.835 202.722C208.296 195.115 212.795 187.089 213.939 185.08L216.8 180.036C231.139 154.648 245.816 126.88 255.691 100.139C263.324 79.4759 265.448 58.6331 263.423 36.3265C263.123 33.0325 262.886 31.2614 262.18 30.1244C261.834 29.5674 261.021 28.5365 257.356 28.5365C253.874 28.5365 234.58 28.6311 212.162 28.7455C235.327 34.3988 252.455 59.2809 243.242 86.0814C239.835 95.9921 234.148 102.789 226.919 107.267C219.787 111.685 211.405 113.692 202.783 114.536C194.163 115.379 185.004 115.082 176.213 114.683C167.311 114.279 158.85 113.777 151.181 114.105L151.14 114.107L151.099 114.108H151.088C151.081 114.108 151.071 114.108 151.057 114.109C151.029 114.109 150.988 114.11 150.935 114.111C150.827 114.113 150.669 114.117 150.467 114.121C150.063 114.13 149.481 114.144 148.772 114.16C147.353 114.191 145.425 114.234 143.387 114.279C139.315 114.368 134.792 114.466 133.025 114.499C129.504 114.566 124.923 114.573 120.563 111.784L120.561 111.783C114.729 108.046 112.316 101.101 111.807 95.5326L111.649 93.6947C110.1 74.6484 111.334 53.8705 111.601 34.6214C111.68 28.8964 113.744 23.8977 117.887 20.3959C121.123 17.6607 125.333 16.0875 130.179 15.5609C130.645 13.1862 131.879 10.7577 134.615 9.13316L134.914 8.96617C135.621 8.597 136.364 8.37354 136.947 8.22691C137.673 8.04411 138.469 7.90513 139.267 7.79625C140.867 7.57802 142.715 7.45014 144.514 7.38902C147.974 7.2715 151.888 7.38057 153.839 7.76988L153.846 7.77086C158.164 8.63991 160.742 11.8414 161.701 15.3539H171.827C173.126 12.5795 174.679 9.18446 176.308 6.6068L176.31 6.60387C176.614 6.12274 177.337 4.86368 178.09 3.89781C178.902 2.85747 180.22 1.48847 182.232 0.857773L182.863 0.660507L183.523 0.676132C189.128 0.809323 195.149 0.477258 201.429 0.22789Z" fill="url(#paint0_linear_17_4_main)"/>
+                </g>
+                <defs>
+                    <filter id="filter0_i_17_4_main" x="0" y="0" width="393.888" height="272.523" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="7"/>
+                        <feGaussianBlur stdDeviation="8.15"/>
+                        <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                        <feBlend mode="normal" in2="shape" result="effect1_innerShadow_17_4_main"/>
+                    </filter>
+                    <linearGradient id="paint0_linear_17_4_main" x1="296.46" y1="-4.53729" x2="-23.374" y2="304.585" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#717171"/>
+                        <stop offset="1"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator" id="scrollIndicator">
+                <div class="scroll-text">SCROLL</div>
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
+
+        <!-- Parallax Images -->
+        <div class="parallax-container">
+            <div class="parallax-image" data-speed="0.5"></div>
+            <div class="parallax-image" data-speed="0.8"></div>
+            <div class="parallax-image" data-speed="0.3"></div>
+            <div class="parallax-image" data-speed="0.6"></div>
+            <div class="parallax-image" data-speed="0.4"></div>
+            <div class="parallax-image" data-speed="0.7"></div>
+            <div class="parallax-image" data-speed="0.2"></div>
+        </div>
+
+        <!-- Text Section -->
+        <section class="text-section">
+            <div class="text-content" id="textContent">
+                I'M AN ARTIST KNOWN FOR MY SURREAL AND SENSUAL ARTWORKS. COMBINING PHOTOGRAPHY AND OIL PAINTING, I CREATE PIECES THAT CAPTURE THE BEAUTY AND COMPLEXITY OF THE FEMALE FORM. USING BOTH TRADITIONAL AND DIGITAL TECHNIQUES TO CREATE TIMELESS PIECES THAT EXPLORE THEMES OF PERFECTION AND DESIRE.
+            </div>
+        </section>
+
+        <!-- Images Gallery Section with Parallax -->
+        <section class="images-gallery">
+            <div class="parallax-gallery-image" data-speed="0.3"></div>
+            <div class="parallax-gallery-image" data-speed="0.7"></div>
+            <div class="parallax-gallery-image" data-speed="0.4"></div>
+            <div class="parallax-gallery-image" data-speed="0.8"></div>
+            <div class="parallax-gallery-image" data-speed="0.2"></div>
+            <div class="parallax-gallery-image" data-speed="0.6"></div>
+            <div class="parallax-gallery-image" data-speed="0.5"></div>
+            <div class="parallax-gallery-image" data-speed="0.9"></div>
+            <div class="parallax-gallery-image" data-speed="0.35"></div>
+            <div class="parallax-gallery-image" data-speed="0.65"></div>
+            <div class="parallax-gallery-image" data-speed="0.45"></div>
+            <div class="parallax-gallery-image" data-speed="0.75"></div>
+        </section>
+
+        <!-- Zoom to Single Image Section -->
+        <section class="zoom-to-single">
+            <div class="single-image-container">
+                <div class="single-image" id="singleImage"></div>
+                <div class="single-title" id="singleTitle">PORTFOLIO</div>
+            </div>
+        </section>
+
+        <!-- Zoom In Section -->
+        <section class="zoom-section">
+            <div class="zoom-trigger">
+                <div class="zoom-text">ZOOM IN</div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Loading animation
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 3000);
+        });
+
+        // Smooth scrolling and effects
+        let ticking = false;
+
+        function updateOnScroll() {
+            const scrollTop = window.pageYOffset;
+            const windowHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            
+            // Hide scroll indicator when scrolling
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            if (scrollTop > 50) {
+                scrollIndicator.classList.add('hidden');
+            } else {
+                scrollIndicator.classList.remove('hidden');
+            }
+            
+            // Theme change at 50% scroll
+            const themeChangePoint = windowHeight * 0.5;
+            if (scrollTop > themeChangePoint) {
+                document.body.classList.add('dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+            }
+
+            // Parallax effect for original images
+            const parallaxImages = document.querySelectorAll('.parallax-image');
+            parallaxImages.forEach(image => {
+                const speed = parseFloat(image.getAttribute('data-speed'));
+                const yPos = -(scrollTop * speed);
+                image.style.transform = `translateY(${yPos}px)`;
+            });
+
+            // Parallax effect for gallery images
+            const galleryImages = document.querySelectorAll('.parallax-gallery-image');
+            galleryImages.forEach(image => {
+                const speed = parseFloat(image.getAttribute('data-speed'));
+                const yPos = -(scrollTop * speed * 0.3); // Réduction de la vitesse pour plus de subtilité
+                image.style.transform = `translateY(${yPos}px)`;
+            });
+
+            // Text reveal effect
+            const textSection = document.querySelector('.text-section');
+            const textContent = document.getElementById('textContent');
+            const textRect = textSection.getBoundingClientRect();
+            
+            if (textRect.top < windowHeight && textRect.bottom > 0) {
+                const words = textContent.querySelectorAll('.word');
+                if (words.length === 0) {
+                    // Split text into words
+                    const text = textContent.textContent;
+                    const wordsArray = text.split(' ');
+                    textContent.innerHTML = wordsArray.map(word => 
+                        `<span class="word">${word}</span>`
+                    ).join(' ');
+                }
+                
+                const currentWords = textContent.querySelectorAll('.word');
+                const scrollProgress = Math.max(0, Math.min(1, (windowHeight - textRect.top) / (windowHeight + textRect.height)));
+                const wordsToReveal = Math.floor(scrollProgress * currentWords.length);
+                
+                currentWords.forEach((word, index) => {
+                    if (index < wordsToReveal) {
+                        word.classList.add('active');
+                    } else {
+                        word.classList.remove('active');
+                    }
+                });
+            }
+
+            // Single image zoom and rotation effect
+            const singleImageContainer = document.querySelector('.single-image-container');
+            const singleImage = document.getElementById('singleImage');
+            const singleTitle = document.getElementById('singleTitle');
+            const singleRect = singleImageContainer.getBoundingClientRect();
+            
+            // Calcul du progrès de scroll pour cette section
+            const sectionTop = singleRect.top;
+            const sectionHeight = windowHeight;
+            
+            if (sectionTop < windowHeight && sectionTop > -sectionHeight) {
+                // Calcul du progrès (0 à 1) basé sur la position dans la fenêtre
+                const progress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / windowHeight));
+                
+                // Animation du zoom (1 à 1.3)
+                const scale = 1 + (progress * 0.3);
+                
+                // Animation de la rotation pour passer de 9:16 à 16:9
+                const rotation = progress * 90; // Rotation de 0 à 90 degrés
+                
+                // Animation du border-radius (20px à 0px)
+                const borderRadius = 20 - (progress * 20);
+                
+                // Application des transformations
+                singleImage.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+                singleImage.style.borderRadius = `${borderRadius}px`;
+                
+                // Animation du titre
+                if (progress > 0.7) {
+                    singleTitle.classList.add('visible');
+                } else {
+                    singleTitle.classList.remove('visible');
+                }
+            }
+
+            ticking = false;
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateOnScroll);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestTick);
+
+        // Zoom effect
+        document.querySelector('.zoom-trigger').addEventListener('click', function() {
+            this.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+
+        // Header logo color change
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset;
+            const themeChangePoint = window.innerHeight * 0.5;
+            
+            const logoGradient = document.querySelector('.logo linearGradient');
+            const mainLogoGradient = document.querySelector('.main-logo linearGradient');
+            const loaderLogoGradient = document.querySelector('.loader-logo linearGradient');
+            
+            if (scrollTop > themeChangePoint) {
+                // Change to white theme colors
+                if (logoGradient) {
+                    logoGradient.innerHTML = `
+                        <stop stop-color="#ffffff"/>
+                        <stop offset="1" stop-color="#cccccc"/>
+                    `;
+                }
+                if (mainLogoGradient) {
+                    mainLogoGradient.innerHTML = `
+                        <stop stop-color="#ffffff"/>
+                        <stop offset="1" stop-color="#cccccc"/>
+                    `;
+                }
+            } else {
+                // Original colors
+                if (logoGradient) {
+                    logoGradient.innerHTML = `
+                        <stop stop-color="#717171"/>
+                        <stop offset="1"/>
+                    `;
+                }
+                if (mainLogoGradient) {
+                    mainLogoGradient.innerHTML = `
+                        <stop stop-color="#717171"/>
+                        <stop offset="1"/>
+                    `;
+                }
+            }
+        });
+
+        // Initial call
+        updateOnScroll();
+    </script>
+</body>
+</html>
