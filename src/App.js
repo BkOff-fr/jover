@@ -217,8 +217,8 @@ function App() {
           }
           
         } else {
-          // Reset to normal state
-          transitionImage.style.transform = `translateY(${-(scrollTop * 0.1)}px) scale(1) rotate(0deg)`;
+          // Reset to normal state but keep parallax transform from gallery loop
+          // transitionImage.style.transform is already handled by the gallery-parallax effect
           transitionImage.style.zIndex = '15';
           transitionImage.style.borderRadius = '20px';
           
