@@ -6,6 +6,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+First install the project dependencies:
+
+```bash
+npm install
+```
+
+Run this command inside the `jover/` directory before using `npm start` or `npm test`.
+
 ### `npm start`
 
 Runs the app in the development mode.\
