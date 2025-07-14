@@ -281,13 +281,13 @@ body.dark-theme .main-logo {
     top: 0;
     left: 0;
     width: 100%;
-    height: 300vh;
+    height: 250vh;
     pointer-events: none;
 }
 
 .parallax-image {
     position: absolute;
-    border-radius: 10px;
+    border-radius: 0;
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     background-size: cover !important;
@@ -298,63 +298,46 @@ body.dark-theme .main-logo {
 }
 
 .parallax-image:nth-child(1) {
-    width: 300px;
-    height: 450px;
-    top: 20%;
-    left: 10%;
+    width: min(550px, 30vw);
+    height: auto;
+    aspect-ratio: 7/9;
+    top: 25%;
+    left: 5%;
     z-index: 3;
 }
 
 .parallax-image:nth-child(2) {
-    width: 350px;
-    height: 500px;
-    top: 60%;
-    right: 15%;
+    width: min(600px, 50vw);
+    height: auto;
+    aspect-ratio: 3/4;
+    top:70%;
+    right: 5%;
     z-index: 2;
 }
 
 .parallax-image:nth-child(3) {
-    width: 280px;
-    height: 380px;
-    top: 40%;
-    left: 60%;
+    width: min(550px, 40vw);
+    height: auto;
+    aspect-ratio: 9/16;
+    top: 85%;
+    left: 10%;
     z-index: 4;
 }
 
 .parallax-image:nth-child(4) {
-    width: 400px;
-    height: 300px;
-    top: 80%;
-    left: 20%;
+    width: min(700px, 55vw);
+    height: auto;
+    aspect-ratio: 9/9;
+    top: 130%;
+    right: 5%;
     z-index: 1;
 }
 
-.parallax-image:nth-child(5) {
-    width: 320px;
-    height: 450px;
-    top: 120%;
-    right: 10%;
-    z-index: 5;
-}
 
-.parallax-image:nth-child(6) {
-    width: 380px;
-    height: 280px;
-    top: 140%;
-    left: 40%;
-    z-index: 2;
-}
 
-.parallax-image:nth-child(7) {
-    width: 260px;
-    height: 380px;
-    top: 180%;
-    right: 30%;
-    z-index: 3;
-}
 
 .App.dark-theme .parallax-image {
-    filter: brightness(0.7) contrast(1.1);
+    filter: brightness(1) contrast(1.1);
 }
 
 /* Text Section */
@@ -362,7 +345,7 @@ body.dark-theme .main-logo {
     position: relative;
     z-index: 100;
     top: 100vh;
-    padding: 100px 40px;
+    padding: 80px 40px 40px 40px;
     max-width: 600px;
     margin: 0 auto;
 }
@@ -401,15 +384,15 @@ body.dark-theme .main-logo {
 .images-gallery {
     position: relative;
     z-index: 100;
-    top: 130vh;
-    padding: 100px 40px;
-    min-height: 200vh;
+    top: 110vh;
+    padding: 40px 40px;
+    min-height: 120vh;
     overflow: visible; /* Allow images to be visible outside section bounds */
 }
 
 .parallax-gallery-image {
     position: absolute;
-    border-radius: 15px;
+    border-radius: 0;
     transition: all 0.3s ease;
     opacity: 1 !important;
     transform: translateY(0);
@@ -419,85 +402,15 @@ body.dark-theme .main-logo {
     display: block;
 }
 
-.parallax-gallery-image:nth-child(1) {
-    width: 300px;
-    height: 450px;
-    top: 20%;
-    left: 10%;
-    z-index: 3;
-}
 
-.parallax-gallery-image:nth-child(2) {
-    width: 350px;
-    height: 500px;
-    top: 60%;
-    right: 15%;
-    z-index: 2;
-}
 
-.parallax-gallery-image:nth-child(3) {
-    width: 280px;
-    height: 380px;
-    top: 40%;
-    left: 60%;
-    z-index: 4;
-}
 
-.parallax-gallery-image:nth-child(4) {
-    width: 400px;
-    height: 300px;
-    top: 80%;
-    left: 20%;
-    z-index: 1;
-}
 
-.parallax-gallery-image:nth-child(5) {
-    width: 320px;
-    height: 450px;
-    top: 120%;
-    right: 10%;
-    z-index: 5;
-}
 
-.parallax-gallery-image:nth-child(6) {
-    width: 380px;
-    height: 280px;
-    top: 140%;
-    left: 40%;
-    z-index: 2;
-}
 
-.parallax-gallery-image:nth-child(7) {
-    width: 260px;
-    height: 380px;
-    top: 180%;
-    right: 30%;
-    z-index: 3;
-}
 
-.parallax-gallery-image:nth-child(8) {
-    width: 340px;
-    height: 420px;
-    top: 220%;
-    left: 30%;
-    z-index: 2;
-}
 
-.parallax-gallery-image:nth-child(9) {
-    width: 300px;
-    height: 380px;
-    top: 260%;
-    right: 20%;
-    z-index: 4;
-}
 
-.parallax-gallery-image:nth-child(10) {
-    width: 280px;
-    height: 400px;
-    top: 300%;
-    left: 50%;
-    z-index: 1;
-}
 
 
 .App.dark-theme .parallax-gallery-image {
@@ -506,28 +419,20 @@ body.dark-theme .main-logo {
 
 /* Transition Image (11th and last parallax image) */
 .transition-image {
-    width: 320px !important;
-    height: 450px !important;
-    top: 110% !important;
-    right: 10% !important;
-    z-index: 15 !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    display: block !important;
-    opacity: 1 !important;
-    position: absolute !important;
-    border-radius: 20px;
+    display: block;
+    opacity: 1;
+    position: absolute;
+    z-index: 15;
+    border-radius: 0;
     will-change: transform;
-    transition: border-radius 0.3s ease-out;
 }
 
 /* Experience Transition Section */
 .experience-section {
     position: relative;
     z-index: 100;
-    top: 170vh;
-    height: 200vh; /* Longer section for complex animation */
+    top: 140vh;
+    height: 150vh; /* Longer section for complex animation */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -644,93 +549,10 @@ body.dark-theme .main-logo {
         font-size: 20px;
     }
 
-    .zoom-trigger {
-        width: 300px;
-        height: 200px;
-    }
-
-    .transition-image {
-        width: 180px !important;
-        height: 280px !important;
-        right: 5% !important;
-        top: 360% !important;
-    }
-
+    
     .experience-title {
         font-size: 48px;
     }
-
-    .parallax-gallery-image {
-        transform: scale(0.9) !important;
-    }
-
-    .parallax-gallery-image:nth-child(1) {
-        width: 250px;
-        height: 380px;
-        left: 2%;
-    }
-
-    .parallax-gallery-image:nth-child(2) {
-        width: 200px;
-        height: 300px;
-        right: 5%;
-    }
-
-    .parallax-gallery-image:nth-child(3) {
-        width: 280px;
-        height: 200px;
-        left: 15%;
-    }
-
-    .parallax-gallery-image:nth-child(4) {
-        width: 180px;
-        height: 260px;
-        right: 20%;
-    }
-
-    .parallax-gallery-image:nth-child(5) {
-        width: 240px;
-        height: 160px;
-        left: 5%;
-    }
-
-    .parallax-gallery-image:nth-child(6) {
-        width: 280px;
-        height: 400px;
-        right: 2%;
-    }
-
-    .parallax-gallery-image:nth-child(7) {
-        width: 160px;
-        height: 240px;
-        left: 30%;
-    }
-
-    .parallax-gallery-image:nth-child(8) {
-        width: 300px;
-        height: 180px;
-        right: 10%;
-    }
-
-    .parallax-gallery-image:nth-child(9) {
-        width: 220px;
-        height: 320px;
-        left: 10%;
-    }
-
-    .parallax-gallery-image:nth-child(10) {
-        width: 260px;
-        height: 180px;
-        right: 25%;
-    }
-
-    .transition-image {
-        width: 240px !important;
-        height: 360px !important;
-        right: 5% !important;
-        top: 360% !important;
-    }
-
     .scroll-text {
         font-size: 12px;
     }
