@@ -30,7 +30,7 @@ function App() {
   return (
     <div className={`App ${isDarkTheme ? 'dark-theme' : ''}`}>
       <Header />
-      <main className="main-content">
+      <main id="main-content" className="main-content">
         <HeroSection />
         <ParallaxGallery transitionImageRef={transitionImageRef} />
         <ExperienceSection transitionImageRef={transitionImageRef} />
