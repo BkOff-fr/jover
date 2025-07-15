@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -33,17 +33,16 @@ const PARALLAX_CONFIG = [
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  
-  // Refs for DOM elements to avoid repeated querySelector calls
-  const domElementsRef = useRef({});
 
-  // Cache DOM elements on first access
-  const getDOMElement = useCallback((id, selector) => {
-    if (!domElementsRef.current[id]) {
-      domElementsRef.current[id] = document.getElementById(id) || document.querySelector(selector);
-    }
-    return domElementsRef.current[id];
-  }, []);
+  // Element refs
+  const scrollIndicatorRef = useRef(null);
+  const textSectionRef = useRef(null);
+  const textContentRef = useRef(null);
+  const experienceSectionRef = useRef(null);
+  const transitionImageRef = useRef(null);
+  const experienceTitleRef = useRef(null);
+  const transitionOverlayRef = useRef(null);
+  const parallaxRefs = useRef([]);
 
   // Loading effect
   useEffect(() => {
@@ -53,34 +52,27 @@ function App() {
 
   // Scroll indicator management
   const updateScrollIndicator = useCallback((scrollTop) => {
-    const scrollIndicator = getDOMElement('scrollIndicator');
+    const scrollIndicator = scrollIndicatorRef.current;
     if (scrollIndicator) {
       const isVisible = scrollTop <= SCROLL_CONSTANTS.SCROLL_INDICATOR_THRESHOLD;
       scrollIndicator.classList.toggle('hidden', !isVisible);
     }
-  }, [getDOMElement]);
+  }, []);
 
   // Parallax effect for images
   const updateParallaxImages = useCallback((scrollTop) => {
-    const parallaxImages = document.querySelectorAll('.parallax-image');
-    parallaxImages.forEach(image => {
+    parallaxRefs.current.forEach(image => {
+      if (!image) return;
       const speed = parseFloat(image.getAttribute('data-speed'));
       const yPos = -(scrollTop * speed);
-      image.style.transform = `translateY(${yPos}px)`;
-    });
-
-    const galleryImages = document.querySelectorAll('.parallax-gallery-image');
-    galleryImages.forEach(image => {
-      const speed = parseFloat(image.getAttribute('data-speed'));
-      const yPos = -(scrollTop * speed * SCROLL_CONSTANTS.GALLERY_PARALLAX_MULTIPLIER);
       image.style.transform = `translateY(${yPos}px)`;
     });
   }, []);
 
   // Text reveal effect
   const updateTextReveal = useCallback(() => {
-    const textSection = getDOMElement('textSection', '.text-section');
-    const textContent = getDOMElement('textContent');
+    const textSection = textSectionRef.current;
+    const textContent = textContentRef.current;
     
     if (!textSection || !textContent) return;
 
@@ -109,7 +101,7 @@ function App() {
         word.classList.toggle('active', index < wordsToReveal);
       });
     }
-  }, [getDOMElement]);
+  }, []);
 
   // Letters reset helper
   const resetLetters = useCallback((letters) => {
@@ -135,11 +127,11 @@ function App() {
 
   // Experience section animation
   const updateExperienceSection = useCallback((scrollTop) => {
-    const experienceSection = getDOMElement('experienceSection', '.experience-section');
-    const transitionImage = getDOMElement('transitionImage');
-    const experienceTitle = getDOMElement('experienceTitle');
-    const transitionOverlay = getDOMElement('transitionOverlay');
-    
+    const experienceSection = experienceSectionRef.current;
+    const transitionImage = transitionImageRef.current;
+    const experienceTitle = experienceTitleRef.current;
+    const transitionOverlay = transitionOverlayRef.current;
+
     if (!experienceSection || !transitionImage || !experienceTitle) return;
 
     const sectionRect = experienceSection.getBoundingClientRect();
@@ -227,7 +219,7 @@ function App() {
       
       resetLetters(letters);
     }
-  }, [getDOMElement, updateTransitionOverlay, resetLetters]);
+  }, [updateTransitionOverlay, resetLetters]);
 
   // Main scroll handler
   const handleScroll = useCallback(() => {
@@ -287,7 +279,7 @@ function App() {
           <img src={logo} className="main-logo" alt="logo" />
           
           {/* Scroll Indicator */}
-          <div className="scroll-indicator" id="scrollIndicator">
+          <div className="scroll-indicator" id="scrollIndicator" ref={scrollIndicatorRef}>
             <div className="scroll-text">SCROLL</div>
             <div className="scroll-arrow"></div>
           </div>
@@ -300,34 +292,39 @@ function App() {
               key={index}
               className="parallax-image"
               data-speed={config.speed}
+              ref={el => (parallaxRefs.current[index] = el)}
               style={{ backgroundImage: `url(${config.image})`, ...imageStyle }}
             />
           ))}
         </div>
 
         {/* Text Section */}
-        <section className="text-section">
-          <div className="text-content" id="textContent">
+        <section className="text-section" ref={textSectionRef}>
+          <div className="text-content" id="textContent" ref={textContentRef}>
             I'M AN ARTIST KNOWN FOR MY SURREAL AND SENSUAL ARTWORKS. COMBINING PHOTOGRAPHY AND OIL PAINTING, I CREATE PIECES THAT CAPTURE THE BEAUTY AND COMPLEXITY OF THE FEMALE FORM. USING BOTH TRADITIONAL AND DIGITAL TECHNIQUES TO CREATE TIMELESS PIECES THAT EXPLORE THEMES OF PERFECTION AND DESIRE.
           </div>
         </section>
 
         {/* Images Gallery Section */}
         <section id="portfolio" className="images-gallery">
-          <div 
-            className="parallax-image transition-image" 
-            data-speed="0.3" 
-            id="transitionImage" 
+          <div
+            className="parallax-image transition-image"
+            data-speed="0.3"
+            id="transitionImage"
+            ref={el => {
+              transitionImageRef.current = el;
+              parallaxRefs.current[PARALLAX_CONFIG.length] = el;
+            }}
             style={{ backgroundImage: `url(${image11})`, ...imageStyle }}
           />
         </section>
 
         {/* Experience Transition Section */}
-        <section className="experience-section">
-          <div className="transition-overlay" id="transitionOverlay"></div>
+        <section className="experience-section" ref={experienceSectionRef}>
+          <div className="transition-overlay" id="transitionOverlay" ref={transitionOverlayRef}></div>
           
           <div className="experience-title-container">
-            <div className="experience-title" id="experienceTitle">
+            <div className="experience-title" id="experienceTitle" ref={experienceTitleRef}>
               {['L', "'", 'E', 'X', 'P', 'É', 'R', 'I', 'E', 'N', 'C', 'E'].map((letter, index) => (
                 <span key={index} className="letter" data-index={index}>
                   {letter}
