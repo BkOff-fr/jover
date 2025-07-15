@@ -72,21 +72,27 @@ const ParallaxGallery = ({ transitionImageRef }) => {
             key={index}
             className="parallax-image"
             data-speed={config.speed}
+            role="img"
+            aria-label={`Artwork ${index + 1}`}
             ref={el => (parallaxRefs.current[index] = el)}
             style={{ backgroundImage: `url(${config.image})`, ...imageStyle }}
           />
         ))}
       </div>
       <section className="text-section" ref={textSectionRef}>
+        <h2 className="visually-hidden">About the artist</h2>
         <div className="text-content" id="textContent" ref={textContentRef}>
           I'M AN ARTIST KNOWN FOR MY SURREAL AND SENSUAL ARTWORKS. COMBINING PHOTOGRAPHY AND OIL PAINTING, I CREATE PIECES THAT CAPTURE THE BEAUTY AND COMPLEXITY OF THE FEMALE FORM. USING BOTH TRADITIONAL AND DIGITAL TECHNIQUES TO CREATE TIMELESS PIECES THAT EXPLORE THEMES OF PERFECTION AND DESIRE.
         </div>
       </section>
       <section id="portfolio" className="images-gallery">
+        <h2 className="visually-hidden">Portfolio gallery</h2>
         <div
           className="parallax-image transition-image"
           data-speed="0.3"
           id="transitionImage"
+          role="img"
+          aria-label="Featured artwork"
           ref={el => {
             transitionImageRef.current = el;
             parallaxRefs.current[PARALLAX_CONFIG.length] = el;

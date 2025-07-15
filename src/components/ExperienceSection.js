@@ -118,13 +118,13 @@ const ExperienceSection = ({ transitionImageRef }) => {
     <section className="experience-section" ref={experienceSectionRef} id="experience">
       <div className="transition-overlay" id="transitionOverlay" ref={transitionOverlayRef}></div>
       <div className="experience-title-container">
-        <div className="experience-title" id="experienceTitle" ref={experienceTitleRef}>
+        <h2 className="experience-title" id="experienceTitle" ref={experienceTitleRef}>
           {['L', "'", 'E', 'X', 'P', 'É', 'R', 'I', 'E', 'N', 'C', 'E'].map((letter, index) => (
             <span key={index} className="letter" data-index={index}>
               {letter}
             </span>
           ))}
-        </div>
+        </h2>
       </div>
     </section>
   );
