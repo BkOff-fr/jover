@@ -28,10 +28,11 @@ const HeroSection = () => {
   return (
     <>
       <div className={`loader ${!isLoading ? 'hidden' : ''}`} id="loader">
-        <img src={logo} className="loader-logo" alt="logo" />
+        <img src={logo} className="loader-logo" alt="Jover logo" />
       </div>
       <section id="accueil" className="hero-section">
-        <img src={logo} className="main-logo" alt="logo" />
+        <h1 className="visually-hidden">Jover Portfolio</h1>
+        <img src={logo} className="main-logo" alt="Jover logo" />
         <div className="scroll-indicator" ref={scrollIndicatorRef}>
           <div className="scroll-text">SCROLL</div>
           <div className="scroll-arrow"></div>

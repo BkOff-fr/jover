@@ -11,6 +11,17 @@ body {
     transition: background-color 0.8s ease-in-out;
 }
 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
 body.dark-theme {
     background: #2a2a2a !important;
 }
@@ -376,8 +387,8 @@ body.dark-theme .main-logo {
 }
 
 .App.dark-theme .text-content .word {
-    color: #666;
-    opacity: 0.3;
+    color: #ccc;
+    opacity: 0.7;
 }
 
 /* Images Gallery Section */

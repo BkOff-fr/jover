@@ -3,7 +3,7 @@ import logo from '../logo.svg';
 
 const Header = () => (
   <header>
-    <img src={logo} className="logo" alt="logo" />
+    <img src={logo} className="logo" alt="Jover logo" />
     <nav>
       <a href="#accueil">ACCUEIL</a>
       <a href="#experience">L'EXPÉRIENCE</a>
