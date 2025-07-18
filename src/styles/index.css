@@ -1,0 +1,22 @@
+/**
+ * Main Styles Entry Point
+ * Importe tous les fichiers CSS modulaires dans le bon ordre
+ */
+
+/* 1. Variables et tokens de design */
+@import './variables.css';
+
+/* 2. Styles de base et reset */
+@import './base.css';
+
+/* 3. Composants */
+@import './global-background.css';
+@import './header.css';
+@import './cursor.css';
+@import './hero-presentation.css';
+@import './experience-new.css';
+@import './portfolio.css';
+@import './contact.css';
+
+/* 4. Importation temporaire de l'ancien App.css */
+/* TODO: Migrer progressivement les styles restants */

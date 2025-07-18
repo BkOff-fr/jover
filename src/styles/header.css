@@ -1,0 +1,60 @@
+/**
+ * Header Styles
+ * Styles pour l'en-tête et la navigation
+ * Note: Les styles de base du header sont maintenant dans App.css
+ */
+
+/* Styles spécifiques au logo avec animation */
+.logo {
+  animation: logoFloat 3s ease-in-out infinite;
+  transition: filter var(--duration-slowest) var(--easing-ease);
+}
+
+/* Transition fluide pour le logo du header selon le thème */
+.logo {
+  filter: brightness(1) invert(0);
+}
+
+.dark-theme .logo {
+  filter: brightness(0) invert(1);
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive spécifique au header */
+@media (max-width: 768px) {
+  header {
+    padding: 20px;
+  }
+
+  nav {
+    gap: 20px;
+  }
+
+  nav a {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 50px;
+  }
+  
+  nav {
+    gap: 15px;
+  }
+  
+  nav a {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+}

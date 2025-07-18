@@ -1,44 +1,49 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import './App.css';
+import './styles/index.css';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
-import ParallaxGallery from './components/ParallaxGallery';
+import PresentationSection from './components/PresentationSection';
 import ExperienceSection from './components/ExperienceSection';
-import { SCROLL_CONSTANTS } from './utils/constants';
+import PortfolioSection from './components/PortfolioSection';
+import ContactSection from './components/ContactSection';
+import CustomCursor from './components/CustomCursor';
+import GlobalBackground from './components/GlobalBackground';
+import { AppProvider, useAppContext } from './context/AppContext';
 
-function App() {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const transitionImageRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      const themeChangePoint = window.innerHeight * SCROLL_CONSTANTS.THEME_CHANGE_POINT;
-      const isDark = scrollTop > themeChangePoint;
-      setIsDarkTheme(current => (current !== isDark ? isDark : current));
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle('dark-theme', isDarkTheme);
-    return () => document.body.classList.remove('dark-theme');
-  }, [isDarkTheme]);
+/**
+ * Composant App principal avec la nouvelle architecture
+ */
+function AppContent() {
+  const {
+    isDarkTheme,
+    scrollManagerRef
+  } = useAppContext();
 
   return (
     <div className={`App ${isDarkTheme ? 'dark-theme' : ''}`}>
+      <GlobalBackground />
+      <CustomCursor />
       <Header />
       <main id="main-content" className="main-content">
-        <HeroSection />
-        <ParallaxGallery transitionImageRef={transitionImageRef} />
-        <ExperienceSection transitionImageRef={transitionImageRef} />
-        <section id="contact" className="contact-section">
-          <h2>Contact</h2>
-        </section>
+        <HeroSection id="accueil" />
+        <PresentationSection id="presentation" scrollManagerRef={scrollManagerRef} />
+        <ExperienceSection id="experience" scrollManagerRef={scrollManagerRef} />
+        <PortfolioSection id="portfolio" scrollManagerRef={scrollManagerRef} />
+        <ContactSection id="contact" scrollManagerRef={scrollManagerRef} />
       </main>
     </div>
+  );
+}
+
+/**
+ * Composant App wrapper avec le provider de contexte
+ */
+function App() {
+  return (
+    <AppProvider>
+      <AppContent />
+    </AppProvider>
   );
 }
 

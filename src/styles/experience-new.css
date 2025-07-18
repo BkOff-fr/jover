@@ -1,0 +1,592 @@
+/**
+ * Experience Section - Storytelling immersif avec effets de distortion
+ * Section longue avec scroll-driven storytelling et effets visuels avancés
+ */
+
+/* Section principale immersive */
+.experience-section.immersive-experience {
+  min-height: 630vh; /* Section agrandie pour contenir tous les éléments */
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  z-index: 1;
+  margin-top: 5vh;
+}
+
+
+/* Hero section avec parallaxe et effet flash */
+.experience-hero {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  will-change: transform, filter;
+  z-index: 1;
+  opacity: 0.3; /* Image plus discrète pour laisser place au flash */
+}
+
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(30, 185, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.8) 40%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 5vh 2vw;
+  box-sizing: border-box;
+}
+
+/* Effet de flash lors de la transition */
+.experience-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(30, 185, 0, 0.6) 30%,
+    transparent 70%
+  );
+  opacity: 0;
+  z-index: 3;
+  animation: flashEffect 2s ease-out;
+  pointer-events: none;
+}
+
+@keyframes flashEffect {
+  0% { 
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  15% { 
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  35% { 
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  100% { 
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.hero-content {
+  text-align: center;
+  color: var(--color-white);
+  max-width: min(800px, 90vw);
+  padding: 0 clamp(20px, 5vw, 40px);
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-title {
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  margin-bottom: var(--h2-margin-bottom);
+  text-transform: var(--h2-text-transform);
+  letter-spacing: var(--h2-letter-spacing);
+  background: linear-gradient(45deg, var(--color-white), var(--color-primary-light));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(30, 185, 0, 0.5);
+  position: relative;
+  opacity: 0;
+  transform: translateY(50px) scale(0.8);
+  filter: blur(10px);
+  animation: titleReveal 1.5s ease-out 0.5s both;
+}
+
+.hero-title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%);
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  z-index: 1;
+  animation: titleSweep 2s ease-out 0.8s both;
+}
+
+@keyframes titleReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+    filter: blur(10px);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(-10px) scale(1.05);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes titleSweep {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 0.3;
+  }
+  100% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    opacity: 0;
+  }
+}
+
+.hero-subtitle {
+  font-size: var(--title-sub-size);
+  font-weight: var(--font-weight-normal);
+  opacity: 0;
+  font-style: italic;
+  max-width: min(600px, 85vw);
+  margin: 0 auto;
+  line-height: 1.4;
+  animation: subtitleFade 1.2s ease-out 1.2s both;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+@keyframes subtitleFade {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+}
+
+/* Container de storytelling */
+.story-container {
+  padding: 100px 0;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.story-step {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 40px;
+  margin-bottom: 100px;
+  position: relative;
+}
+
+.story-step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(30, 185, 0, 0.03) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+/* Layouts par position */
+.story-step.left .story-content {
+  flex-direction: row;
+  text-align: left;
+}
+
+.story-step.right .story-content {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.story-step.center .story-content {
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.story-content {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  width: 100%;
+  perspective: 1000px;
+}
+
+/* Contenu textuel */
+.story-text {
+  flex: 1;
+  max-width: 500px;
+  color: var(--color-white);
+  position: relative;
+}
+
+.story-number {
+  display: block;
+  font-size: var(--font-size-xxxl);
+  font-weight: var(--font-weight-black);
+  color: var(--color-primary);
+  font-family: 'Courier New', monospace;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+
+.story-title {
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  margin-bottom: var(--h2-margin-bottom);
+  text-transform: var(--h2-text-transform);
+  letter-spacing: var(--h2-letter-spacing);
+  background: linear-gradient(45deg, var(--color-white), var(--color-primary-light));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.story-subtitle {
+  font-size: var(--title-sub-size);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary-light);
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+.story-description {
+  font-size: var(--p-font-size);
+  line-height: var(--p-line-height);
+  color: var(--p-color-dark);
+  max-width: 90%;
+  font-weight: var(--p-font-weight);
+  letter-spacing: var(--p-letter-spacing);
+  text-transform: var(--p-text-transform);
+  margin-bottom: var(--p-margin-bottom);
+}
+
+/* Container d'image avec effets */
+.story-image-container {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+  perspective: 1000px;
+}
+
+.story-image {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  will-change: transform, filter;
+  transition: all var(--duration-normal) ease;
+}
+
+.story-step.center .story-image {
+  aspect-ratio: 16/10;
+  max-width: 800px;
+}
+
+.image-frame {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid var(--color-primary);
+  border-radius: 14px;
+  opacity: 0;
+  transition: opacity var(--duration-normal) ease;
+}
+
+.story-step:hover .image-frame {
+  opacity: 0.6;
+}
+
+/* Effets spéciaux par type */
+.story-image[data-effect="glitch"] {
+  position: relative;
+}
+
+.story-image[data-effect="glitch"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 0, 255, 0.1) 25%,
+    transparent 26%,
+    transparent 74%,
+    rgba(0, 255, 255, 0.1) 75%,
+    transparent 100%
+  );
+  opacity: 0;
+  animation: glitchEffect 3s ease-in-out infinite;
+}
+
+@keyframes glitchEffect {
+  0%, 90%, 100% { opacity: 0; }
+  5%, 10% { opacity: 1; }
+}
+
+.story-image[data-effect="distortion"] {
+  position: relative;
+  overflow: hidden;
+}
+
+.story-image[data-effect="distortion"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: distortionSweep 4s ease-in-out infinite;
+}
+
+@keyframes distortionSweep {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+.story-image[data-effect="chromatic"] {
+  position: relative;
+}
+
+.story-image[data-effect="chromatic"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 0, 0, 0.1) 0%,
+    rgba(0, 255, 0, 0.1) 33%,
+    rgba(0, 0, 255, 0.1) 66%,
+    transparent 100%
+  );
+  animation: chromaticShift 5s ease-in-out infinite;
+}
+
+@keyframes chromaticShift {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  33% { transform: scale(1.02) rotate(1deg); }
+  66% { transform: scale(0.98) rotate(-1deg); }
+}
+
+.story-image[data-effect="prism"] {
+  position: relative;
+}
+
+.story-image[data-effect="prism"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 0, 255, 0.1),
+    rgba(0, 255, 255, 0.1),
+    rgba(255, 255, 0, 0.1),
+    rgba(255, 0, 255, 0.1)
+  );
+  animation: prismRotate 6s linear infinite;
+}
+
+@keyframes prismRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Section de conclusion */
+.experience-outro {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 40px 150px 40px;
+  position: relative;
+  margin-bottom: 50vh;
+}
+
+.experience-outro::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(30, 185, 0, 0.1) 0%,
+    transparent 70%
+  );
+}
+
+.outro-content {
+  max-width: 800px;
+  color: var(--color-white);
+  position: relative;
+  z-index: 1;
+}
+
+.outro-content h2 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: var(--font-weight-black);
+  margin-bottom: 32px;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  background: linear-gradient(45deg, var(--color-white), var(--color-primary-light));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.outro-content p {
+  font-size: var(--p-font-size);
+  line-height: var(--p-line-height);
+  color: var(--p-color-dark);
+  font-style: italic;
+  font-weight: var(--p-font-weight);
+  letter-spacing: var(--p-letter-spacing);
+  text-transform: var(--p-text-transform);
+  margin-bottom: var(--p-margin-bottom);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .story-content {
+    gap: 60px;
+  }
+  
+  .story-step {
+    padding: 60px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .experience-section.immersive-experience {
+    min-height: 400vh;
+  }
+  
+  .story-step.left .story-content,
+  .story-step.right .story-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .story-content {
+    gap: 40px;
+  }
+  
+  .story-step {
+    padding: 40px 20px;
+    margin-bottom: 60px;
+  }
+  
+  .hero-content {
+    padding: 0 clamp(15px, 4vw, 30px);
+    max-width: 95vw;
+  }
+  
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 15px;
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    max-width: 90vw;
+    line-height: 1.3;
+  }
+  
+  .story-title {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+  }
+  
+  .hero-overlay {
+    padding: 8vh 4vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(1.8rem, 7vw, 2.8rem);
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+  }
+  
+  .hero-overlay {
+    padding: 10vh 5vw;
+  }
+}
+
+/* Performance optimizations */
+.story-image,
+.hero-image {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Smooth scrolling hints */
+.experience-section.immersive-experience {
+  scroll-behavior: smooth;
+}

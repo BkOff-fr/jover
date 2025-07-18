@@ -1,28 +1,38 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import { SCROLL_CONSTANTS } from '../utils/constants';
+import { SCROLL_CONFIG } from '../utils/constants';
 import image1 from '../assets/parallaxe/1.jpg';
 import image2 from '../assets/parallaxe/2.jpg';
 import image3 from '../assets/parallaxe/3.jpg';
 import image4 from '../assets/parallaxe/4.jpg';
 import image11 from '../assets/parallaxe/11.png';
 
-const PARALLAX_CONFIG = [
+// Types
+interface ParallaxConfig {
+  image: string;
+  speed: number;
+}
+
+interface ParallaxGalleryProps {
+  transitionImageRef: React.RefObject<HTMLDivElement | null>;
+}
+
+const PARALLAX_CONFIG: ParallaxConfig[] = [
   { image: image1, speed: 0.5 },
   { image: image2, speed: 0.8 },
   { image: image3, speed: 0.3 },
   { image: image4, speed: 0.6 }
 ];
 
-const ParallaxGallery = ({ transitionImageRef }) => {
-  const parallaxRefs = useRef([]);
-  const textSectionRef = useRef(null);
-  const textContentRef = useRef(null);
+const ParallaxGallery: React.FC<ParallaxGalleryProps> = ({ transitionImageRef }) => {
+  const parallaxRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const textSectionRef = useRef<HTMLElement>(null);
+  const textContentRef = useRef<HTMLDivElement>(null);
 
-  const handleParallax = useCallback(() => {
+  const handleParallax = useCallback((): void => {
     const scrollTop = window.pageYOffset;
     parallaxRefs.current.forEach(image => {
       if (!image) return;
-      const speed = parseFloat(image.getAttribute('data-speed'));
+      const speed = parseFloat(image.getAttribute('data-speed') || '0');
       const yPos = -(scrollTop * speed);
       image.style.transform = `translateY(${yPos}px)`;
     });
@@ -33,7 +43,7 @@ const ParallaxGallery = ({ transitionImageRef }) => {
 
     let words = textContent.querySelectorAll('.word');
     if (words.length === 0) {
-      const text = textContent.textContent;
+      const text = textContent.textContent || '';
       const wordsArray = text.split(' ');
       textContent.innerHTML = wordsArray
         .map(word => `<span class="word">${word}</span>`)
@@ -62,7 +72,10 @@ const ParallaxGallery = ({ transitionImageRef }) => {
     return () => window.removeEventListener('scroll', handleParallax);
   }, [handleParallax]);
 
-  const imageStyle = { backgroundSize: 'cover', backgroundPosition: 'center' };
+  const imageStyle: React.CSSProperties = { 
+    backgroundSize: 'cover', 
+    backgroundPosition: 'center' 
+  };
 
   return (
     <>
@@ -74,7 +87,9 @@ const ParallaxGallery = ({ transitionImageRef }) => {
             data-speed={config.speed}
             role="img"
             aria-label={`Artwork ${index + 1}`}
-            ref={el => (parallaxRefs.current[index] = el)}
+            ref={el => {
+              parallaxRefs.current[index] = el;
+            }}
             style={{ backgroundImage: `url(${config.image})`, ...imageStyle }}
           />
         ))}
@@ -94,7 +109,9 @@ const ParallaxGallery = ({ transitionImageRef }) => {
           role="img"
           aria-label="Featured artwork"
           ref={el => {
-            transitionImageRef.current = el;
+            if (transitionImageRef) {
+              transitionImageRef.current = el;
+            }
             parallaxRefs.current[PARALLAX_CONFIG.length] = el;
           }}
           style={{ backgroundImage: `url(${image11})`, ...imageStyle }}

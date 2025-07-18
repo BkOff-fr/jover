@@ -1,0 +1,543 @@
+/**
+ * Hero & Presentation Sections
+ * Styles pour les sections d'accueil et de présentation
+ */
+
+/* === HERO SECTION === */
+.hero-section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-logo {
+  width: 300px;
+  height: auto;
+  z-index: var(--z-base);
+  animation: mainLogoEntrance 2s ease-out 2.5s both;
+  transition: all var(--duration-slower) var(--easing-ease), filter var(--duration-slowest) var(--easing-ease);
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  opacity: 1;
+  transition: opacity var(--duration-normal) var(--easing-ease);
+}
+
+.scroll-indicator.hidden {
+  opacity: 0;
+}
+
+.scroll-text {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-gray-800);
+  text-transform: uppercase;
+  transition: color var(--duration-slowest) var(--easing-ease);
+}
+
+.App.dark-theme .scroll-text {
+  color: var(--color-text-light);
+}
+
+.scroll-arrow {
+  width: 20px;
+  height: 30px;
+  border: 2px solid var(--color-gray-800);
+  border-radius: 15px;
+  position: relative;
+  transition: border-color var(--duration-slowest) var(--easing-ease);
+}
+
+.App.dark-theme .scroll-arrow {
+  border-color: var(--color-text-light);
+}
+
+.scroll-arrow::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  background: var(--color-gray-800);
+  border-radius: 2px;
+  animation: scrollDot 2s ease-in-out infinite;
+  transition: background var(--duration-slowest) var(--easing-ease);
+}
+
+.App.dark-theme .scroll-arrow::before {
+  background: var(--color-text-light);
+}
+
+@keyframes scrollDot {
+  0% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation du logo principal - restaurée de l'ancien App.css */
+@keyframes mainLogoEntrance {
+  0% {
+    transform: scale(0.8) translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation float pour le logo header */
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* === SYSTÈME D'IMAGES PARALLAXE === */
+/* Conteneur pour les images parallaxe */
+.parallax-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 300vh;
+  pointer-events: none;
+  z-index: var(--z-base);
+}
+
+/* Images avec effet parallaxe */
+.parallax-image {
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  opacity: 1 !important;
+  display: block;
+}
+
+.parallax-image:nth-child(1) {
+  width: 300px;
+  height: 450px;
+  top: 20%;
+  left: 10%;
+  z-index: 3;
+}
+
+.parallax-image:nth-child(2) {
+  width: 350px;
+  height: 500px;
+  top: 60%;
+  right: 15%;
+  z-index: 2;
+}
+
+.parallax-image:nth-child(3) {
+  width: 280px;
+  height: 380px;
+  top: 40%;
+  left: 60%;
+  z-index: 4;
+}
+
+.parallax-image:nth-child(4) {
+  width: 400px;
+  height: 300px;
+  top: 80%;
+  left: 20%;
+  z-index: 1;
+}
+
+.parallax-image:nth-child(5) {
+  width: 320px;
+  height: 450px;
+  top: 120%;
+  right: 10%;
+  z-index: 5;
+}
+
+.parallax-image:nth-child(6) {
+  width: 380px;
+  height: 280px;
+  top: 140%;
+  left: 40%;
+  z-index: 2;
+}
+
+.parallax-image:nth-child(7) {
+  width: 260px;
+  height: 380px;
+  top: 180%;
+  right: 30%;
+  z-index: 3;
+}
+
+/* Thème sombre pour les images parallaxe */
+body.dark-theme .parallax-image {
+  filter: brightness(0.7) contrast(1.1);
+}
+
+/* === GALERIE D'IMAGES PARALLAXE === */
+.images-gallery {
+  position: relative;
+  z-index: 100;
+  top: 130vh;
+  padding: 100px 40px;
+  min-height: 200vh;
+  overflow: visible;
+}
+
+.parallax-gallery-image {
+  position: absolute;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  opacity: 1 !important;
+  transform: translateY(0);
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  display: block;
+}
+
+.parallax-gallery-image:nth-child(1) {
+  width: 300px;
+  height: 450px;
+  top: 20%;
+  left: 10%;
+  z-index: 3;
+}
+
+.parallax-gallery-image:nth-child(2) {
+  width: 350px;
+  height: 500px;
+  top: 60%;
+  right: 15%;
+  z-index: 2;
+}
+
+.parallax-gallery-image:nth-child(3) {
+  width: 280px;
+  height: 380px;
+  top: 40%;
+  left: 60%;
+  z-index: 4;
+}
+
+.parallax-gallery-image:nth-child(4) {
+  width: 400px;
+  height: 300px;
+  top: 80%;
+  left: 20%;
+  z-index: 1;
+}
+
+.parallax-gallery-image:nth-child(5) {
+  width: 320px;
+  height: 450px;
+  top: 120%;
+  right: 10%;
+  z-index: 5;
+}
+
+.parallax-gallery-image:nth-child(6) {
+  width: 380px;
+  height: 280px;
+  top: 140%;
+  left: 40%;
+  z-index: 2;
+}
+
+.parallax-gallery-image:nth-child(7) {
+  width: 260px;
+  height: 380px;
+  top: 180%;
+  right: 30%;
+  z-index: 3;
+}
+
+.parallax-gallery-image:nth-child(8) {
+  width: 340px;
+  height: 420px;
+  top: 220%;
+  left: 30%;
+  z-index: 2;
+}
+
+.parallax-gallery-image:nth-child(9) {
+  width: 300px;
+  height: 380px;
+  top: 260%;
+  right: 20%;
+  z-index: 4;
+}
+
+.parallax-gallery-image:nth-child(10) {
+  width: 280px;
+  height: 400px;
+  top: 300%;
+  left: 50%;
+  z-index: 1;
+}
+
+body.dark-theme .parallax-gallery-image {
+  filter: brightness(0.7) contrast(1.1);
+}
+
+/* === PRESENTATION SECTION === */
+.presentation-section {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--spacing-xxxl) 0;
+}
+
+.presentation-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  gap: var(--spacing-xxxl);
+}
+
+.main-image {
+  flex: 1;
+  height: 80vh;
+  background-size: cover;
+  background-position: bottom;
+  background-attachment: fixed;
+  border-radius: 0px;
+  position: relative;
+  aspect-ratio: 9/10;
+  overflow: hidden;
+}
+
+.text-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.text-wrapper {
+  max-width: 600px;
+  text-align: left;
+}
+
+.presentation-title {
+  color: var(--color-white);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.2;
+  transition: color var(--duration-slowest) var(--easing-ease);
+}
+
+.App .presentation-title {
+  color: var(--color-gray-800);
+}
+
+.App.dark-theme .presentation-title {
+  color: var(--color-text-light);
+}
+
+.presentation-location {
+  margin-bottom: var(--spacing-xxl);
+}
+
+.location-text {
+  color: var(--color-gray-300);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  text-transform: uppercase;
+  transition: color var(--duration-slowest) var(--easing-ease);
+}
+
+.App .location-text {
+  color: var(--color-gray-600);
+}
+
+.App.dark-theme .location-text {
+  color: var(--color-gray-300);
+}
+
+.text-content {
+  color: var(--color-white);
+  font-size: var(--text-body-size);
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  font-weight: var(--font-weight-normal);
+  transition: color var(--duration-slowest) var(--easing-ease);
+}
+
+.App .text-content {
+  color: var(--color-gray-800);
+}
+
+.App.dark-theme .text-content {
+  color: var(--color-text-light);
+}
+
+.text-content .letter {
+  opacity: 0.3;
+  color: var(--color-gray-500);
+  transition: all var(--duration-fast) var(--easing-ease), color var(--duration-slowest) var(--easing-ease);
+}
+
+.App .text-content .letter {
+  color: var(--color-gray-500);
+}
+
+.App.dark-theme .text-content .letter {
+  color: var(--color-gray-500);
+}
+
+.text-content .letter.active {
+  opacity: 1;
+  color: var(--color-white);
+  transition: all var(--duration-fast) var(--easing-ease), color var(--duration-slowest) var(--easing-ease);
+}
+
+.App .text-content .letter.active {
+  color: var(--color-gray-800);
+}
+
+.App.dark-theme .text-content .letter.active {
+  color: var(--color-text-light);
+}
+
+/* Images additionnelles */
+.additional-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-xxxl);
+  padding: 0 var(--spacing-xl);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.additional-image {
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0px;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--easing-ease);
+}
+
+.additional-image.visible {
+  opacity: 1;
+}
+
+/* Thème sombre */
+.dark-theme .main-logo {
+  filter: brightness(0) invert(1);
+}
+
+/* Transition fluide pour le logo selon le thème */
+.main-logo {
+  filter: brightness(1) invert(0);
+  transition: filter var(--duration-slowest) var(--easing-ease);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .presentation-content {
+    flex-direction: column;
+    gap: var(--spacing-xxl);
+  }
+  
+  .main-image {
+    height: 60vh;
+  }
+  
+  .text-section {
+    min-height: auto;
+  }
+  
+  .additional-images {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+  }
+  
+  .additional-image {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-logo {
+    width: 150px;
+  }
+  
+  .presentation-content {
+    padding: 0 var(--spacing-lg);
+  }
+  
+  .text-wrapper {
+    max-width: 100%;
+  }
+  
+  .additional-images {
+    grid-template-columns: 1fr;
+    padding: 0 var(--spacing-lg);
+  }
+  
+  .additional-image {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-logo {
+    width: 120px;
+  }
+  
+  .scroll-indicator {
+    bottom: 20px;
+  }
+  
+  .presentation-content {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .additional-images {
+    padding: 0 var(--spacing-md);
+  }
+}

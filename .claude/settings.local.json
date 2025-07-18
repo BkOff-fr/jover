@@ -5,7 +5,15 @@
       "Bash(dir)",
       "Bash(ls:*)",
       "Bash(rm:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(npm install:*)",
+      "Bash(npm audit:*)",
+      "Bash(npm start)",
+      "Bash(npm run build:*)",
+      "Bash(mkdir:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(git restore:*)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": []
   }

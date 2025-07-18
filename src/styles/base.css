@@ -1,0 +1,153 @@
+/**
+ * Base Styles
+ * Styles de base et reset CSS
+ */
+
+/* Reset et base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: outline var(--duration-normal) ease;
+}
+
+html {
+  height: auto;
+}
+
+html.lenis {
+  height: auto;
+}
+
+body {
+  font-family: var(--font-family);
+  overflow-x: hidden;
+  transition: background-color var(--duration-slower) var(--easing-ease);
+  cursor: none !important;
+}
+
+/* Masquer les barres de scroll */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Styles pour Lenis */
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling {
+  pointer-events: none;
+}
+
+/* Classe utilitaire pour le contenu masqué visuellement */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* États de focus pour l'accessibilité */
+*:focus {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* Force masquer le curseur sur tous les éléments */
+body *,
+body *:hover,
+body *:focus {
+  cursor: none !important;
+}
+
+html {
+  cursor: none !important;
+}
+
+/* Styles uniformes pour tous les titres */
+
+/* H1 - Titre principal (caché pour SEO) */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  color: var(--color-white);
+}
+
+/* H2 - Titres de sections principales */
+h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.5rem;
+  color: var(--color-white);
+}
+
+/* H3 - Sous-titres de sections */
+h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+  color: var(--color-white);
+}
+
+/* H4 - Titres de détails */
+h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+  color: var(--color-white);
+  font-style: normal;
+}
+
+/* H5 - Titres de sous-détails */
+h5 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+  color: var(--color-white);
+}
+
+/* H6 - Titres de niveau le plus bas */
+h6 {
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.25rem;
+  color: var(--color-white);
+}
+
+/* Hero subtitle avec style H4 */
+.hero-subtitle {
+  text-transform: uppercase;
+  font-style: normal;
+}
