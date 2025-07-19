@@ -1,9 +1,25 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useAppContext } from '../context/AppContext';
 
-const ContactSection = ({ id, scrollManagerRef }) => {
-  const sectionRef = useRef(null);
-  const formRef = useRef(null);
-  const [formData, setFormData] = useState({
+interface ContactSectionProps {
+  id: string;
+  scrollManagerRef?: React.RefObject<any>;
+}
+
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  projectType: string;
+  message: string;
+  budget: string;
+}
+
+const ContactSection: React.FC<ContactSectionProps> = ({ id, scrollManagerRef }) => {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const { scrollProgress, activeSection } = useAppContext();
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     phone: '',
@@ -11,47 +27,21 @@ const ContactSection = ({ id, scrollManagerRef }) => {
     message: '',
     budget: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
 
-  // Animation du formulaire au scroll
+  // Animation du formulaire basée sur activeSection (intégré au système Lenis)
   useEffect(() => {
-    const animateContact = (scrollTop, windowHeight) => {
-      const section = sectionRef.current;
-      if (!section) return;
+    const form = formRef.current;
+    if (!form) return;
 
-      const sectionRect = section.getBoundingClientRect();
-      const sectionTop = sectionRect.top;
-      
-      // Animation d'entrée progressive
-      if (sectionTop < windowHeight * 0.8) {
-        const form = formRef.current;
-        if (form) {
-          form.classList.add('visible');
-        }
-      }
-    };
+    // Si la section contact est active ou proche, animer le formulaire
+    if (activeSection === 'contact' || scrollProgress > 0.8) {
+      form.classList.add('visible');
+    }
+  }, [activeSection, scrollProgress]);
 
-    // Appeler directement la fonction au scroll
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      const windowHeight = window.innerHeight;
-      animateContact(scrollTop, windowHeight);
-    };
-    
-    // Ajouter le listener de scroll
-    window.addEventListener('scroll', handleScroll);
-    
-    // Appel initial
-    handleScroll();
-
-    return () => {
-      // Nettoyer le listener
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -59,7 +49,7 @@ const ContactSection = ({ id, scrollManagerRef }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
@@ -290,7 +280,7 @@ const ContactSection = ({ id, scrollManagerRef }) => {
                 value={formData.message}
                 onChange={handleInputChange}
                 className="form-textarea"
-                rows="6"
+                rows={6}
                 required
                 placeholder="Décrivez votre projet en détail : date, lieu, nombre de personnes, style souhaité, etc."
               />

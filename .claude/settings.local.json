@@ -13,7 +13,18 @@
       "Bash(mkdir:*)",
       "mcp__ide__getDiagnostics",
       "Bash(git restore:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(find:*)",
+      "Bash(timeout 10 npm start)",
+      "Bash(console.log \"Testing image optimization\")",
+      "Bash(node:*)",
+      "Bash(pkill:*)",
+      "Bash(timeout 8 npm start)",
+      "Bash(curl:*)",
+      "Bash(timeout 5 npm start)",
+      "Bash(del:*)",
+      "Bash(npm run:*)",
+      "Bash(tail:*)"
     ],
     "deny": []
   }

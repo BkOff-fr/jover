@@ -1,17 +1,46 @@
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect, useMemo, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useAppScroll, useAppMouse } from '../context/AppContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const GlobalBackground = () => {
-  const backgroundRef = useRef(null);
+interface BackgroundState {
+  background: string;
+  effects: {
+    ambient: string;
+    overlay: string;
+    studio?: string;
+    grid?: string;
+  };
+}
+
+interface BackgroundStates {
+  accueil: BackgroundState;
+  presentation: BackgroundState;
+  experience: BackgroundState;
+  portfolio: BackgroundState;
+  contact: BackgroundState;
+  [key: string]: BackgroundState;
+}
+
+const GlobalBackground: React.FC = () => {
+  const backgroundRef = useRef<HTMLDivElement | null>(null);
   const { activeSection, scrollProgress } = useAppScroll();
   const { mousePosition } = useAppMouse();
+  const lastUpdateRef = useRef<number>(0);
+
+  // Fonction de debounce pour éviter les animations trop fréquentes
+  const debounceUpdate = useCallback((callback: () => void, delay: number = 100) => {
+    const now = Date.now();
+    if (now - lastUpdateRef.current > delay) {
+      callback();
+      lastUpdateRef.current = now;
+    }
+  }, []);
 
   // Définition des états de background par section (memoized)
-  const backgroundStates = useMemo(() => ({
+  const backgroundStates: BackgroundStates = useMemo(() => ({
     accueil: {
       background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
       effects: {
@@ -41,6 +70,14 @@ const GlobalBackground = () => {
         overlay: 'linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, transparent 100%)',
         grid: 'radial-gradient(ellipse 60% 80% at 50% 30%, rgba(30, 185, 0, 0.02) 0%, transparent 80%)'
       }
+    },
+    contact: {
+      background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+      effects: {
+        ambient: 'radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(30, 185, 0, 0.02) 0%, transparent 70%)',
+        overlay: 'linear-gradient(180deg, transparent 0%, rgba(248, 249, 250, 0.5) 100%)',
+        studio: 'radial-gradient(ellipse 60% 80% at 30% 20%, rgba(30, 185, 0, 0.01) 0%, transparent 90%)'
+      }
     }
   }), []);
 
@@ -51,15 +88,10 @@ const GlobalBackground = () => {
 
     const currentState = backgroundStates[activeSection] || backgroundStates.accueil;
     
-    // Animation de transition du background principal
-    gsap.to(background, {
-      background: currentState.background,
-      duration: 1.2,
-      ease: "power2.out"
-    });
-
     // Mise à jour des effets CSS custom properties
     const effectsString = Object.values(currentState.effects).join(', ');
+    
+    // Animation unifiée du background avec tous les effets
     gsap.to(background, {
       backgroundImage: `${currentState.background}, ${effectsString}`,
       duration: 1.2,
@@ -72,98 +104,67 @@ const GlobalBackground = () => {
 
   }, [activeSection, backgroundStates]);
 
-  // Effet de parallaxe et effets dynamiques selon la souris
+  // Effet de parallaxe et effets dynamiques selon la souris (optimisé)
   useEffect(() => {
     const background = backgroundRef.current;
     if (!background || !mousePosition) return;
     
-    // Mise à jour des positions pour les effets ambient
-    const intensity = activeSection === 'experience' ? 0.8 : 0.3;
+    // Mise à jour des positions pour les effets ambient avec intensité réduite
+    const intensity = activeSection === 'experience' ? 0.4 : 0.15;
     const parallaxX = (mousePosition.x - 50) * intensity;
     const parallaxY = (mousePosition.y - 50) * intensity;
 
+    // Animation plus douce et plus lente pour éviter les flashs
     gsap.to(background, {
       '--ambient-x': `${50 + parallaxX}%`,
       '--ambient-y': `${50 + parallaxY}%`,
-      duration: 2,
-      ease: "power2.out"
+      duration: 3,
+      ease: "power3.out"
     });
 
-  }, [mousePosition, activeSection, backgroundStates]);
+  }, [mousePosition, activeSection]);
 
-  // Animations spéciales selon le scroll progress
+  // Effet de transition fluide basé sur la section active (unifié et optimisé)
   useEffect(() => {
     const background = backgroundRef.current;
     if (!background) return;
 
-    // Effet de grain selon le scroll pour la section experience
-    if (activeSection === 'experience') {
-      const grainIntensity = Math.min(0.1, scrollProgress * 0.001);
-      gsap.to(background, {
-        filter: `contrast(1.1) brightness(0.95) saturate(1.1) sepia(${grainIntensity})`,
-        duration: 0.5,
-        ease: "power2.out"
-      });
-    } else {
-      gsap.to(background, {
-        filter: 'none',
-        duration: 0.8,
-        ease: "power2.out"
-      });
-    }
-  }, [scrollProgress, activeSection]);
-
-  // Setup des ScrollTriggers pour les transitions de sections
-  useEffect(() => {
-    const background = backgroundRef.current;
-    if (!background) return;
-
-    // Transition vers la section présentation
-    ScrollTrigger.create({
-      trigger: "#presentation",
-      start: "top 80%",
-      end: "top 20%",
-      scrub: 1,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const brightness = 1 - (progress * 0.05);
-        gsap.set(background, {
-          filter: `brightness(${brightness}) contrast(${1 + progress * 0.1})`
-        });
+    debounceUpdate(() => {
+      // Appliquer des effets visuels selon la section active
+      switch (activeSection) {
+        case 'presentation':
+          gsap.to(background, {
+            filter: 'brightness(0.95) contrast(1.05)',
+            duration: 1.2,
+            ease: "power2.out"
+          });
+          break;
+        case 'experience':
+          // Effet de grain léger pour l'expérience avec scroll progress
+          const grainIntensity = Math.min(0.05, scrollProgress * 0.0001);
+          gsap.to(background, {
+            filter: `brightness(0.9) contrast(1.1) saturate(1.1) sepia(${grainIntensity})`,
+            duration: 1.2,
+            ease: "power2.out"
+          });
+          break;
+        case 'portfolio':
+          gsap.to(background, {
+            filter: 'brightness(0.85) contrast(1.2) saturate(0.9)',
+            duration: 1.2,
+            ease: "power2.out"
+          });
+          break;
+        default:
+          gsap.to(background, {
+            filter: 'none',
+            duration: 1.2,
+            ease: "power2.out"
+          });
+          break;
       }
-    });
-
-    // Transition vers la section experience
-    ScrollTrigger.create({
-      trigger: "#experience",
-      start: "top 90%",
-      end: "top 10%",
-      scrub: 1,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        
-        // Transition graduelle vers le mode sombre
-        const lightness = Math.max(10, 100 - (progress * 90));
-        const saturation = Math.max(0.5, 1 - (progress * 0.5));
-        
-        gsap.set(background, {
-          background: `hsl(0, 0%, ${lightness}%)`,
-          filter: `saturate(${saturation}) contrast(${1 + progress * 0.2})`
-        });
-      }
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.trigger && (
-          trigger.trigger.id === 'presentation' ||
-          trigger.trigger.id === 'experience'
-        )) {
-          trigger.kill();
-        }
-      });
-    };
-  }, []);
+    }, 50); // Debounce de 50ms pour les filtres
+  }, [activeSection, scrollProgress, debounceUpdate]);
 
   return (
     <div 
@@ -180,7 +181,7 @@ const GlobalBackground = () => {
         '--ambient-x': '50%',
         '--ambient-y': '50%',
         willChange: 'background, filter, transform'
-      }}
+      } as React.CSSProperties}
     />
   );
 };

@@ -49,7 +49,7 @@
   transition: color var(--duration-slowest) var(--easing-ease);
 }
 
-.App.dark-theme .scroll-text {
+body.dark-theme .scroll-text {
   color: var(--color-text-light);
 }
 
@@ -62,7 +62,7 @@
   transition: border-color var(--duration-slowest) var(--easing-ease);
 }
 
-.App.dark-theme .scroll-arrow {
+body.dark-theme .scroll-arrow {
   border-color: var(--color-text-light);
 }
 
@@ -80,7 +80,7 @@
   transition: background var(--duration-slowest) var(--easing-ease);
 }
 
-.App.dark-theme .scroll-arrow::before {
+body.dark-theme .scroll-arrow::before {
   background: var(--color-text-light);
 }
 
@@ -370,7 +370,7 @@ body.dark-theme .parallax-gallery-image {
   color: var(--color-gray-800);
 }
 
-.App.dark-theme .presentation-title {
+body.dark-theme .presentation-title {
   color: var(--color-text-light);
 }
 
@@ -391,7 +391,7 @@ body.dark-theme .parallax-gallery-image {
   color: var(--color-gray-600);
 }
 
-.App.dark-theme .location-text {
+body.dark-theme .location-text {
   color: var(--color-gray-300);
 }
 
@@ -408,7 +408,7 @@ body.dark-theme .parallax-gallery-image {
   color: var(--color-gray-800);
 }
 
-.App.dark-theme .text-content {
+body.dark-theme .text-content {
   color: var(--color-text-light);
 }
 
@@ -422,7 +422,7 @@ body.dark-theme .parallax-gallery-image {
   color: var(--color-gray-500);
 }
 
-.App.dark-theme .text-content .letter {
+body.dark-theme .text-content .letter {
   color: var(--color-gray-500);
 }
 
@@ -436,7 +436,7 @@ body.dark-theme .parallax-gallery-image {
   color: var(--color-gray-800);
 }
 
-.App.dark-theme .text-content .letter.active {
+body.dark-theme .text-content .letter.active {
   color: var(--color-text-light);
 }
 
@@ -457,7 +457,7 @@ body.dark-theme .parallax-gallery-image {
   background-size: cover;
   background-position: center;
   border-radius: 0px;
-  opacity: 0;
+  opacity: 1;
   transition: opacity var(--duration-slow) var(--easing-ease);
 }
 

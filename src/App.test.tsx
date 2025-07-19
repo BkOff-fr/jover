@@ -15,11 +15,11 @@ let sectionTop = 2000;
 
 beforeEach(() => {
   // Mock getBoundingClientRect to control scroll position of the experience section
-  jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
+  jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
     if (this.classList.contains('experience-section')) {
-      return { top: sectionTop, bottom: sectionTop + 100, left: 0, right: 0, width: 0, height: 100 };
+      return { top: sectionTop, bottom: sectionTop + 100, left: 0, right: 0, width: 0, height: 100 } as DOMRect;
     }
-    return { top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0 };
+    return { top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0 } as DOMRect;
   });
 });
 
@@ -36,7 +36,7 @@ test('transition image scales after scrolling past threshold', () => {
     jest.runAllTimers();
   });
 
-  const transitionImage = container.querySelector('#transitionImage');
+  const transitionImage = container.querySelector('#transitionImage') as HTMLElement;
   expect(transitionImage).toBeTruthy();
 
   // Initial transform should be translateY(0px)
@@ -49,5 +49,7 @@ test('transition image scales after scrolling past threshold', () => {
 
   const match = transitionImage.style.transform.match(/scaleX\(([^)]+)\)/);
   expect(match).not.toBeNull();
-  expect(parseFloat(match[1])).toBeGreaterThan(1);
+  if (match && match[1]) {
+    expect(parseFloat(match[1])).toBeGreaterThan(1);
+  }
 });

@@ -39,17 +39,19 @@
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 60px;
-  border-bottom: 1px solid rgba(30, 185, 0, 0.2);
+  border-bottom: 1px solid var(--color-border);
   padding-bottom: 30px;
 }
 
 .portfolio-title h2 {
-  color: var(--h2-color);
+  color: var(--color-white);
   font-size: var(--h2-font-size);
   font-weight: var(--h2-font-weight);
-  margin-bottom: var(--h2-margin-bottom);
+  margin-bottom: var(--spacing-lg);
   text-transform: var(--h2-text-transform);
   letter-spacing: var(--h2-letter-spacing);
+  line-height: 1.2;
+  transition: color var(--duration-slowest) var(--easing-ease);
 }
 
 .portfolio-subtitle {
@@ -67,8 +69,8 @@
 }
 
 .filter-btn {
-  background: rgba(30, 185, 0, 0.1);
-  border: 1px solid rgba(30, 185, 0, 0.3);
+  background: var(--color-hover);
+  border: 1px solid var(--color-border);
   color: var(--color-white);
   padding: 12px 20px;
   border-radius: 25px;
@@ -89,7 +91,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(30, 185, 0, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
   transition: left var(--duration-normal) ease;
 }
 
@@ -98,17 +100,25 @@
 }
 
 .filter-btn:hover {
-  border-color: var(--color-primary);
-  background: rgba(30, 185, 0, 0.15);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(30, 185, 0, 0.2);
+  border-color: var(--color-accent-primary);
+  background: var(--color-hover);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 8px 20px rgba(0,0,0,0.12),
+    0 4px 8px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  filter: brightness(1.05) contrast(1.05);
 }
 
 .filter-btn.active {
-  background: var(--color-primary);
+  background: var(--color-accent-primary);
   color: var(--color-black);
-  border-color: var(--color-primary);
-  box-shadow: 0 4px 16px rgba(30, 185, 0, 0.3);
+  border-color: var(--color-accent-primary);
+  box-shadow: 
+    0 6px 18px rgba(30, 185, 0, 0.25),
+    0 3px 8px rgba(30, 185, 0, 0.15),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  filter: brightness(1.1) contrast(1.08);
 }
 
 .filter-count {
@@ -128,7 +138,7 @@
 
 .portfolio-project {
   background: rgba(20, 20, 20, 0.8);
-  border: 1px solid rgba(30, 185, 0, 0.2);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
@@ -138,10 +148,10 @@
 }
 
 .portfolio-project:hover {
-  border-color: var(--color-primary);
+  border-color: var(--color-accent-primary);
   box-shadow: 
-    0 8px 32px rgba(30, 185, 0, 0.15),
-    0 0 0 1px rgba(30, 185, 0, 0.3);
+    0 8px 32px var(--color-hover),
+    0 0 0 1px var(--color-border);
   transform: translateY(-4px) rotateX(2deg);
 }
 
@@ -158,6 +168,12 @@
   object-fit: cover;
   transition: all var(--duration-slow) ease;
   will-change: transform, filter;
+  /* Effets photographiques professionnels */
+  filter: brightness(0.88) contrast(1.1) saturate(1.06);
+  border-radius: 8px;
+  box-shadow: 
+    0 15px 30px rgba(0,0,0,0.12),
+    0 6px 12px rgba(0,0,0,0.08);
 }
 
 .project-overlay {
@@ -169,7 +185,7 @@
   background: linear-gradient(
     45deg,
     rgba(0, 0, 0, 0.8) 0%,
-    rgba(30, 185, 0, 0.2) 50%,
+    var(--color-border) 50%,
     rgba(0, 0, 0, 0.8) 100%
   );
   display: flex;
@@ -193,7 +209,7 @@
 .project-category {
   display: block;
   font-size: var(--font-size-xs);
-  color: var(--color-primary-light);
+  color: var(--color-text-dark);
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-wide);
@@ -210,7 +226,7 @@
 .project-client {
   font-size: var(--font-size-sm);
   opacity: 0.8;
-  font-style: italic;
+  font-weight: var(--font-weight-normal);
 }
 
 /* Métadonnées des projets */
@@ -235,7 +251,7 @@
 }
 
 .project-year {
-  color: var(--color-primary-light);
+  color: var(--color-text-dark);
   font-size: var(--font-size-sm);
   font-family: 'Courier New', monospace;
   font-weight: var(--font-weight-bold);
@@ -245,7 +261,7 @@
   color: var(--color-gray-400);
   font-size: var(--font-size-sm);
   margin-bottom: 16px;
-  font-style: italic;
+  font-weight: var(--font-weight-normal);
 }
 
 .project-tags {
@@ -255,8 +271,8 @@
 }
 
 .project-tag {
-  background: rgba(30, 185, 0, 0.15);
-  color: var(--color-primary-light);
+  background: var(--color-hover);
+  color: var(--color-text-dark);
   padding: 4px 12px;
   border-radius: 16px;
   font-size: var(--font-size-xs);
@@ -282,7 +298,7 @@
 
 .modal-content {
   background: rgba(15, 15, 15, 0.98);
-  border: 2px solid rgba(30, 185, 0, 0.3);
+  border: 2px solid var(--color-border);
   border-radius: 16px;
   max-width: 90vw;
   max-height: 90vh;
@@ -292,7 +308,7 @@
   position: relative;
   box-shadow: 
     0 24px 64px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(30, 185, 0, 0.2);
+    0 0 0 1px var(--color-border);
 }
 
 .modal-close {
@@ -315,7 +331,7 @@
 }
 
 .modal-close:hover {
-  background: var(--color-primary);
+  background: var(--color-accent-primary);
   color: var(--color-black);
   transform: scale(1.1);
 }
@@ -345,7 +361,7 @@
 }
 
 .modal-project-info h2 {
-  color: var(--color-primary-light);
+  color: var(--color-text-dark);
   font-size: var(--font-size-xxl);
   font-weight: var(--font-weight-bold);
   margin: 0;
@@ -354,7 +370,7 @@
 }
 
 .modal-year {
-  color: var(--color-primary);
+  color: var(--color-accent-primary);
   font-family: 'Courier New', monospace;
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
@@ -365,13 +381,13 @@
   font-size: var(--font-size-md);
   margin-bottom: 24px;
   padding: 12px;
-  background: rgba(30, 185, 0, 0.1);
+  background: var(--color-hover);
   border-radius: 8px;
-  border-left: 3px solid var(--color-primary);
+  border-left: 3px solid var(--color-accent-primary);
 }
 
 .modal-description {
-  color: var(--p-color-dark);
+  color: var(--color-text-dark);
   font-size: var(--p-font-size);
   line-height: var(--p-line-height);
   margin-bottom: var(--p-margin-bottom);
@@ -388,9 +404,9 @@
 }
 
 .modal-tag {
-  background: rgba(30, 185, 0, 0.2);
-  border: 1px solid var(--color-primary);
-  color: var(--color-primary-light);
+  background: var(--color-border);
+  border: 1px solid var(--color-accent-primary);
+  color: var(--color-text-dark);
   padding: 6px 12px;
   border-radius: 16px;
   font-size: var(--font-size-xs);
@@ -403,7 +419,7 @@
 }
 
 .category-badge {
-  background: var(--color-primary);
+  background: var(--color-accent-primary);
   color: var(--color-black);
   padding: 8px 16px;
   border-radius: 20px;
@@ -456,4 +472,87 @@
     padding: 8px 16px;
     font-size: var(--font-size-xs);
   }
+}
+
+/* Dark Theme Adaptations */
+.App .portfolio-title h2 {
+  color: var(--color-gray-800);
+}
+
+body.dark-theme .portfolio-title h2 {
+  color: var(--color-text-light);
+}
+
+body.dark-theme .portfolio-subtitle {
+  color: var(--color-text-light);
+}
+
+body.dark-theme .filter-btn {
+  background: var(--color-gray-800);
+  color: var(--color-text-light);
+  border-color: var(--color-gray-600);
+}
+
+body.dark-theme .filter-btn.active {
+  background: var(--color-accent-primary);
+  color: var(--color-black);
+}
+
+body.dark-theme .project-title {
+  color: var(--color-text-light);
+}
+
+body.dark-theme .project-category {
+  color: var(--color-text-light);
+}
+
+body.dark-theme .project-year {
+  color: var(--color-text-light);
+}
+
+body.dark-theme .modal-title {
+  color: var(--color-text-light);
+}
+
+body.dark-theme .modal-client {
+  color: var(--color-text-light);
+}
+
+body.dark-theme .modal-year {
+  color: var(--color-text-light);
+}
+
+body.dark-theme .modal-description {
+  color: var(--color-text-light);
+}
+
+/* === EFFETS PHOTOGRAPHIQUES PROFESSIONNELS === */
+
+/* Effets hover photographiques */
+.project-item:hover .project-image {
+  transform: scale(1.02) translateZ(0);
+  filter: brightness(0.92) contrast(1.15) saturate(1.1);
+  box-shadow: 
+    0 25px 50px rgba(0,0,0,0.16),
+    0 12px 25px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* Effet grain photographique pour portfolio */
+.project-image {
+  position: relative;
+}
+
+.project-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><defs><filter id="portfolioNoise"><feTurbulence baseFrequency="0.8" numOctaves="1" type="fractalNoise"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.02 0"/></filter></defs><rect width="100%" height="100%" filter="url(%23portfolioNoise)"/></svg>');
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0.3;
+  mix-blend-mode: multiply;
 }

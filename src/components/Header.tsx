@@ -2,11 +2,11 @@ import React from 'react';
 import logo from '../logo.svg';
 import { useAppScroll, useAppClickAnimation } from '../context/AppContext';
 
-const Header = () => {
+const Header: React.FC = () => {
   const { scrollProgress, activeSection, scrollToSection } = useAppScroll();
   const { handleClick } = useAppClickAnimation();
 
-  const handleNavClick = (e, sectionId) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string): void => {
     e.preventDefault();
     handleClick(e.currentTarget);
     scrollToSection(sectionId);

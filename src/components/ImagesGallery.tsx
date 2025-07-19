@@ -10,8 +10,8 @@ import image8 from '../assets/parallaxe/8.jpg';
 import image9 from '../assets/parallaxe/9.jpg';
 import image10 from '../assets/parallaxe/10.jpg';
 
-const ImagesGallery = () => {
-  const images = [
+const ImagesGallery: React.FC = () => {
+  const images: string[] = [
     image1, image2, image3, image4, image5, 
     image6, image7, image8, image9, image10
   ];

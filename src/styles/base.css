@@ -97,22 +97,22 @@ h1 {
 
 /* H2 - Titres de sections principales */
 h2 {
-  font-size: 2rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 1.5rem;
-  color: var(--color-white);
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  text-transform: var(--h2-text-transform);
+  letter-spacing: var(--h2-letter-spacing);
+  margin-bottom: var(--h2-margin-bottom);
+  color: var(--color-text-dark);
 }
 
 /* H3 - Sous-titres de sections */
 h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 1rem;
-  color: var(--color-white);
+  font-size: var(--h3-font-size);
+  font-weight: var(--h3-font-weight);
+  text-transform: var(--h3-text-transform);
+  letter-spacing: var(--h3-letter-spacing);
+  margin-bottom: var(--h3-margin-bottom);
+  color: var(--color-text-dark);
 }
 
 /* H4 - Titres de détails */
@@ -150,4 +150,15 @@ h6 {
 .hero-subtitle {
   text-transform: uppercase;
   font-style: normal;
+}
+
+/* Dark Theme for Base Typography */
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3,
+body.dark-theme h4,
+body.dark-theme h5,
+body.dark-theme h6,
+body.dark-theme p {
+  color: var(--color-text-light);
 }

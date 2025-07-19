@@ -54,11 +54,26 @@ export const useScroll = (): ScrollHookReturn => {
     return Math.min(100, Math.max(0, (scrollTop / maxScroll) * 100));
   }, []);
 
-  // Détection du thème basé sur la position
+  // Détection du thème basé sur la section active
   const calculateTheme = useCallback((scrollTop: number, windowHeight: number): boolean => {
-    const presentationSection = document.getElementById('presentation');
-    return presentationSection !== null && 
-           scrollTop > presentationSection.offsetTop - windowHeight * SECTIONS_CONFIG.thresholds.theme;
+    const scrollPosition = scrollTop + windowHeight * SECTIONS_CONFIG.thresholds.detection;
+    
+    // Sections qui utilisent le thème sombre
+    const darkSections = ['presentation', 'experience', 'portfolio'];
+    
+    // Déterminer la section active
+    for (let i = SECTIONS_CONFIG.ids.length - 1; i >= 0; i--) {
+      const sectionId = SECTIONS_CONFIG.ids[i];
+      if (sectionId) {
+        const element = document.getElementById(sectionId);
+        if (element && scrollPosition >= element.offsetTop) {
+          return darkSections.includes(sectionId);
+        }
+      }
+    }
+    
+    // Par défaut, thème clair pour 'accueil' et 'contact'
+    return false;
   }, []);
 
   // Détection de la section active

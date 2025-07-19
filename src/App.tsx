@@ -14,7 +14,7 @@ import { AppProvider, useAppContext } from './context/AppContext';
 /**
  * Composant App principal avec la nouvelle architecture
  */
-function AppContent() {
+function AppContent(): React.JSX.Element {
   const {
     isDarkTheme,
     scrollManagerRef
@@ -39,7 +39,7 @@ function AppContent() {
 /**
  * Composant App wrapper avec le provider de contexte
  */
-function App() {
+function App(): React.JSX.Element {
   return (
     <AppProvider>
       <AppContent />

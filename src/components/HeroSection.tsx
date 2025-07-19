@@ -2,16 +2,20 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import logo from '../logo.svg';
 import { SCROLL_CONFIG } from '../utils/constants';
 
-const HeroSection = ({ id }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const scrollIndicatorRef = useRef(null);
+interface HeroSectionProps {
+  id: string;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ id }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const scrollIndicatorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = useCallback((): void => {
     const scrollTop = window.pageYOffset;
     const indicator = scrollIndicatorRef.current;
     if (!indicator) return;

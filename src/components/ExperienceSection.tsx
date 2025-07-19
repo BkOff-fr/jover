@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useAppMouse } from '../context/AppContext';
+import { CommonSectionProps, StoryStep, ImageEffect } from '../types/components';
 import image1 from '../assets/parallaxe/1.jpg';
 import image2 from '../assets/parallaxe/2.jpg';
 import image3 from '../assets/parallaxe/3.jpg';
@@ -9,14 +10,16 @@ import image4 from '../assets/parallaxe/4.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ExperienceSection = ({ id, scrollManagerRef }) => {
-  const sectionRef = useRef(null);
-  const heroImageRef = useRef(null);
-  const storyElementsRef = useRef([]);
+const ExperienceSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }) => {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const heroImageRef = useRef<HTMLDivElement | null>(null);
+  const storyElementsRef = useRef<(HTMLDivElement | null)[]>([]);
   const { mousePosition } = useAppMouse();
+  
+  // Image héro optimisée avec le système BackgroundImage
 
-  // Données de storytelling par étapes
-  const storySteps = [
+  // Données de storytelling par étapes (memoized pour éviter les re-renders)
+  const storySteps = useMemo<StoryStep[]>(() => [
     {
       id: 1,
       title: "LE PREMIER REGARD",
@@ -53,107 +56,10 @@ const ExperienceSection = ({ id, scrollManagerRef }) => {
       position: "left",
       effect: "prism"
     }
-  ];
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    const heroImage = heroImageRef.current;
-    
-    if (!section || !heroImage) return;
-
-    // Animation de l'image héro avec distortion
-    gsap.set(heroImage, { 
-      scale: 1.2, 
-      filter: "brightness(0.7) contrast(1.3)",
-    });
-
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: 1,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        
-        // Effet de parallaxe et distortion sur l'image héro
-        gsap.set(heroImage, {
-          yPercent: -30 + (progress * 60),
-          scale: 1.2 - (progress * 0.3),
-          filter: `brightness(${0.7 + progress * 0.5}) contrast(${1.3 - progress * 0.3}) hue-rotate(${progress * 30}deg)`,
-        });
-      }
-    });
-
-    // Animation des éléments de story
-    storyElementsRef.current.forEach((element, index) => {
-      if (!element) return;
-
-      const step = storySteps[index];
-      const isEven = index % 2 === 0;
-      
-      gsap.set(element, {
-        x: isEven ? -100 : 100,
-        opacity: 0,
-        scale: 0.8,
-        rotationY: isEven ? -15 : 15
-      });
-
-      ScrollTrigger.create({
-        trigger: element,
-        start: "top 80%",
-        end: "bottom 20%",
-        scrub: 1,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          
-          gsap.set(element, {
-            x: (isEven ? -100 : 100) * (1 - progress),
-            opacity: progress,
-            scale: 0.8 + (progress * 0.2),
-            rotationY: (isEven ? -15 : 15) * (1 - progress)
-          });
-
-          // Effets spéciaux par étape
-          const imageElement = element.querySelector('.story-image');
-          if (imageElement && step.effect) {
-            applyImageEffect(imageElement, step.effect, progress);
-          }
-        }
-      });
-
-      // Animation continue sur hover
-      element.addEventListener('mouseenter', () => {
-        gsap.to(element.querySelector('.story-image'), {
-          scale: 1.05,
-          rotationZ: index % 2 === 0 ? 2 : -2,
-          duration: 0.6,
-          ease: "power2.out"
-        });
-      });
-
-      element.addEventListener('mouseleave', () => {
-        gsap.to(element.querySelector('.story-image'), {
-          scale: 1,
-          rotationZ: 0,
-          duration: 0.4,
-          ease: "power2.out"
-        });
-      });
-    });
-
-    return () => {
-      const elements = storyElementsRef.current;
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.trigger === section || 
-            elements.includes(trigger.trigger)) {
-          trigger.kill();
-        }
-      });
-    };
-  }, [storySteps]);
+  ], []);
 
   // Effets visuels par type
-  const applyImageEffect = (element, effect, progress) => {
+  const applyImageEffect = (element: HTMLElement, effect: ImageEffect, progress: number): void => {
     const intensity = Math.sin(progress * Math.PI) * 0.5 + 0.5;
     
     switch (effect) {
@@ -190,20 +96,138 @@ const ExperienceSection = ({ id, scrollManagerRef }) => {
     }
   };
 
+  // Animation principale avec cleanup approprié
+  useEffect(() => {
+    const section = sectionRef.current;
+    const heroImage = heroImageRef.current;
+    
+    if (!section || !heroImage) return;
+
+    // Stocker les références pour cleanup
+    const scrollTriggers: ScrollTrigger[] = [];
+    const eventListeners: { element: Element; type: string; handler: EventListener }[] = [];
+
+    // Animation de l'image héro avec distortion
+    gsap.set(heroImage, { 
+      scale: 1.2, 
+      filter: "brightness(0.7) contrast(1.3)",
+    });
+
+    const heroScrollTrigger = ScrollTrigger.create({
+      trigger: section,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        
+        // Effet de parallaxe et distortion sur l'image héro
+        gsap.set(heroImage, {
+          yPercent: -30 + (progress * 60),
+          scale: 1.2 - (progress * 0.3),
+          filter: `brightness(${0.7 + progress * 0.5}) contrast(${1.3 - progress * 0.3}) hue-rotate(${progress * 30}deg)`,
+        });
+      }
+    });
+    scrollTriggers.push(heroScrollTrigger);
+
+    // Animation des éléments de story
+    storyElementsRef.current.forEach((element, index) => {
+      if (!element) return;
+
+      const step = storySteps[index];
+      const isEven = index % 2 === 0;
+      
+      gsap.set(element, {
+        x: isEven ? -100 : 100,
+        opacity: 0,
+        scale: 0.8,
+        rotationY: isEven ? -15 : 15
+      });
+
+      const storyScrollTrigger = ScrollTrigger.create({
+        trigger: element,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          
+          gsap.set(element, {
+            x: (isEven ? -100 : 100) * (1 - progress),
+            opacity: progress,
+            scale: 0.8 + (progress * 0.2),
+            rotationY: (isEven ? -15 : 15) * (1 - progress)
+          });
+
+          // Effets spéciaux par étape
+          const imageElement = element.querySelector('.story-image') as HTMLElement;
+          if (imageElement && step?.effect) {
+            applyImageEffect(imageElement, step.effect, progress);
+          }
+        }
+      });
+      scrollTriggers.push(storyScrollTrigger);
+
+      // Animation continue sur hover
+      const handleMouseEnter = (): void => {
+        gsap.to(element.querySelector('.story-image'), {
+          scale: 1.05,
+          rotationZ: index % 2 === 0 ? 2 : -2,
+          duration: 0.6,
+          ease: "power2.out"
+        });
+      };
+
+      const handleMouseLeave = (): void => {
+        gsap.to(element.querySelector('.story-image'), {
+          scale: 1,
+          rotationZ: 0,
+          duration: 0.4,
+          ease: "power2.out"
+        });
+      };
+
+      element.addEventListener('mouseenter', handleMouseEnter);
+      element.addEventListener('mouseleave', handleMouseLeave);
+      
+      eventListeners.push(
+        { element, type: 'mouseenter', handler: handleMouseEnter },
+        { element, type: 'mouseleave', handler: handleMouseLeave }
+      );
+    });
+
+    // Cleanup function
+    return () => {
+      // Nettoyer tous les ScrollTriggers
+      scrollTriggers.forEach(trigger => trigger.kill());
+      
+      // Nettoyer tous les event listeners
+      eventListeners.forEach(({ element, type, handler }) => {
+        element.removeEventListener(type, handler);
+      });
+    };
+  }, [storySteps]);
+
   // Effet de souris pour l'image héro
   useEffect(() => {
-    if (!heroImageRef.current || !mousePosition) return;
+    const heroImage = heroImageRef.current;
+    if (!heroImage || !mousePosition) return;
     
     const intensity = 0.02;
     const x = (mousePosition.x - 50) * intensity;
     const y = (mousePosition.y - 50) * intensity;
     
-    gsap.to(heroImageRef.current, {
+    const mouseAnimation = gsap.to(heroImage, {
       x: x,
       y: y,
       duration: 2,
       ease: "power2.out"
     });
+
+    return () => {
+      mouseAnimation.kill();
+    };
   }, [mousePosition]);
 
   return (
@@ -212,7 +236,7 @@ const ExperienceSection = ({ id, scrollManagerRef }) => {
       {/* Image héro avec parallaxe */}
       <div className="experience-hero">
         <div 
-          className="hero-image"
+          className="hero-image optimized-image-container background-image"
           ref={heroImageRef}
           style={{ backgroundImage: `url(${image1})` }}
         />
@@ -230,7 +254,7 @@ const ExperienceSection = ({ id, scrollManagerRef }) => {
           <div 
             key={step.id}
             className={`story-step ${step.position}`}
-            ref={el => storyElementsRef.current[index] = el}
+            ref={el => { storyElementsRef.current[index] = el; }}
           >
             <div className="story-content">
               <div className="story-text">
@@ -241,9 +265,13 @@ const ExperienceSection = ({ id, scrollManagerRef }) => {
               </div>
               
               <div className="story-image-container">
-                <div 
+                <div
                   className="story-image"
-                  style={{ backgroundImage: `url(${step.image})` }}
+                  style={{ 
+                    backgroundImage: `url(${step.image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
                   data-effect={step.effect}
                 />
                 <div className="image-frame"></div>

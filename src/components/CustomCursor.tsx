@@ -1,19 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const CustomCursor = () => {
-  const crosshairRef = useRef(null);
-  const rectangleRef = useRef(null);
-  const [isFlashing, setIsFlashing] = useState(false);
+const CustomCursor: React.FC = () => {
+  const crosshairRef = useRef<HTMLDivElement | null>(null);
+  const rectangleRef = useRef<HTMLDivElement | null>(null);
+  const [isFlashing, setIsFlashing] = useState<boolean>(false);
 
   useEffect(() => {
-    let animationId;
+    let animationId: number;
     let mouseX = 0;
     let mouseY = 0;
     let rectX = 0;
     let rectY = 0;
     const smoothness = 0.1;
 
-    const updateCursorPosition = (e) => {
+    const updateCursorPosition = (e: MouseEvent): void => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       
@@ -24,7 +24,7 @@ const CustomCursor = () => {
       }
     };
 
-    const animateCursor = () => {
+    const animateCursor = (): void => {
       // Curseur principal (croix) suit exactement la souris
       if (crosshairRef.current) {
         crosshairRef.current.style.left = `${mouseX}px`;
@@ -45,7 +45,7 @@ const CustomCursor = () => {
       animationId = requestAnimationFrame(animateCursor);
     };
 
-    const hideCursor = () => {
+    const hideCursor = (): void => {
       if (crosshairRef.current) {
         crosshairRef.current.style.opacity = '0';
       }
@@ -69,22 +69,22 @@ const CustomCursor = () => {
   }, []);
 
   useEffect(() => {
-    const handleMouseEnter = () => {
+    const handleMouseEnter = (): void => {
       crosshairRef.current?.classList.add('hover');
       rectangleRef.current?.classList.add('hover');
     };
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = (): void => {
       crosshairRef.current?.classList.remove('hover');
       rectangleRef.current?.classList.remove('hover');
     };
 
-    const handleClick = () => {
+    const handleClick = (): void => {
       setIsFlashing(true);
       setTimeout(() => setIsFlashing(false), 150);
     };
 
-    const interactiveElements = document.querySelectorAll('a, button, .interactive');
+    const interactiveElements = document.querySelectorAll<HTMLElement>('a, button, .interactive');
     interactiveElements.forEach(el => {
       el.addEventListener('mouseenter', handleMouseEnter);
       el.addEventListener('mouseleave', handleMouseLeave);

@@ -4,42 +4,52 @@
  */
 
 :root {
-  /* Couleurs principales */
-  --color-primary: #1EB900;
-  --color-primary-light: #4CAF50;
-  --color-primary-lighter: #81C784;
-  --color-primary-dark: #0F5D00;
-
-  /* Couleurs neutres */
-  --color-white: #ffffff;
+  /* Professional Monochrome Palette */
   --color-black: #000000;
-  --color-gray-50: #fafafa;
+  --color-gray-900: #111111;
+  --color-gray-800: #1a1a1a;
+  --color-gray-700: #2a2a2a;
+  --color-gray-600: #404040;
+  --color-gray-500: #666666;
+  --color-gray-400: #999999;
+  --color-gray-300: #cccccc;
+  --color-gray-200: #e6e6e6;
   --color-gray-100: #f5f5f5;
-  --color-gray-200: #eeeeee;
-  --color-gray-300: #e0e0e0;
-  --color-gray-400: #bdbdbd;
-  --color-gray-500: #9e9e9e;
-  --color-gray-600: #757575;
-  --color-gray-700: #616161;
-  --color-gray-800: #424242;
-  --color-gray-900: #212121;
+  --color-gray-50: #fafafa;
+  --color-white: #ffffff;
   
-  /* Couleurs de texte */
-  --color-text-dark: #000000;
-  --color-text-light: #ffffff;
+  /* Strategic Green (Selection/Active only) */
+  --color-accent-primary: #1EB900;
+  --color-accent-light: #4CAF50;
+  --color-accent-dark: #0F5D00;
   
-  /* Couleurs avec transparence */
-  --color-primary-alpha: rgba(30, 185, 0, 0.8);
-  --color-gray-alpha: rgba(0, 0, 0, 0.1);
-  --color-white-alpha: rgba(255, 255, 255, 0.1);
+  /* Traditional Color System (Working) */
+  --color-text-dark: var(--color-gray-800);
+  --color-text-light: var(--color-white);
+  
+  /* Semantic Colors - Light Theme (Default) */
+  --color-text-primary: var(--color-gray-800);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-muted: var(--color-gray-500);
+  --color-text-inverse: var(--color-white);
+  --color-background-primary: var(--color-white);
+  --color-background-secondary: var(--color-gray-50);
+  --color-background-section: var(--color-gray-50);
+  --color-border: var(--color-gray-200);
+  --color-border-light: var(--color-gray-100);
+  
+  /* Transparent Overlays */
+  --color-overlay-light: rgba(255, 255, 255, 0.1);
+  --color-overlay-dark: rgba(0, 0, 0, 0.1);
+  --color-overlay-medium: rgba(0, 0, 0, 0.5);
+  --color-overlay-heavy: rgba(0, 0, 0, 0.8);
 
-  /* Couleurs de fond */
-
-  /* États */
-  --color-hover: rgba(30, 185, 0, 0.1);
-  --color-focus: rgba(30, 185, 0, 0.2);
-  --color-active: #1EB900;
-  --color-disabled: #e0e0e0;
+  /* Interactive States */
+  --color-hover: var(--color-gray-100);
+  --color-hover-dark: var(--color-gray-800);
+  --color-focus: var(--color-gray-200);
+  --color-active: var(--color-accent-primary);
+  --color-disabled: var(--color-gray-300);
 
   /* Espacements */
   --spacing-xs: 4px;
@@ -67,8 +77,11 @@
   --font-size-xxxl: 48px;
   --font-size-display: 120px;
 
+  /* Font Variable Pathway Extreme - Optimisé pour photographie */
+  --font-weight-light: 400;
   --font-weight-normal: 500;
   --font-weight-medium: 600;
+  --font-weight-semibold: 700;
   --font-weight-bold: 800;
   --font-weight-black: 900;
 
@@ -76,30 +89,39 @@
   --letter-spacing-normal: 0.3em;
   --letter-spacing-wide: 0.4em;
 
-  /* Styles harmonisés pour tous les titres */
-  --title-main-size: clamp(3rem, 6vw, 6rem);
-  --title-section-size: clamp(2rem, 4vw, 3.5rem);
-  --title-sub-size: var(--font-size-xl);
-  --text-body-size: clamp(1.125rem, 2vw, 1.5rem);
+  /* Tailles conventionnelles avec hiérarchie par font-weight */
+  --title-main-size: clamp(2.5rem, 5vw, 4.5rem);
+  --title-section-size: clamp(2rem, 4vw, 3rem);
+  --title-sub-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  --text-body-size: clamp(1.125rem, 2vw, 1.375rem);
   --text-caption-size: var(--font-size-sm);
   
-  /* Styles uniformes pour les titres H2 */
-  --h2-font-size: clamp(1.5rem, 3vw, 2.5rem);
-  --h2-font-weight: var(--font-weight-black);
+  /* Typography Styles - Professional & Clean */
+  --h1-font-size: var(--title-main-size);
+  --h1-font-weight: var(--font-weight-black);
+  --h1-color: var(--color-text-primary);
+  --h1-letter-spacing: var(--letter-spacing-tight);
+  
+  --h2-font-size: var(--title-section-size);
+  --h2-font-weight: var(--font-weight-semibold);
+  --h2-color: var(--color-text-primary);
   --h2-letter-spacing: var(--letter-spacing-normal);
   --h2-text-transform: uppercase;
   --h2-margin-bottom: var(--spacing-xl);
-  --h2-color: var(--color-primary);
   
-  /* Styles uniformes pour les paragraphes */
+  --h3-font-size: var(--title-sub-size);
+  --h3-font-weight: var(--font-weight-medium);
+  --h3-color: var(--color-text-primary);
+  --h3-letter-spacing: var(--letter-spacing-normal);
+  --h3-text-transform: uppercase;
+  --h3-margin-bottom: var(--spacing-md);
+  
   --p-font-size: var(--text-body-size);
   --p-font-weight: var(--font-weight-normal);
   --p-line-height: 1.6;
   --p-margin-bottom: var(--spacing-lg);
-  --p-color: var(--color-gray-700);
-  --p-color-dark: var(--color-gray-200);
+  --p-color: var(--color-text-secondary);
   --p-letter-spacing: 0.02em;
-  --p-text-transform: uppercase;
 
   /* Animations */
   --duration-fast: 0.15s;
@@ -129,7 +151,7 @@
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
   --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.2);
   --shadow-logo: 0 8px 16px rgba(0, 0, 0, 0.15);
-  --shadow-focus: 0 0 20px rgba(30, 185, 0, 0.3);
+  --shadow-focus: 0 0 20px rgba(0, 0, 0, 0.1);
 
   /* Breakpoints (utilisés via @media) */
   --breakpoint-mobile: 320px;
@@ -140,4 +162,39 @@
   /* Position de la souris (mis à jour par JS) */
   --mouse-x: 50%;
   --mouse-y: 50%;
+}
+
+/* Dark Theme Overrides - Applied to body */
+body.dark-theme {
+  /* Traditional Color System - Dark Theme */
+  --color-text-dark: var(--color-white);
+  --color-text-light: var(--color-white);
+  
+  /* Semantic Colors - Dark Theme */
+  --color-text-primary: var(--color-white);
+  --color-text-secondary: var(--color-gray-300);
+  --color-text-muted: var(--color-gray-400);
+  --color-text-inverse: var(--color-gray-800);
+  --color-background-primary: var(--color-gray-900);
+  --color-background-secondary: var(--color-gray-800);
+  --color-background-section: var(--color-gray-800);
+  --color-border: var(--color-gray-700);
+  --color-border-light: var(--color-gray-600);
+  
+  /* Interactive States - Dark Theme */
+  --color-hover: var(--color-gray-800);
+  --color-hover-dark: var(--color-gray-700);
+  --color-focus: var(--color-gray-700);
+  
+  /* Typography Colors - Dark Theme */
+  --h1-color: var(--color-text-primary);
+  --h2-color: var(--color-text-primary);
+  --h3-color: var(--color-text-primary);
+  --p-color: var(--color-text-secondary);
+  
+  /* Shadows - Dark Theme */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.6);
 }
