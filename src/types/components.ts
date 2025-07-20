@@ -11,7 +11,8 @@ export interface PortfolioProject {
   id: number;
   title: string;
   category: string;
-  image: string;
+  image: string; // Image principale pour la grille
+  images: string[]; // Toutes les images du projet
   description: string;
   year: number;
   tags: string[];

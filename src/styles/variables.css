@@ -43,6 +43,9 @@
   --color-overlay-dark: rgba(0, 0, 0, 0.1);
   --color-overlay-medium: rgba(0, 0, 0, 0.5);
   --color-overlay-heavy: rgba(0, 0, 0, 0.8);
+  
+  /* Perforation colors pour portfolio grid */
+  --perforation-color: rgba(0, 0, 0, 0.1);
 
   /* Interactive States */
   --color-hover: var(--color-gray-100);
@@ -65,17 +68,21 @@
   --section-margin-large: 300px;
   --header-height: 80px;
   --header-padding: 20px 40px;
+  
+  /* Espacements standardisés entre sections - augmentés pour plus de respiration */
+  --section-padding-top: 120px;
+  --section-padding-bottom: 120px;
+  --section-padding-horizontal: var(--spacing-xl);
+  
+  /* Shorthand pour padding complet des sections */
+  --section-padding: var(--section-padding-top) var(--section-padding-horizontal) var(--section-padding-bottom) var(--section-padding-horizontal);
+  
+  /* Responsive section spacing */
+  --section-padding-mobile: 80px var(--spacing-lg);
+  --section-padding-small: 60px var(--spacing-md);
 
-  /* Typographie harmonisée */
+  /* Typographie harmonisée - Police unique */
   --font-family: 'Pathway Extreme', sans-serif;
-  --font-size-xs: 12px;
-  --font-size-sm: 14px;
-  --font-size-md: 16px;
-  --font-size-lg: 18px;
-  --font-size-xl: 24px;
-  --font-size-xxl: 32px;
-  --font-size-xxxl: 48px;
-  --font-size-display: 120px;
 
   /* Font Variable Pathway Extreme - Optimisé pour photographie */
   --font-weight-light: 400;
@@ -89,39 +96,57 @@
   --letter-spacing-normal: 0.3em;
   --letter-spacing-wide: 0.4em;
 
-  /* Tailles conventionnelles avec hiérarchie par font-weight */
-  --title-main-size: clamp(2.5rem, 5vw, 4.5rem);
-  --title-section-size: clamp(2rem, 4vw, 3rem);
-  --title-sub-size: clamp(1.25rem, 2.5vw, 1.75rem);
-  --text-body-size: clamp(1.125rem, 2vw, 1.375rem);
-  --text-caption-size: var(--font-size-sm);
+  /* Système typographique professionnel unifié */
+  --type-display: clamp(2.5rem, 5vw, 4.5rem);    /* H1 - Titres principaux */
+  --type-heading: clamp(2rem, 4vw, 3rem);        /* H2 - Titres sections */
+  --type-subheading: clamp(1.25rem, 2.5vw, 1.75rem); /* H3 - Sous-titres */
+  --type-body: clamp(1rem, 1.8vw, 1.125rem);     /* H4/P - Texte principal */
+  --type-small: clamp(0.875rem, 1.5vw, 0.9375rem); /* Texte secondaire */
+  --type-caption: clamp(0.75rem, 1.2vw, 0.8125rem);  /* Annotations */
   
-  /* Typography Styles - Professional & Clean */
-  --h1-font-size: var(--title-main-size);
+  /* Hiérarchie typographique unifiée */
+  --h1-font-size: var(--type-display);
   --h1-font-weight: var(--font-weight-black);
   --h1-color: var(--color-text-primary);
   --h1-letter-spacing: var(--letter-spacing-tight);
+  --h1-text-transform: uppercase;
+  --h1-margin-bottom: var(--spacing-xl);
   
-  --h2-font-size: var(--title-section-size);
-  --h2-font-weight: var(--font-weight-semibold);
+  --h2-font-size: var(--type-heading);
+  --h2-font-weight: var(--font-weight-bold);
   --h2-color: var(--color-text-primary);
   --h2-letter-spacing: var(--letter-spacing-normal);
   --h2-text-transform: uppercase;
   --h2-margin-bottom: var(--spacing-xl);
   
-  --h3-font-size: var(--title-sub-size);
-  --h3-font-weight: var(--font-weight-medium);
+  --h3-font-size: var(--type-subheading);
+  --h3-font-weight: var(--font-weight-semibold);
   --h3-color: var(--color-text-primary);
   --h3-letter-spacing: var(--letter-spacing-normal);
   --h3-text-transform: uppercase;
-  --h3-margin-bottom: var(--spacing-md);
+  --h3-margin-bottom: var(--spacing-lg);
   
-  --p-font-size: var(--text-body-size);
+  --h4-font-size: var(--type-body);
+  --h4-font-weight: var(--font-weight-medium);
+  --h4-color: var(--color-text-secondary);
+  --h4-letter-spacing: var(--letter-spacing-tight);
+  --h4-text-transform: none;
+  --h4-margin-bottom: var(--spacing-md);
+  
+  --p-font-size: var(--type-body);
   --p-font-weight: var(--font-weight-normal);
   --p-line-height: 1.6;
   --p-margin-bottom: var(--spacing-lg);
   --p-color: var(--color-text-secondary);
   --p-letter-spacing: 0.02em;
+  
+  --small-font-size: var(--type-small);
+  --small-font-weight: var(--font-weight-normal);
+  --small-color: var(--color-text-muted);
+  
+  --caption-font-size: var(--type-caption);
+  --caption-font-weight: var(--font-weight-normal);
+  --caption-color: var(--color-text-muted);
 
   /* Animations */
   --duration-fast: 0.15s;
@@ -133,6 +158,35 @@
   --easing-ease: cubic-bezier(0.23, 1, 0.32, 1);
   --easing-ease-out: cubic-bezier(0.02, 0.4, 0.05, 1);
   --easing-bounce: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  /* Système de boutons carrés unifié */
+  --btn-border-radius: 0px; /* Boutons parfaitement carrés */
+  --btn-border-width: 2px;
+  --btn-font-family: var(--font-family);
+  --btn-font-weight: var(--font-weight-medium);
+  --btn-font-size: var(--type-body);
+  --btn-text-transform: uppercase;
+  --btn-letter-spacing: var(--letter-spacing-tight);
+  --btn-transition: all var(--duration-normal) var(--easing-ease);
+  
+  /* Tailles de boutons */
+  --btn-padding-sm: var(--spacing-sm) var(--spacing-md);
+  --btn-padding-md: var(--spacing-md) var(--spacing-xl);
+  --btn-padding-lg: var(--spacing-lg) var(--spacing-xxl);
+  --btn-min-height: 44px; /* Accessibilité */
+  
+  /* Couleurs de boutons */
+  --btn-primary-bg: var(--color-accent-primary);
+  --btn-primary-color: var(--color-black);
+  --btn-primary-border: var(--color-accent-primary);
+  
+  --btn-secondary-bg: transparent;
+  --btn-secondary-color: var(--color-text-primary);
+  --btn-secondary-border: var(--color-border);
+  
+  --btn-ghost-bg: transparent;
+  --btn-ghost-color: var(--color-text-secondary);
+  --btn-ghost-border: transparent;
 
   /* Z-index */
   --z-base: 1;
@@ -190,11 +244,17 @@ body.dark-theme {
   --h1-color: var(--color-text-primary);
   --h2-color: var(--color-text-primary);
   --h3-color: var(--color-text-primary);
+  --h4-color: var(--color-text-secondary);
   --p-color: var(--color-text-secondary);
+  --small-color: var(--color-text-muted);
+  --caption-color: var(--color-text-muted);
   
   /* Shadows - Dark Theme */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
   --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.6);
+  
+  /* Perforation colors - Dark Theme */
+  --perforation-color: rgba(255, 255, 255, 0.1);
 }

@@ -41,7 +41,7 @@
 }
 
 .scroll-text {
-  font-size: var(--font-size-xs);
+  font-size: var(--type-caption);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--letter-spacing-wide);
   color: var(--color-gray-800);
@@ -321,7 +321,7 @@ body.dark-theme .parallax-gallery-image {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--spacing-xxxl) 0;
+  padding: var(--section-padding);
 }
 
 .presentation-content {
@@ -380,7 +380,7 @@ body.dark-theme .presentation-title {
 
 .location-text {
   color: var(--color-gray-300);
-  font-size: var(--font-size-sm);
+  font-size: var(--type-small);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--letter-spacing-normal);
   text-transform: uppercase;
@@ -397,7 +397,7 @@ body.dark-theme .location-text {
 
 .text-content {
   color: var(--color-white);
-  font-size: var(--text-body-size);
+  font-size: var(--type-body);
   line-height: 1.6;
   letter-spacing: 0.1em;
   font-weight: var(--font-weight-normal);
@@ -506,8 +506,12 @@ body.dark-theme .text-content .letter.active {
     width: 150px;
   }
   
+  .presentation-section {
+    padding: var(--section-padding-mobile);
+  }
+  
   .presentation-content {
-    padding: 0 var(--spacing-lg);
+    padding: 0;
   }
   
   .text-wrapper {
@@ -527,6 +531,10 @@ body.dark-theme .text-content .letter.active {
 @media (max-width: 480px) {
   .main-logo {
     width: 120px;
+  }
+  
+  .presentation-section {
+    padding: var(--section-padding-small);
   }
   
   .scroll-indicator {

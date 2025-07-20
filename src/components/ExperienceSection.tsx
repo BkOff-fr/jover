@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useAppMouse } from '../context/AppContext';
-import { CommonSectionProps, StoryStep, ImageEffect } from '../types/components';
+import { useAppContext } from '../context/AppContext';
+import { CommonSectionProps } from '../types/components';
 import image1 from '../assets/parallaxe/1.jpg';
 import image2 from '../assets/parallaxe/2.jpg';
 import image3 from '../assets/parallaxe/3.jpg';
@@ -10,285 +10,203 @@ import image4 from '../assets/parallaxe/4.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
+interface EmotionalMoment {
+  id: number;
+  emotion: string;
+  title: string;
+  description: string;
+  clientQuote: string;
+  clientName: string;
+  image: string;
+  feeling: string;
+}
+
+
 const ExperienceSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }) => {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const heroImageRef = useRef<HTMLDivElement | null>(null);
-  const storyElementsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const { mousePosition } = useAppMouse();
+  const [activeEmotion, setActiveEmotion] = useState<number>(0);
+  const { scrollProgress } = useAppContext();
   
-  // Image héro optimisée avec le système BackgroundImage
-
-  // Données de storytelling par étapes (memoized pour éviter les re-renders)
-  const storySteps = useMemo<StoryStep[]>(() => [
+  // Moments émotionnels d'une séance photo
+  const emotionalMoments = useMemo<EmotionalMoment[]>(() => [
+    {
+      id: 0,
+      emotion: "CONSULTATION",
+      title: "\"Préparation personnalisée\"",
+      description: "Discussion de vos objectifs et préparation de la séance selon vos besoins. Définition du style et de l'ambiance désirés.",
+      clientQuote: "Jover a pris le temps de comprendre exactement ce que je recherchais pour mes photos professionnelles.",
+      clientName: "Sarah, dirigeante d'entreprise",
+      image: image1,
+      feeling: "Préparation sur-mesure"
+    },
     {
       id: 1,
-      title: "LE PREMIER REGARD",
-      subtitle: "Capturer l'émotion brute",
-      description: "Chaque séance commence par ce moment magique où le regard révèle l'âme. C'est dans cette fraction de seconde que naît l'authenticité.",
-      image: image1,
-      position: "left",
-      effect: "glitch"
+      emotion: "SHOOTING",
+      title: "\"Ambiance professionnelle et détendue\"",
+      description: "Prise de vue dans un environnement professionnel avec un éclairage optimal. Direction artistique pour des poses naturelles et authentiques.",
+      clientQuote: "L'atmosphère était détendue tout en restant très professionnelle. Les résultats dépassent mes attentes.",
+      clientName: "Marie, artiste", 
+      image: image2,
+      feeling: "Professionnalisme et qualité"
     },
     {
       id: 2,
-      title: "LA COMPOSITION",
-      subtitle: "Sculpter la lumière",
-      description: "L'art de la photographie réside dans l'équilibre parfait entre ombre et lumière, créant une harmonie visuelle qui transcende le réel.",
-      image: image2,
-      position: "right",
-      effect: "distortion"
+      emotion: "POST-PRODUCTION",
+      title: "\"Finition professionnelle\"",
+      description: "Retouche et post-production soignées pour optimiser chaque image. Sélection des meilleures photos selon vos besoins.",
+      clientQuote: "Le travail de post-production est remarquable. Chaque détail est soigné sans perdre le naturel.",
+      clientName: "Elena, consultante",
+      image: image3,
+      feeling: "Excellence technique"
     },
     {
       id: 3,
-      title: "L'INSTANT DÉCISIF",
-      subtitle: "Saisir l'éphémère",
-      description: "Ce moment unique où tous les éléments s'alignent. Technique, émotion et vision artistique fusionnent pour créer l'image parfaite.",
-      image: image3,
-      position: "center",
-      effect: "chromatic"
-    },
-    {
-      id: 4,
-      title: "LA RÉVÉLATION",
-      subtitle: "Donner vie à l'image",
-      description: "Le post-traitement est un art à part entière. Chaque retouche révèle une nouvelle dimension, transformant la photographie en œuvre d'art.",
+      emotion: "LIVRAISON",
+      title: "\"Résultats qui dépassent les attentes\"",
+      description: "Livraison de vos images en haute qualité, prêtes pour tous vos usages : réseaux sociaux, site web, supports print.",
+      clientQuote: "J'utilise ces photos depuis des mois pour ma communication d'entreprise. Elles me représentent parfaitement.",
+      clientName: "Carla, entrepreneuse",
       image: image4,
-      position: "left",
-      effect: "prism"
+      feeling: "Satisfaction client"
     }
   ], []);
 
-  // Effets visuels par type
-  const applyImageEffect = (element: HTMLElement, effect: ImageEffect, progress: number): void => {
-    const intensity = Math.sin(progress * Math.PI) * 0.5 + 0.5;
-    
-    switch (effect) {
-      case 'glitch':
-        gsap.set(element, {
-          filter: `contrast(${1 + intensity * 0.5}) saturate(${1 + intensity}) hue-rotate(${intensity * 10}deg)`,
-          x: intensity * 2 * Math.sin(Date.now() * 0.01),
-        });
-        break;
-        
-      case 'distortion':
-        gsap.set(element, {
-          filter: `blur(${intensity * 0.5}px) contrast(${1 + intensity * 0.3})`,
-          scaleY: 1 + intensity * 0.1,
-          skewX: intensity * 2
-        });
-        break;
-        
-      case 'chromatic':
-        gsap.set(element, {
-          filter: `sepia(${intensity * 0.3}) hue-rotate(${intensity * 45}deg) saturate(${1 + intensity})`,
-        });
-        break;
-        
-      case 'prism':
-        gsap.set(element, {
-          filter: `contrast(${1 + intensity * 0.4}) brightness(${1 + intensity * 0.2}) saturate(${1 + intensity * 0.5})`,
-          background: `linear-gradient(${intensity * 180}deg, rgba(255,0,255,0.1), rgba(0,255,255,0.1))`
-        });
-        break;
-        
-      default:
-        break;
-    }
-  };
 
-  // Animation principale avec cleanup approprié
+  // Animations GSAP
   useEffect(() => {
     const section = sectionRef.current;
-    const heroImage = heroImageRef.current;
-    
-    if (!section || !heroImage) return;
+    if (!section) return;
 
-    // Stocker les références pour cleanup
-    const scrollTriggers: ScrollTrigger[] = [];
-    const eventListeners: { element: Element; type: string; handler: EventListener }[] = [];
+    const animations: gsap.core.Timeline[] = [];
 
-    // Animation de l'image héro avec distortion
-    gsap.set(heroImage, { 
-      scale: 1.2, 
-      filter: "brightness(0.7) contrast(1.3)",
-    });
-
-    const heroScrollTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: 1,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        
-        // Effet de parallaxe et distortion sur l'image héro
-        gsap.set(heroImage, {
-          yPercent: -30 + (progress * 60),
-          scale: 1.2 - (progress * 0.3),
-          filter: `brightness(${0.7 + progress * 0.5}) contrast(${1.3 - progress * 0.3}) hue-rotate(${progress * 30}deg)`,
+    // Animation des moments émotionnels
+    emotionalMoments.forEach((_, index) => {
+      const momentElement = section.querySelector(`[data-emotion="${index}"]`);
+      if (momentElement) {
+        const emotionTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: momentElement,
+            start: "top 60%",
+            end: "bottom 40%",
+            onEnter: () => setActiveEmotion(index),
+            onEnterBack: () => setActiveEmotion(index)
+          }
         });
+
+        emotionTl.fromTo(momentElement,
+          { opacity: 0, y: 80, scale: 0.9 },
+          { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out" }
+        );
+
+        animations.push(emotionTl);
       }
     });
-    scrollTriggers.push(heroScrollTrigger);
 
-    // Animation des éléments de story
-    storyElementsRef.current.forEach((element, index) => {
-      if (!element) return;
-
-      const step = storySteps[index];
-      const isEven = index % 2 === 0;
-      
-      gsap.set(element, {
-        x: isEven ? -100 : 100,
-        opacity: 0,
-        scale: 0.8,
-        rotationY: isEven ? -15 : 15
+    // Animation des quotes flottantes
+    const quotes = section.querySelectorAll('.floating-quote');
+    quotes.forEach((quote, index) => {
+      gsap.set(quote, {
+        y: -30 + (index * 20),
+        opacity: 0.7,
+        scale: 0.9 + (index * 0.05)
       });
 
-      const storyScrollTrigger = ScrollTrigger.create({
-        trigger: element,
-        start: "top 80%",
-        end: "bottom 20%",
-        scrub: 1,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          
-          gsap.set(element, {
-            x: (isEven ? -100 : 100) * (1 - progress),
-            opacity: progress,
-            scale: 0.8 + (progress * 0.2),
-            rotationY: (isEven ? -15 : 15) * (1 - progress)
-          });
-
-          // Effets spéciaux par étape
-          const imageElement = element.querySelector('.story-image') as HTMLElement;
-          if (imageElement && step?.effect) {
-            applyImageEffect(imageElement, step.effect, progress);
-          }
+      const quoteTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: quote,
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: 1
         }
       });
-      scrollTriggers.push(storyScrollTrigger);
 
-      // Animation continue sur hover
-      const handleMouseEnter = (): void => {
-        gsap.to(element.querySelector('.story-image'), {
-          scale: 1.05,
-          rotationZ: index % 2 === 0 ? 2 : -2,
-          duration: 0.6,
-          ease: "power2.out"
-        });
-      };
-
-      const handleMouseLeave = (): void => {
-        gsap.to(element.querySelector('.story-image'), {
-          scale: 1,
-          rotationZ: 0,
-          duration: 0.4,
-          ease: "power2.out"
-        });
-      };
-
-      element.addEventListener('mouseenter', handleMouseEnter);
-      element.addEventListener('mouseleave', handleMouseLeave);
-      
-      eventListeners.push(
-        { element, type: 'mouseenter', handler: handleMouseEnter },
-        { element, type: 'mouseleave', handler: handleMouseLeave }
-      );
-    });
-
-    // Cleanup function
-    return () => {
-      // Nettoyer tous les ScrollTriggers
-      scrollTriggers.forEach(trigger => trigger.kill());
-      
-      // Nettoyer tous les event listeners
-      eventListeners.forEach(({ element, type, handler }) => {
-        element.removeEventListener(type, handler);
+      quoteTl.to(quote, {
+        y: 30 - (index * 15),
+        opacity: 1,
+        scale: 1,
+        duration: 2,
+        ease: "none"
       });
-    };
-  }, [storySteps]);
 
-  // Effet de souris pour l'image héro
-  useEffect(() => {
-    const heroImage = heroImageRef.current;
-    if (!heroImage || !mousePosition) return;
-    
-    const intensity = 0.02;
-    const x = (mousePosition.x - 50) * intensity;
-    const y = (mousePosition.y - 50) * intensity;
-    
-    const mouseAnimation = gsap.to(heroImage, {
-      x: x,
-      y: y,
-      duration: 2,
-      ease: "power2.out"
+      animations.push(quoteTl);
     });
 
     return () => {
-      mouseAnimation.kill();
+      animations.forEach(animation => animation.kill());
     };
-  }, [mousePosition]);
+  }, [emotionalMoments]);
 
   return (
-    <section id={id} className="experience-section immersive-experience" ref={sectionRef}>
+    <section id={id} className="experience-section-emotional" ref={sectionRef}>
       
-      {/* Image héro avec parallaxe */}
-      <div className="experience-hero">
-        <div 
-          className="hero-image optimized-image-container background-image"
-          ref={heroImageRef}
-          style={{ backgroundImage: `url(${image1})` }}
-        />
-        <div className="hero-overlay">
-          <div className="hero-content">
-            <h2 className="hero-title">L'EXPÉRIENCE</h2>
-            <p className="hero-subtitle">Au-delà de la technique, l'art de capturer l'émotion</p>
+      {/* Hero Émotionnel */}
+      <div className="emotional-hero">
+        <div className="hero-atmosphere">
+          <div className="floating-emotions">
+            <span className="emotion-word" style={{ "--delay": "0s" } as React.CSSProperties}>Révélation</span>
+            <span className="emotion-word" style={{ "--delay": "2s" } as React.CSSProperties}>Confiance</span>
+            <span className="emotion-word" style={{ "--delay": "4s" } as React.CSSProperties}>Beauté</span>
+            <span className="emotion-word" style={{ "--delay": "6s" } as React.CSSProperties}>Authenticité</span>
+            <span className="emotion-word" style={{ "--delay": "8s" } as React.CSSProperties}>Transformation</span>
           </div>
+        </div>
+        
+        <div className="hero-content-emotional">
+          <h2 className="emotional-title">
+            L'EXPÉRIENCE 
+            <span className="title-highlight">PHOTOGRAPHIQUE</span>
+          </h2>
+          <p className="emotional-subtitle">
+            Créons ensemble des souvenirs uniques et professionnels. 
+            Des images qui reflètent votre authenticité.
+          </p>
+          
         </div>
       </div>
 
-      {/* Storytelling par scroll */}
-      <div className="story-container">
-        {storySteps.map((step, index) => (
-          <div 
-            key={step.id}
-            className={`story-step ${step.position}`}
-            ref={el => { storyElementsRef.current[index] = el; }}
-          >
-            <div className="story-content">
-              <div className="story-text">
-                <span className="story-number">0{step.id}</span>
-                <h3 className="story-title">{step.title}</h3>
-                <h4 className="story-subtitle">{step.subtitle}</h4>
-                <p className="story-description">{step.description}</p>
+      {/* Parcours Émotionnel */}
+      <div className="emotional-journey">
+        <div className="journey-header">
+          <h3 className="section-title-emotional">DÉROULEMENT D'UNE SÉANCE</h3>
+          <p className="section-subtitle-emotional">
+            Découvrez comment se déroule une séance photo professionnelle
+          </p>
+        </div>
+
+        <div className="emotions-timeline">
+          {emotionalMoments.map((moment, index) => (
+            <div 
+              key={moment.id}
+              className={`emotion-moment ${activeEmotion === index ? 'active' : ''}`}
+              data-emotion={index}
+            >
+              <div className="moment-visual">
+                <div 
+                  className="moment-image"
+                  style={{ backgroundImage: `url(${moment.image})` }}
+                >
+                  <div className="image-glow"></div>
+                </div>
+                <div className="emotion-badge">{moment.emotion}</div>
               </div>
-              
-              <div className="story-image-container">
-                <div
-                  className="story-image"
-                  style={{ 
-                    backgroundImage: `url(${step.image})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                  data-effect={step.effect}
-                />
-                <div className="image-frame"></div>
+
+              <div className="moment-content">
+                <div className="feeling-tag">{moment.feeling}</div>
+                <h4 className="moment-title">{moment.title}</h4>
+                <p className="moment-description">{moment.description}</p>
+                
+                <blockquote className="client-testimonial">
+                  <p className="testimonial-quote">"{moment.clientQuote}"</p>
+                  <cite className="testimonial-author">— {moment.clientName}</cite>
+                </blockquote>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Effet de transition finale */}
-      <div className="experience-outro">
-        <div className="outro-content">
-          <h3>CHAQUE IMAGE RACONTE UNE HISTOIRE</h3>
-          <p>L'expérience photographique va au-delà de la simple capture. C'est un voyage émotionnel partagé entre l'artiste et son sujet.</p>
+          ))}
         </div>
       </div>
-      
+
+
+
     </section>
   );
 };

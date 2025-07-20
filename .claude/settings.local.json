@@ -24,7 +24,9 @@
       "Bash(timeout 5 npm start)",
       "Bash(del:*)",
       "Bash(npm run:*)",
-      "Bash(tail:*)"
+      "Bash(tail:*)",
+      "Bash(npx tsc:*)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }
