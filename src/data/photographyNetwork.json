@@ -1,0 +1,185 @@
+{
+  "nodes": [
+    {
+      "id": "ansel-adams",
+      "type": "photographer",
+      "name": "Ansel Adams",
+      "metadata": {
+        "year": 1902,
+        "movement": "Straight Photography",
+        "nationality": "American",
+        "imageUrl": "/images/photographers/ansel-adams.jpg"
+      },
+      "color": "#ff6b35",
+      "size": 8
+    },
+    {
+      "id": "henri-cartier-bresson",
+      "type": "photographer", 
+      "name": "Henri Cartier-Bresson",
+      "metadata": {
+        "year": 1908,
+        "movement": "Street Photography",
+        "nationality": "French",
+        "imageUrl": "/images/photographers/cartier-bresson.jpg"
+      },
+      "color": "#ff6b35",
+      "size": 8
+    },
+    {
+      "id": "vivian-maier",
+      "type": "photographer",
+      "name": "Vivian Maier", 
+      "metadata": {
+        "year": 1926,
+        "movement": "Street Photography",
+        "nationality": "American",
+        "imageUrl": "/images/photographers/vivian-maier.jpg"
+      },
+      "color": "#ff6b35",
+      "size": 7
+    },
+    {
+      "id": "moonrise-hernandez",
+      "type": "photograph",
+      "name": "Moonrise, Hernandez",
+      "metadata": {
+        "year": 1941,
+        "imageUrl": "/images/works/moonrise-hernandez.jpg"
+      },
+      "color": "#4ecdc4",
+      "size": 6
+    },
+    {
+      "id": "decisive-moment",
+      "type": "photograph",
+      "name": "The Decisive Moment",
+      "metadata": {
+        "year": 1952,
+        "imageUrl": "/images/works/decisive-moment.jpg"
+      },
+      "color": "#4ecdc4", 
+      "size": 6
+    },
+    {
+      "id": "chicago-street",
+      "type": "photograph",
+      "name": "Chicago Street Scene",
+      "metadata": {
+        "year": 1956,
+        "imageUrl": "/images/works/chicago-street.jpg"
+      },
+      "color": "#4ecdc4",
+      "size": 5
+    },
+    {
+      "id": "moma",
+      "type": "institution",
+      "name": "Museum of Modern Art",
+      "metadata": {
+        "year": 1929,
+        "location": "New York"
+      },
+      "color": "#95e1d3", 
+      "size": 10
+    },
+    {
+      "id": "centre-pompidou",
+      "type": "institution",
+      "name": "Centre Pompidou",
+      "metadata": {
+        "year": 1977,
+        "location": "Paris"
+      },
+      "color": "#95e1d3",
+      "size": 9
+    },
+    {
+      "id": "john-szarkowski",
+      "type": "collector",
+      "name": "John Szarkowski",
+      "metadata": {
+        "year": 1925,
+        "role": "Curator, MoMA"
+      },
+      "color": "#feca57",
+      "size": 7
+    },
+    {
+      "id": "maloof-estate",
+      "type": "collector", 
+      "name": "John Maloof",
+      "metadata": {
+        "year": 1976,
+        "role": "Discoverer of Vivian Maier"
+      },
+      "color": "#feca57",
+      "size": 6
+    }
+  ],
+  "links": [
+    {
+      "source": "ansel-adams",
+      "target": "moonrise-hernandez",
+      "type": "creation",
+      "strength": 1.0,
+      "year": 1941
+    },
+    {
+      "source": "henri-cartier-bresson",
+      "target": "decisive-moment",
+      "type": "creation", 
+      "strength": 1.0,
+      "year": 1952
+    },
+    {
+      "source": "vivian-maier",
+      "target": "chicago-street",
+      "type": "creation",
+      "strength": 1.0,
+      "year": 1956
+    },
+    {
+      "source": "moonrise-hernandez",
+      "target": "moma",
+      "type": "acquisition",
+      "strength": 0.8,
+      "year": 1968
+    },
+    {
+      "source": "decisive-moment",
+      "target": "centre-pompidou",
+      "type": "exhibition",
+      "strength": 0.7,
+      "year": 1981
+    },
+    {
+      "source": "chicago-street",
+      "target": "maloof-estate",
+      "type": "acquisition",
+      "strength": 0.9,
+      "year": 2007
+    },
+    {
+      "source": "john-szarkowski",
+      "target": "moma",
+      "type": "curatorial",
+      "strength": 0.9,
+      "year": 1962
+    },
+    {
+      "source": "ansel-adams",
+      "target": "john-szarkowski", 
+      "type": "influence",
+      "strength": 0.6,
+      "year": 1960
+    },
+    {
+      "source": "henri-cartier-bresson",
+      "target": "vivian-maier",
+      "type": "influence",
+      "strength": 0.5,
+      "year": 1950
+    }
+  ]
+}

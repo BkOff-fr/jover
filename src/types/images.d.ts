@@ -1,3 +1,15 @@
+// Type declarations for image imports in Next.js
+
+declare module '*.svg' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.png' {
+  const src: string;
+  export default src;
+}
+
 declare module '*.jpg' {
   const src: string;
   export default src;
@@ -8,22 +20,22 @@ declare module '*.jpeg' {
   export default src;
 }
 
-declare module '*.png' {
-  const src: string;
-  export default src;
-}
-
 declare module '*.gif' {
   const src: string;
   export default src;
 }
 
-declare module '*.svg' {
+declare module '*.webp' {
   const src: string;
   export default src;
 }
 
-declare module '*.webp' {
+declare module '*.avif' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.ico' {
   const src: string;
   export default src;
 }

@@ -1,5 +1,9 @@
+'use client'
+
 import React, { createContext, useContext, ReactNode } from 'react';
-import { useScroll, useTheme, useMouse, useClickAnimation } from '../hooks';
+import { useScroll } from '../hooks/useScroll';
+import { useMouse } from '../hooks/useMouse';
+import { useClickAnimation } from '../hooks/useClickAnimation';
 
 // Types for mouse position
 interface MousePosition {
@@ -14,7 +18,6 @@ interface ScrollState {
   isDarkTheme: boolean;
   scrollToSection: (sectionId: string) => void;
   scrollManagerRef: React.RefObject<any>;
-  lenisRef: React.RefObject<any>;
 }
 
 // Types for mouse state
@@ -41,7 +44,6 @@ interface AppContextType {
   isDarkTheme: boolean;
   scrollToSection: (sectionId: string) => void;
   scrollManagerRef: React.RefObject<any>;
-  lenisRef: React.RefObject<any>;
   
   // Mouse state
   mousePosition: MousePosition;
@@ -60,7 +62,7 @@ interface AppProviderProps {
 }
 
 // Specialized hook return types
-interface AppScrollHook {
+export interface AppScrollHook {
   scrollProgress: number;
   activeSection: string;
   isDarkTheme: boolean;
@@ -68,56 +70,54 @@ interface AppScrollHook {
   scrollManagerRef: React.RefObject<any>;
 }
 
-interface AppMouseHook {
+export interface AppMouseHook {
   mousePosition: MousePosition;
   screenPosition: MousePosition;
 }
 
-interface AppThemeHook {
+export interface AppThemeHook {
   isDarkTheme: boolean;
   themeClass: string;
 }
 
-interface AppClickAnimationHook {
+export interface AppClickAnimationHook {
   handleClick: (element: HTMLElement | null) => void;
 }
 
 /**
- * Contexte d'application principal
- * Centralise la gestion d'état globale et évite le props drilling
+ * Contexte d'application principal optimisé
+ * Utilise un seul contexte pour éviter les re-renders multiples
  */
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 /**
- * Provider du contexte d'application
+ * Provider du contexte d'application optimisé
+ * Utilise useMemo pour éviter les re-renders inutiles
  */
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  // Hooks de gestion d'état
   const scrollState = useScroll();
   const mouseState = useMouse();
-  const themeState = useTheme(scrollState.isDarkTheme);
   const clickAnimationState = useClickAnimation();
 
-  // Valeur du contexte
-  const contextValue: AppContextType = {
-    // État du scroll
+  // Memoize la valeur du contexte pour éviter les re-renders
+  const contextValue = React.useMemo(() => ({
+    // Scroll state
     scrollProgress: scrollState.scrollProgress,
     activeSection: scrollState.activeSection,
     isDarkTheme: scrollState.isDarkTheme,
     scrollToSection: scrollState.scrollToSection,
     scrollManagerRef: scrollState.scrollManagerRef,
-    lenisRef: scrollState.lenisRef,
-
-    // État de la souris
+    
+    // Mouse state
     mousePosition: mouseState.mousePosition,
     screenPosition: mouseState.screenPosition,
-
-    // État du thème
-    themeClass: themeState.themeClass,
-
-    // Animations
+    
+    // Theme state
+    themeClass: scrollState.isDarkTheme ? 'dark-theme' : 'light-theme',
+    
+    // Click animations
     handleClick: clickAnimationState.handleClick,
-  };
+  }), [scrollState, mouseState, clickAnimationState]);
 
   return (
     <AppContext.Provider value={contextValue}>
@@ -127,70 +127,47 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 };
 
 /**
- * Hook pour utiliser le contexte d'application
+ * Hooks personnalisés optimisés pour accéder au contexte global
+ * Utilise des sélecteurs spécialisés pour éviter les re-renders inutiles
  */
-export const useAppContext = (): AppContextType => {
-  const context = useContext(AppContext);
-  
-  if (!context) {
-    throw new Error('useAppContext must be used within an AppProvider');
-  }
-  
-  return context;
-};
-
-/**
- * Hooks spécialisés pour accéder à des parties spécifiques du state
- */
-
-// Hook pour l'état du scroll uniquement
 export const useAppScroll = (): AppScrollHook => {
-  const { 
-    scrollProgress, 
-    activeSection, 
-    isDarkTheme, 
-    scrollToSection,
-    scrollManagerRef 
-  } = useAppContext();
+  const ctx = useContext(AppContext);
+  if (!ctx) throw new Error('useAppScroll must be used within AppProvider');
   
-  return {
-    scrollProgress,
-    activeSection,
-    isDarkTheme,
-    scrollToSection,
-    scrollManagerRef,
-  };
+  return React.useMemo(() => ({
+    scrollProgress: ctx.scrollProgress,
+    activeSection: ctx.activeSection,
+    isDarkTheme: ctx.isDarkTheme,
+    scrollToSection: ctx.scrollToSection,
+    scrollManagerRef: ctx.scrollManagerRef,
+  }), [ctx.scrollProgress, ctx.activeSection, ctx.isDarkTheme, ctx.scrollToSection, ctx.scrollManagerRef]);
 };
 
-// Hook pour l'état de la souris uniquement
 export const useAppMouse = (): AppMouseHook => {
-  const { mousePosition, screenPosition } = useAppContext();
-  return { mousePosition, screenPosition };
+  const ctx = useContext(AppContext);
+  if (!ctx) throw new Error('useAppMouse must be used within AppProvider');
+  
+  return React.useMemo(() => ({
+    mousePosition: ctx.mousePosition,
+    screenPosition: ctx.screenPosition,
+  }), [ctx.mousePosition, ctx.screenPosition]);
 };
 
-// Hook pour l'état du thème uniquement
 export const useAppTheme = (): AppThemeHook => {
-  const { isDarkTheme, themeClass } = useAppContext();
-  return { isDarkTheme, themeClass };
+  const ctx = useContext(AppContext);
+  if (!ctx) throw new Error('useAppTheme must be used within AppProvider');
+  
+  return React.useMemo(() => ({
+    isDarkTheme: ctx.isDarkTheme,
+    themeClass: ctx.themeClass,
+  }), [ctx.isDarkTheme, ctx.themeClass]);
 };
 
-// Hook pour les animations de clic
-export const useAppClickAnimation = (): AppClickAnimationHook => {
-  const { handleClick } = useAppContext();
-  return { handleClick };
-};
-
-// Export des types pour utilisation dans d'autres fichiers
-export type {
-  AppContextType,
-  AppProviderProps,
-  AppScrollHook,
-  AppMouseHook,
-  AppThemeHook,
-  AppClickAnimationHook,
-  MousePosition,
-  ScrollState,
-  MouseState,
-  ThemeState,
-  ClickAnimationState,
+export const useAppClick = (): AppClickAnimationHook => {
+  const ctx = useContext(AppContext);
+  if (!ctx) throw new Error('useAppClick must be used within AppProvider');
+  
+  return React.useMemo(() => ({
+    handleClick: ctx.handleClick,
+  }), [ctx.handleClick]);
 };

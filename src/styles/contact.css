@@ -125,19 +125,21 @@ body.dark-theme .contact-section::after {
 
 
 .contact-title {
+  font-family: var(--font-family);
   font-size: var(--h2-font-size);
   font-weight: var(--h2-font-weight);
   letter-spacing: var(--h2-letter-spacing);
   text-transform: var(--h2-text-transform);
-  color: var(--color-white);
+  color: var(--h2-color);
   margin-bottom: var(--spacing-lg);
   line-height: 1.2;
   transition: color var(--duration-slowest) var(--easing-ease);
 }
 
 .contact-subtitle {
-  font-size: var(--type-body);
-  color: var(--color-text-dark);
+  font-family: var(--font-family);
+  font-size: var(--p-font-size);
+  color: var(--p-color);
   line-height: var(--p-line-height);
   max-width: 600px;
   margin: 0 auto;
@@ -150,11 +152,11 @@ body.dark-theme .contact-section::after {
 }
 
 body.dark-theme .contact-title {
-  color: var(--color-text-light);
+  color: var(--h2-color);
 }
 
 body.dark-theme .contact-subtitle {
-  color: var(--color-text-light);
+  color: var(--p-color);
 }
 
 /* ======================
@@ -251,7 +253,7 @@ body.dark-theme .contact-card-title {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000;
+  color: var(--btn-primary-color);
   flex-shrink: 0;
   transition: all var(--duration-normal) var(--easing-ease);
   box-shadow: 
@@ -444,9 +446,10 @@ body.dark-theme .social-link {
 }
 
 .form-title {
+  font-family: var(--font-family);
   font-size: var(--type-subheading);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-dark);
+  color: var(--h3-color);
   margin-bottom: var(--spacing-lg);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-tight);
@@ -454,7 +457,7 @@ body.dark-theme .social-link {
 }
 
 body.dark-theme .form-title {
-  color: var(--color-text-light);
+  color: var(--h3-color);
 }
 
 .form-grid {

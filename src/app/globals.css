@@ -1,0 +1,743 @@
+/**
+ * Global Styles for Next.js Migration
+ * Migrated from variables.css + base.css
+ * UNIFIED THEME SYSTEM - No external imports
+ */
+
+/* Font loaded via Next.js font optimization in layout.tsx */
+
+:root {
+  /* Professional Monochrome Palette */
+  --color-black: #000000;
+  --color-gray-900: #111111;
+  --color-gray-800: #1a1a1a;
+  --color-gray-700: #2a2a2a;
+  --color-gray-600: #404040;
+  --color-gray-500: #666666;
+  --color-gray-400: #999999;
+  --color-gray-300: #cccccc;
+  --color-gray-200: #e6e6e6;
+  --color-gray-100: #f5f5f5;
+  --color-gray-50: #fafafa;
+  --color-white: #ffffff;
+  
+  /* Strategic Green (Selection/Active only) */
+  --color-accent-primary: #1EB900;
+  --color-accent-light: #4CAF50;
+  --color-accent-dark: #0F5D00;
+  
+  /* Traditional Color System (Working) */
+  --color-text-dark: var(--color-gray-800);
+  --color-text-light: var(--color-white);
+  
+  /* Semantic Colors - Light Theme (Default) */
+  --color-text-primary: var(--color-gray-800);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-muted: var(--color-gray-500);
+  --color-text-inverse: var(--color-white);
+  --color-background-primary: var(--color-white);
+  --color-background-secondary: var(--color-gray-50);
+  --color-background-section: var(--color-gray-50);
+  --color-border: var(--color-gray-200);
+  --color-border-light: var(--color-gray-100);
+  
+  /* Transparent Overlays */
+  --color-overlay-light: rgba(255, 255, 255, 0.1);
+  --color-overlay-dark: rgba(0, 0, 0, 0.1);
+  --color-overlay-medium: rgba(0, 0, 0, 0.5);
+  --color-overlay-heavy: rgba(0, 0, 0, 0.8);
+  
+  /* Perforation colors pour portfolio grid */
+  --perforation-color: rgba(0, 0, 0, 0.1);
+
+  /* Interactive States */
+  --color-hover: var(--color-gray-100);
+  --color-hover-dark: var(--color-gray-800);
+  --color-focus: var(--color-gray-200);
+  --color-active: var(--color-accent-primary);
+  --color-disabled: var(--color-gray-300);
+
+  /* Espacements */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-xxxl: 64px;
+
+  /* Espacements spécifiques */
+  --section-margin: 150px;
+  --section-margin-large: 300px;
+  --header-height: 80px;
+  --header-padding: 20px 40px;
+  
+  /* Espacements standardisés entre sections - augmentés pour plus de respiration */
+  --section-padding-top: 120px;
+  --section-padding-bottom: 120px;
+  --section-padding-horizontal: var(--spacing-xl);
+  
+  /* Shorthand pour padding complet des sections */
+  --section-padding: var(--section-padding-top) var(--section-padding-horizontal) var(--section-padding-bottom) var(--section-padding-horizontal);
+  
+  /* Responsive section spacing */
+  --section-padding-mobile: 80px var(--spacing-lg);
+  --section-padding-small: 60px var(--spacing-md);
+
+  /* Typographie harmonisée - Police unique */
+  --font-family: var(--font-pathway-extreme, 'Pathway Extreme', sans-serif);
+
+  /* Font Variable Pathway Extreme - Optimisé pour photographie */
+  --font-weight-light: 400;
+  --font-weight-normal: 500;
+  --font-weight-medium: 600;
+  --font-weight-semibold: 700;
+  --font-weight-bold: 800;
+  --font-weight-black: 900;
+
+  --letter-spacing-tight: 0.1em;
+  --letter-spacing-normal: 0.3em;
+  --letter-spacing-wide: 0.4em;
+
+  /* Système typographique professionnel unifié */
+  --type-display: clamp(2.5rem, 5vw, 4.5rem);    /* H1 - Titres principaux */
+  --type-heading: clamp(2rem, 4vw, 3rem);        /* H2 - Titres sections */
+  --type-subheading: clamp(1.25rem, 2.5vw, 1.75rem); /* H3 - Sous-titres */
+  --type-body: clamp(1rem, 1.8vw, 1.125rem);     /* H4/P - Texte principal */
+  --type-small: clamp(0.875rem, 1.5vw, 0.9375rem); /* Texte secondaire */
+  --type-caption: clamp(0.75rem, 1.2vw, 0.8125rem);  /* Annotations */
+  
+  /* Hiérarchie typographique unifiée */
+  --h1-font-size: var(--type-display);
+  --h1-font-weight: var(--font-weight-black);
+  --h1-color: var(--color-text-primary);
+  --h1-letter-spacing: var(--letter-spacing-tight);
+  --h1-text-transform: uppercase;
+  --h1-margin-bottom: var(--spacing-xl);
+  
+  --h2-font-size: var(--type-heading);
+  --h2-font-weight: var(--font-weight-bold);
+  --h2-color: var(--color-text-primary);
+  --h2-letter-spacing: var(--letter-spacing-normal);
+  --h2-text-transform: uppercase;
+  --h2-margin-bottom: var(--spacing-xl);
+  
+  --h3-font-size: var(--type-subheading);
+  --h3-font-weight: var(--font-weight-semibold);
+  --h3-color: var(--color-text-primary);
+  --h3-letter-spacing: var(--letter-spacing-normal);
+  --h3-text-transform: uppercase;
+  --h3-margin-bottom: var(--spacing-lg);
+  
+  --h4-font-size: var(--type-body);
+  --h4-font-weight: var(--font-weight-medium);
+  --h4-color: var(--color-text-secondary);
+  --h4-letter-spacing: var(--letter-spacing-tight);
+  --h4-text-transform: none;
+  --h4-margin-bottom: var(--spacing-md);
+  
+  --p-font-size: var(--type-body);
+  --p-font-weight: var(--font-weight-normal);
+  --p-line-height: 1.6;
+  --p-margin-bottom: var(--spacing-lg);
+  --p-color: var(--color-text-secondary);
+  --p-letter-spacing: 0.02em;
+  
+  --small-font-size: var(--type-small);
+  --small-font-weight: var(--font-weight-normal);
+  --small-color: var(--color-text-muted);
+  
+  --caption-font-size: var(--type-caption);
+  --caption-font-weight: var(--font-weight-normal);
+  --caption-color: var(--color-text-muted);
+
+  /* Animations */
+  --duration-fast: 0.15s;
+  --duration-normal: 0.3s;
+  --duration-slow: 0.6s;
+  --duration-slower: 0.8s;
+  --duration-slowest: 1.2s;
+
+  --easing-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --easing-ease-out: cubic-bezier(0.02, 0.4, 0.05, 1);
+  --easing-bounce: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  /* Système de boutons carrés unifié */
+  --btn-border-radius: 0px; /* Boutons parfaitement carrés */
+  --btn-border-width: 2px;
+  --btn-font-family: var(--font-family);
+  --btn-font-weight: var(--font-weight-medium);
+  --btn-font-size: var(--type-body);
+  --btn-text-transform: uppercase;
+  --btn-letter-spacing: var(--letter-spacing-tight);
+  --btn-transition: all var(--duration-normal) var(--easing-ease);
+  
+  /* Tailles de boutons */
+  --btn-padding-sm: var(--spacing-sm) var(--spacing-md);
+  --btn-padding-md: var(--spacing-md) var(--spacing-xl);
+  --btn-padding-lg: var(--spacing-lg) var(--spacing-xxl);
+  --btn-min-height: 44px; /* Accessibilité */
+  
+  /* Couleurs de boutons */
+  --btn-primary-bg: var(--color-accent-primary);
+  --btn-primary-color: var(--color-black);
+  --btn-primary-border: var(--color-accent-primary);
+  
+  --btn-secondary-bg: transparent;
+  --btn-secondary-color: var(--color-text-primary);
+  --btn-secondary-border: var(--color-border);
+  
+  --btn-ghost-bg: transparent;
+  --btn-ghost-color: var(--color-text-secondary);
+  --btn-ghost-border: transparent;
+
+  /* Z-index */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-modal: 100;
+  --z-tooltip: 200;
+  --z-header: 1000;
+  --z-progress: 1001;
+  --z-cursor: 9999;
+  --z-cursor-trail: 9998;
+  --z-flash: 10000;
+
+  /* Ombres */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.2);
+  --shadow-logo: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --shadow-focus: 0 0 20px rgba(0, 0, 0, 0.1);
+
+  /* Breakpoints (utilisés via @media) */
+  --breakpoint-mobile: 320px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1440px;
+
+  /* Position de la souris (mis à jour par JS) */
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+/* Dark Theme Overrides - Applied to body */
+body.dark-theme {
+  /* Traditional Color System - Dark Theme */
+  --color-text-dark: var(--color-white);
+  --color-text-light: var(--color-white);
+  
+  /* Semantic Colors - Dark Theme */
+  --color-text-primary: var(--color-white);
+  --color-text-secondary: var(--color-gray-300);
+  --color-text-muted: var(--color-gray-400);
+  --color-text-inverse: var(--color-gray-800);
+  --color-background-primary: var(--color-gray-900);
+  --color-background-secondary: var(--color-gray-800);
+  --color-background-section: var(--color-gray-800);
+  --color-border: var(--color-gray-700);
+  --color-border-light: var(--color-gray-600);
+  
+  /* Interactive States - Dark Theme */
+  --color-hover: var(--color-gray-800);
+  --color-hover-dark: var(--color-gray-700);
+  --color-focus: var(--color-gray-700);
+  
+  /* Typography Colors - Dark Theme */
+  --h1-color: var(--color-text-primary);
+  --h2-color: var(--color-text-primary);
+  --h3-color: var(--color-text-primary);
+  --h4-color: var(--color-text-secondary);
+  --p-color: var(--color-text-secondary);
+  --small-color: var(--color-text-muted);
+  --caption-color: var(--color-text-muted);
+  
+  /* Shadows - Dark Theme */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.6);
+  
+  /* Perforation colors - Dark Theme */
+  --perforation-color: rgba(255, 255, 255, 0.1);
+}
+
+/* =====================
+   RESET & BASE STYLES
+   ===================== */
+
+/* Reset et base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: outline var(--duration-normal) ease;
+}
+
+html {
+  height: auto;
+}
+
+html.lenis {
+  height: auto;
+}
+
+body {
+  font-family: var(--font-family);
+  overflow-x: hidden;
+  /* PAS overflow-y: hidden - permettre le débordement vertical */
+  position: relative;
+  transition: background-color var(--duration-slowest) var(--easing-ease);
+}
+
+/* Sur le container parent de la section */
+main, .main-container {
+  overflow-x: hidden;
+  /* PAS overflow-y: hidden */
+  /* Permettre le débordement vertical */
+}
+
+/* Animation fluide de transition de thème */
+body, html {
+  font-family: var(--font-pathway-extreme, 'Pathway Extreme', sans-serif);
+  color: var(--color-text-dark);
+  transition: color var(--duration-slowest) var(--easing-ease), 
+              background-color var(--duration-slowest) var(--easing-ease),
+              filter var(--duration-slowest) var(--easing-ease);
+}
+
+/* Transition de thème sombre avec animation */
+body.dark-theme, 
+body.dark-theme html {
+  color: var(--color-text-light);
+}
+
+/* Overlay de transition de thème subtil (géré par GSAP) */
+.theme-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, 
+              rgba(30, 185, 0, 0.02) 0%, 
+              transparent 80%);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  transition: color var(--duration-slowest) var(--easing-ease), 
+              background-color var(--duration-slowest) var(--easing-ease), 
+              border-color var(--duration-slowest) var(--easing-ease), 
+              box-shadow var(--duration-slowest) var(--easing-ease);
+}
+
+/* Curseur personnalisé - Seulement pour desktop avec hover fin */
+@media (hover: hover) and (pointer: fine) {
+  body:not(.accessibility-mode) {
+    cursor: none !important;
+  }
+  
+  body:not(.accessibility-mode) *,
+  body:not(.accessibility-mode) *:hover,
+  body:not(.accessibility-mode) *:focus {
+    cursor: none !important;
+  }
+}
+
+/* Mode accessibilité - garde les curseurs natifs */
+body.accessibility-mode {
+  cursor: auto !important;
+}
+
+body.accessibility-mode * {
+  cursor: auto !important;
+}
+
+/* Touch devices - garde les curseurs natifs */
+@media (hover: none) or (pointer: coarse) {
+  body,
+  body * {
+    cursor: auto !important;
+  }
+}
+
+/* Respect de prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Masquer les barres de scroll */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Styles pour Lenis */
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling {
+  pointer-events: none;
+}
+
+/* Classe utilitaire pour le contenu masqué visuellement */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* États de focus pour l'accessibilité */
+*:focus {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}
+
+/* =====================
+   TYPOGRAPHY SYSTEM
+   ===================== */
+
+/* H1 - Titre principal (caché pour SEO) */
+h1 {
+  font-size: var(--h1-font-size);
+  font-weight: var(--h1-font-weight);
+  text-transform: var(--h1-text-transform);
+  letter-spacing: var(--h1-letter-spacing);
+  margin-bottom: var(--h1-margin-bottom);
+  color: var(--h1-color);
+}
+
+/* H2 - Titres de sections principales */
+h2 {
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  text-transform: var(--h2-text-transform);
+  letter-spacing: var(--h2-letter-spacing);
+  margin-bottom: var(--h2-margin-bottom);
+  color: var(--h2-color);
+}
+
+/* H3 - Sous-titres de sections */
+h3 {
+  font-size: var(--h3-font-size);
+  font-weight: var(--h3-font-weight);
+  text-transform: var(--h3-text-transform);
+  letter-spacing: var(--h3-letter-spacing);
+  margin-bottom: var(--h3-margin-bottom);
+  color: var(--h3-color);
+}
+
+/* H4 - Titres de détails */
+h4 {
+  font-size: var(--h4-font-size);
+  font-weight: var(--h4-font-weight);
+  text-transform: var(--h4-text-transform);
+  letter-spacing: var(--h4-letter-spacing);
+  margin-bottom: var(--h4-margin-bottom);
+  color: var(--h4-color);
+  font-style: normal;
+}
+
+/* H5 - Titres de sous-détails */
+h5 {
+  font-size: var(--type-body);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--spacing-sm);
+  color: var(--h4-color);
+}
+
+/* H6 - Titres de niveau le plus bas */
+h6 {
+  font-size: var(--type-small);
+  font-weight: var(--font-weight-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-text-muted);
+}
+
+/* Paragraphes standardisés */
+p {
+  font-size: var(--p-font-size);
+  font-weight: var(--p-font-weight);
+  line-height: var(--p-line-height);
+  margin-bottom: var(--p-margin-bottom);
+  color: var(--p-color);
+  letter-spacing: var(--p-letter-spacing);
+}
+
+/* Texte small standardisé */
+small {
+  font-size: var(--small-font-size);
+  font-weight: var(--small-font-weight);
+  color: var(--small-color);
+}
+
+/* Hero subtitle avec style H4 */
+.hero-subtitle {
+  text-transform: uppercase;
+  font-style: normal;
+}
+
+/* =====================
+   BUTTON SYSTEM
+   ===================== */
+
+/* Classe de base pour tous les boutons */
+.btn,
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  min-height: var(--btn-min-height);
+  padding: var(--btn-padding-md);
+  border: var(--btn-border-width) solid;
+  border-radius: var(--btn-border-radius);
+  font-family: var(--btn-font-family);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  text-transform: var(--btn-text-transform);
+  letter-spacing: var(--btn-letter-spacing);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--btn-transition);
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}
+
+/* Bouton primaire (accent vert) */
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-color);
+  border-color: var(--btn-primary-border);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Bouton secondaire (transparent avec bordure) */
+.btn-secondary {
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-color);
+  border-color: var(--btn-secondary-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-hover);
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-primary);
+}
+
+/* Bouton ghost (minimal) */
+.btn-ghost {
+  background: var(--btn-ghost-bg);
+  color: var(--btn-ghost-color);
+  border-color: var(--btn-ghost-border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--color-hover);
+  color: var(--color-text-primary);
+}
+
+/* Tailles de boutons */
+.btn-sm {
+  padding: var(--btn-padding-sm);
+  font-size: var(--type-small);
+  min-height: 36px;
+}
+
+.btn-lg {
+  padding: var(--btn-padding-lg);
+  font-size: var(--type-subheading);
+  min-height: 52px;
+}
+
+/* État désactivé */
+.btn:disabled,
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Effet de brillance au survol */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left var(--duration-normal) ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+/* =====================
+   DARK THEME
+   ===================== */
+
+/* =====================
+   SYSTÈME DE TEXTE ADAPTATIF ROBUSTE 
+   STANDARD UNIVERSEL POUR TOUT LE SITE
+   ===================== 
+   
+   RÈGLES À RESPECTER :
+   1. Thème clair par défaut : var(--color-text-dark) ou #1a1a1a
+   2. Thème sombre : body.dark-theme + var(--color-text-light) ou #ffffff
+   3. JAMAIS de couleurs fixes (#000, #fff) sauf pour les ombres
+   4. Spécificité maximale avec body.dark-theme
+   5. !important uniquement si nécessaire pour surcharger les styles inline
+   6. Logos : filter: invert() pour l'adaptation
+   
+   STANDARD APPLIQUÉ À :
+   ✅ HeroSection, PresentationSection, ExperienceSection  
+   ✅ PortfolioSection, ContactSection, Header
+   ✅ Tous les logos (main-logo, logo header)
+   ✅ Variables CSS centralisées
+   */
+
+/* Thème sombre - Application sur TOUS les éléments textuels critiques */
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3,
+body.dark-theme h4,
+body.dark-theme h5,
+body.dark-theme h6,
+body.dark-theme p,
+body.dark-theme a:not(.btn),
+body.dark-theme span:not(.btn),
+body.dark-theme div:not(.btn),
+body.dark-theme .text-content,
+body.dark-theme .presentation-title,
+body.dark-theme .location-text {
+  color: #ffffff !important;
+}
+
+/* Spécificité ultra-haute pour les sections problématiques */
+body.dark-theme .presentation-section .presentation-title,
+body.dark-theme .presentation-section .location-text,
+body.dark-theme .presentation-section .text-content,
+body.dark-theme .presentation-section .letter.active {
+  color: #ffffff !important;
+}
+
+/* Fallback explicite pour le thème clair */
+body:not(.dark-theme) .presentation-title,
+body:not(.dark-theme) .location-text,
+body:not(.dark-theme) .text-content {
+  color: #1a1a1a !important;
+}
+
+body.dark-theme .text-content,
+body.dark-theme .scroll-text {
+  color: var(--color-text-light, #ffffff) !important;
+}
+
+/* Lettres animées - Fallback robuste */
+body.dark-theme .text-content .letter.active {
+  color: var(--color-text-light, #ffffff) !important;
+}
+
+body.dark-theme .text-content .letter:not(.active) {
+  color: var(--color-gray-500, #666666) !important;
+}
+
+/* Liens de navigation - couleur adaptative */
+a:not(.btn) {
+  color: var(--color-text-dark);
+  text-decoration: none;
+  transition: color var(--duration-slowest) var(--easing-ease);
+}
+
+a:not(.btn):hover {
+  color: var(--color-accent-primary);
+}
+
+/* Dark theme pour boutons */
+body.dark-theme .btn-secondary {
+  color: var(--color-text-light);
+  border-color: var(--color-gray-600);
+}
+
+body.dark-theme .btn-secondary:hover:not(:disabled) {
+  background: var(--color-gray-800);
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-primary);
+}
+
+body.dark-theme .btn-ghost {
+  color: var(--color-text-secondary);
+}
+
+body.dark-theme .btn-ghost:hover:not(:disabled) {
+  background: var(--color-gray-800);
+  color: var(--color-text-light);
+}
+
+/* LOGO ADAPTATIF - PRIORITÉ ABSOLUE POUR ÉVITER LES CONFLITS */
+.logo,
+.main-logo,
+header .logo,
+.header .logo {
+  filter: brightness(1) invert(0) !important;
+  transition: filter var(--duration-slowest) var(--easing-ease);
+}
+
+/* Logo adaptatif - thème sombre avec spécificité maximale */
+body.dark-theme .logo,
+body.dark-theme .main-logo,
+body.dark-theme header .logo,
+body.dark-theme .header .logo {
+  filter: brightness(0) invert(1) !important;
+}

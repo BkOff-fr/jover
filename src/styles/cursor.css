@@ -3,7 +3,7 @@
  * Curseur personnalisé avec design focus Sony
  */
 
-/* Masquer le curseur par défaut sur body */
+/* Masquer le curseur par défaut */
 body, body * {
   cursor: none !important;
 }
@@ -76,6 +76,7 @@ body, body * {
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
 
 
 /* Désactiver le curseur personnalisé sur mobile */

@@ -50,3 +50,16 @@ export interface FilterOption {
   label: string;
   count: number;
 }
+
+// Types spécifiques à Next.js
+export interface NextImageProps {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  fill?: boolean;
+  priority?: boolean;
+  quality?: number;
+  placeholder?: 'blur' | 'empty';
+  blurDataURL?: string;
+}

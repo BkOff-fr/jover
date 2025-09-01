@@ -1,15 +1,8 @@
-/**
- * Hooks Exports
- * Point d'entrée centralisé pour tous les hooks personnalisés
- */
+// Export all hooks
+export { default as useScroll } from './useScroll';
+export { default as useMouse } from './useMouse';
+export { default as useTheme } from './useTheme';
+export { default as useClickAnimation } from './useClickAnimation';
 
-export { useScroll } from './useScroll';
-export { useTheme } from './useTheme';
-export { useMouse } from './useMouse';
-export { useClickAnimation } from './useClickAnimation';
-
-// Re-export types for easy importing
-export type { ScrollHookReturn, ScrollManager, LenisScrollEvent } from './useScroll';
-export type { MousePosition, MouseHookReturn } from './useMouse';
-export type { ThemeHookReturn } from './useTheme';
-export type { ClickAnimationHookReturn } from './useClickAnimation';
+// Re-export types
+export type { AppScrollHook, AppMouseHook, AppThemeHook, AppClickAnimationHook } from '../context/AppContext';

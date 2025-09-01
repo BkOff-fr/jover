@@ -1,47 +1,24 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useAppContext } from '../context/AppContext';
+'use client'
+
+import React, { useRef, useState } from 'react';
+import '../styles/contact.css';
 
 interface ContactSectionProps {
-  id: string;
-  scrollManagerRef?: React.RefObject<any>;
+  id?: string;
+  scrollManagerRef?: React.RefObject<HTMLElement>;
 }
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  projectType: string;
-  message: string;
-  budget: string;
-}
-
-const ContactSection: React.FC<ContactSectionProps> = ({ id, scrollManagerRef }) => {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const { scrollProgress, activeSection } = useAppContext();
-  const [formData, setFormData] = useState<FormData>({
+const ContactSection: React.FC<ContactSectionProps> = ({ id = "contact", scrollManagerRef }) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const ref = scrollManagerRef || sectionRef;
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
-    projectType: '',
-    message: '',
-    budget: ''
+    subject: '',
+    message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
 
-  // Animation du formulaire basée sur activeSection (intégré au système Lenis)
-  useEffect(() => {
-    const form = formRef.current;
-    if (!form) return;
-
-    // Si la section contact est active ou proche, animer le formulaire
-    if (activeSection === 'contact' || scrollProgress > 0.8) {
-      form.classList.add('visible');
-    }
-  }, [activeSection, scrollProgress]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -49,289 +26,562 @@ const ContactSection: React.FC<ContactSectionProps> = ({ id, scrollManagerRef })
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      // Simulation d'envoi - remplacer par votre logique d'envoi réelle
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        projectType: '',
-        message: '',
-        budget: ''
-      });
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // TODO: Implement form submission
+    // Form submission handling
   };
 
   return (
-    <section id={id} className="contact-section" ref={sectionRef}>
+    <section id={id} ref={ref} className="contact-section">
       <div className="contact-container">
-        
-        {/* En-tête de section */}
         <div className="contact-header">
-          <h2 className="contact-title">Travaillons Ensemble</h2>
+          <h2 className="contact-title">CONTACT</h2>
           <p className="contact-subtitle">
-            Prêt à capturer vos moments précieux ? Contactez-moi pour discuter de votre projet photographique.
+            Prêt à donner vie à votre projet ? Contactez-moi pour en discuter.
           </p>
         </div>
 
         <div className="contact-content">
-          
-          {/* Informations de contact */}
           <div className="contact-info">
             <div className="contact-card">
-              <h3 className="contact-card-title">Informations de Contact</h3>
-              
+              <h3 className="contact-card-title">Informations</h3>
               <div className="contact-item">
-                <div className="contact-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                  </svg>
-                </div>
-                <div className="contact-details">
-                  <span className="contact-label">Téléphone</span>
-                  <a href="tel:+33123456789" className="contact-value">+33 1 23 45 67 89</a>
-                </div>
-              </div>
-
-              <div className="contact-item">
-                <div className="contact-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
-                  </svg>
-                </div>
+                <div className="contact-icon">📧</div>
                 <div className="contact-details">
                   <span className="contact-label">Email</span>
-                  <a href="mailto:contact@jover-photo.com" className="contact-value">contact@jover-photo.com</a>
+                  <a href="mailto:contact@jover-photo.com" className="contact-value">
+                    contact@jover-photo.com
+                  </a>
                 </div>
               </div>
-
               <div className="contact-item">
-                <div className="contact-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
+                <div className="contact-icon">📱</div>
+                <div className="contact-details">
+                  <span className="contact-label">Téléphone</span>
+                  <a href="tel:+33123456789" className="contact-value">
+                    +33 1 23 45 67 89
+                  </a>
                 </div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-icon">📍</div>
                 <div className="contact-details">
                   <span className="contact-label">Localisation</span>
-                  <span className="contact-value">Lille, France</span>
-                </div>
-              </div>
-
-              <div className="contact-item">
-                <div className="contact-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12,6 12,12 16,14"/>
-                  </svg>
-                </div>
-                <div className="contact-details">
-                  <span className="contact-label">Disponibilité</span>
-                  <span className="contact-value">7j/7 - Interventions France entière</span>
+                  <span className="contact-value">Paris, France</span>
                 </div>
               </div>
             </div>
 
-            {/* Réseaux sociaux */}
             <div className="social-links">
-              <h4 className="social-title">Suivez-moi</h4>
+              <h3 className="social-title">Suivez-moi</h3>
               <div className="social-grid">
-                <a href="https://instagram.com/jover.photo" className="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                  </svg>
-                  <span>Instagram</span>
+                <a href="#" className="social-link">
+                  📷 Instagram
                 </a>
-                <a href="https://linkedin.com/in/jover-photo" className="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                    <rect x="2" y="9" width="4" height="12"/>
-                    <circle cx="4" cy="4" r="2"/>
-                  </svg>
-                  <span>LinkedIn</span>
+                <a href="#" className="social-link">
+                  💼 LinkedIn
                 </a>
-                <a href="https://facebook.com/jover.photo" className="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                  </svg>
-                  <span>Facebook</span>
+                <a href="#" className="social-link">
+                  🎨 Behance
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Formulaire de contact */}
-          <form ref={formRef} className="contact-form" onSubmit={handleSubmit}>
-            <h3 className="form-title">Décrivez votre projet</h3>
+          <form className="contact-form" onSubmit={handleSubmit}>
+            <h3 className="form-title">Envoyez-moi un message</h3>
             
             <div className="form-grid">
               <div className="form-group">
-                <label htmlFor="name" className="form-label">
-                  Nom complet *
-                </label>
+                <label htmlFor="name" className="form-label">Nom</label>
                 <input
                   type="text"
                   id="name"
                   name="name"
+                  className="form-input"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="form-input"
                   required
-                  placeholder="Votre nom et prénom"
                 />
               </div>
-
+              
               <div className="form-group">
-                <label htmlFor="email" className="form-label">
-                  Email *
-                </label>
+                <label htmlFor="email" className="form-label">Email</label>
                 <input
                   type="email"
                   id="email"
                   name="email"
+                  className="form-input"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="form-input"
                   required
-                  placeholder="votre@email.com"
                 />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="phone" className="form-label">
-                  Téléphone
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="form-input"
-                  placeholder="+33 1 23 45 67 89"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="projectType" className="form-label">
-                  Type de projet *
-                </label>
-                <select
-                  id="projectType"
-                  name="projectType"
-                  value={formData.projectType}
-                  onChange={handleInputChange}
-                  className="form-select"
-                  required
-                >
-                  <option value="">Sélectionnez un type</option>
-                  <option value="portrait">Portrait</option>
-                  <option value="mariage">Mariage</option>
-                  <option value="evenement">Événement</option>
-                  <option value="corporate">Corporate</option>
-                  <option value="mode">Mode</option>
-                  <option value="produit">Produit</option>
-                  <option value="autre">Autre</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="budget" className="form-label">
-                  Budget estimé
-                </label>
-                <select
-                  id="budget"
-                  name="budget"
-                  value={formData.budget}
-                  onChange={handleInputChange}
-                  className="form-select"
-                >
-                  <option value="">Budget non défini</option>
-                  <option value="500-1000">500€ - 1000€</option>
-                  <option value="1000-2500">1000€ - 2500€</option>
-                  <option value="2500-5000">2500€ - 5000€</option>
-                  <option value="5000+">5000€+</option>
-                </select>
               </div>
             </div>
 
             <div className="form-group form-group-full">
-              <label htmlFor="message" className="form-label">
-                Décrivez votre projet *
-              </label>
+              <label htmlFor="subject" className="form-label">Type de projet</label>
+              <select
+                id="subject"
+                name="subject"
+                className="form-select"
+                value={formData.subject}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Sélectionnez un type</option>
+                <option value="portrait">Portrait</option>
+                <option value="corporate">Corporate</option>
+                <option value="event">Événement</option>
+                <option value="fashion">Mode</option>
+                <option value="other">Autre</option>
+              </select>
+            </div>
+
+            <div className="form-group form-group-full">
+              <label htmlFor="message" className="form-label">Message</label>
               <textarea
                 id="message"
                 name="message"
-                value={formData.message}
-                onChange={handleInputChange}
                 className="form-textarea"
                 rows={6}
+                value={formData.message}
+                onChange={handleInputChange}
+                placeholder="Décrivez votre projet, vos besoins et vos attentes..."
                 required
-                placeholder="Décrivez votre projet en détail : date, lieu, nombre de personnes, style souhaité, etc."
               />
             </div>
 
             <div className="form-footer">
-              <button
-                type="submit"
-                className="form-submit"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="submit-spinner" />
-                    Envoi en cours...
-                  </>
-                ) : (
-                  <>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                    </svg>
-                    Envoyer la demande
-                  </>
-                )}
+              <button type="submit" className="form-submit btn-primary">
+                Envoyer le message
               </button>
-
-              {submitStatus === 'success' && (
-                <div className="form-message form-message-success">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22,4 12,14.01 9,11.01"/>
-                  </svg>
-                  Merci ! Votre message a été envoyé avec succès.
-                </div>
-              )}
-
-              {submitStatus === 'error' && (
-                <div className="form-message form-message-error">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="15" y1="9" x2="9" y2="15"/>
-                    <line x1="9" y1="9" x2="15" y2="15"/>
-                  </svg>
-                  Une erreur s'est produite. Veuillez réessayer.
-                </div>
-              )}
             </div>
           </form>
         </div>
       </div>
+
+      <style jsx>{`
+        .contact-section {
+          min-height: 100vh;
+          padding: var(--section-padding);
+          display: flex;
+          align-items: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .contact-container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 var(--spacing-xl);
+          width: 100%;
+          position: relative;
+          z-index: 1;
+        }
+
+        .contact-header {
+          text-align: center;
+          margin-bottom: var(--spacing-xxxl);
+          position: relative;
+        }
+
+        .contact-title {
+          font-size: var(--h2-font-size);
+          font-weight: var(--h2-font-weight);
+          letter-spacing: var(--h2-letter-spacing);
+          text-transform: var(--h2-text-transform);
+          color: var(--color-text-dark);
+          margin-bottom: var(--spacing-lg);
+          line-height: 1.2;
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        body.dark-theme .contact-title {
+          color: var(--color-text-light);
+        }
+
+        .contact-subtitle {
+          font-size: var(--type-body);
+          color: var(--color-text-dark);
+          line-height: var(--p-line-height);
+          max-width: 600px;
+          margin: 0 auto;
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        body.dark-theme .contact-subtitle {
+          color: var(--color-text-light);
+        }
+
+        .contact-content {
+          display: grid;
+          grid-template-columns: 1fr 1.5fr;
+          gap: var(--spacing-xxxl);
+          align-items: start;
+        }
+
+        .contact-info {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-xxl);
+        }
+
+        .contact-card,
+        .social-links {
+          background: var(--color-background-secondary);
+          border: 2px solid var(--color-border);
+          border-radius: 0;
+          padding: var(--spacing-xl);
+          backdrop-filter: blur(10px);
+          transition: all var(--duration-slowest) var(--easing-ease);
+          box-shadow: 
+            0 8px 25px rgba(0,0,0,0.15),
+            inset 0 1px 0 rgba(255,255,255,0.1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .contact-card:hover,
+        .social-links:hover {
+          border-color: var(--color-accent-primary);
+          box-shadow: var(--shadow-md);
+          transform: translateY(-2px);
+        }
+
+        .contact-card-title,
+        .social-title {
+          font-size: var(--type-subheading);
+          font-weight: var(--font-weight-bold);
+          color: var(--color-text-dark);
+          margin-bottom: var(--spacing-lg);
+          text-transform: uppercase;
+          letter-spacing: var(--letter-spacing-tight);
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        body.dark-theme .contact-card-title,
+        body.dark-theme .social-title {
+          color: var(--color-text-light);
+        }
+
+        .contact-item {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-md);
+          margin-bottom: var(--spacing-lg);
+        }
+
+        .contact-item:last-child {
+          margin-bottom: 0;
+        }
+
+        .contact-icon {
+          width: 48px;
+          height: 48px;
+          background: 
+            linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-light)),
+            radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), transparent 50%);
+          border-radius: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--btn-primary-color);
+          flex-shrink: 0;
+          transition: all var(--duration-normal) var(--easing-ease);
+          box-shadow: 
+            0 4px 12px rgba(30,185,0,0.25),
+            inset 0 1px 0 rgba(255,255,255,0.2);
+          position: relative;
+          z-index: 1;
+        }
+
+        .contact-icon:hover {
+          transform: scale(1.1);
+        }
+
+        .contact-details {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-xs);
+        }
+
+        .contact-label {
+          font-size: var(--type-small);
+          font-weight: var(--font-weight-medium);
+          color: var(--color-text-dark);
+          text-transform: uppercase;
+          letter-spacing: var(--letter-spacing-wide);
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        body.dark-theme .contact-label {
+          color: var(--color-text-light);
+        }
+
+        .contact-value {
+          font-size: var(--type-body);
+          font-weight: var(--font-weight-normal);
+          color: var(--color-text-dark);
+          text-decoration: none;
+          transition: all var(--duration-normal) var(--easing-ease);
+        }
+
+        body.dark-theme .contact-value {
+          color: var(--color-text-light);
+        }
+
+        .contact-value:hover {
+          color: var(--color-accent-primary);
+          text-decoration: underline;
+        }
+
+        .social-grid {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-sm);
+        }
+
+        .social-link {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-md);
+          padding: var(--spacing-sm) var(--spacing-md);
+          color: var(--color-text-dark);
+          text-decoration: none;
+          border-radius: 0;
+          transition: all var(--duration-normal) var(--easing-ease);
+          font-weight: var(--font-weight-medium);
+        }
+
+        body.dark-theme .social-link {
+          color: var(--color-text-light);
+        }
+
+        .social-link:hover {
+          background: var(--color-hover);
+          color: var(--color-accent-primary);
+          transform: translateX(8px);
+        }
+
+        .contact-form {
+          background: var(--color-background-secondary);
+          border: 3px solid var(--color-border);
+          border-radius: 0;
+          padding: var(--spacing-xl);
+          backdrop-filter: blur(20px);
+          transition: all var(--duration-slower) var(--easing-ease);
+          box-shadow: 
+            0 15px 40px rgba(0,0,0,0.2),
+            inset 0 1px 0 rgba(255,255,255,0.1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .form-title {
+          font-size: var(--type-subheading);
+          font-weight: var(--font-weight-bold);
+          color: var(--color-text-dark);
+          margin-bottom: var(--spacing-lg);
+          text-transform: uppercase;
+          letter-spacing: var(--letter-spacing-tight);
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        body.dark-theme .form-title {
+          color: var(--color-text-light);
+        }
+
+        .form-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: var(--spacing-lg);
+          margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-sm);
+        }
+
+        .form-group-full {
+          grid-column: 1 / -1;
+        }
+
+        .form-label {
+          font-size: var(--type-small);
+          font-weight: var(--font-weight-medium);
+          color: var(--color-text-dark);
+          text-transform: uppercase;
+          letter-spacing: var(--letter-spacing-wide);
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        body.dark-theme .form-label {
+          color: var(--color-text-light);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+          padding: var(--spacing-md);
+          border: 2px solid rgba(255, 255, 255, 0.1);
+          border-radius: 0;
+          background: rgba(0, 0, 0, 0.3);
+          color: var(--color-text-dark);
+          font-size: var(--type-body);
+          font-family: var(--font-family);
+          font-weight: var(--font-weight-light);
+          transition: all var(--duration-normal) var(--easing-ease);
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+          letter-spacing: 0.5px;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+          outline: none;
+          border-color: var(--color-accent-primary);
+          box-shadow: 0 0 0 3px var(--color-hover);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+          color: var(--color-gray-500);
+        }
+
+        body.dark-theme .form-input::placeholder,
+        body.dark-theme .form-textarea::placeholder {
+          color: var(--color-gray-400);
+        }
+
+        body.dark-theme .form-input,
+        body.dark-theme .form-select,
+        body.dark-theme .form-textarea {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.15);
+          color: var(--color-text-light);
+        }
+
+        .form-textarea {
+          resize: vertical;
+          min-height: 120px;
+        }
+
+        .form-footer {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-md);
+          align-items: center;
+        }
+
+        .form-submit {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: var(--spacing-sm);
+          min-height: var(--btn-min-height);
+          padding: var(--btn-padding-md);
+          border: var(--btn-border-width) solid var(--btn-primary-border);
+          border-radius: var(--btn-border-radius);
+          font-family: var(--btn-font-family);
+          font-size: var(--btn-font-size);
+          font-weight: var(--btn-font-weight);
+          text-transform: var(--btn-text-transform);
+          letter-spacing: var(--btn-letter-spacing);
+          cursor: pointer;
+          transition: var(--btn-transition);
+          position: relative;
+          overflow: hidden;
+          min-width: 200px;
+          background: var(--btn-primary-bg);
+          color: var(--btn-primary-color);
+          box-shadow: var(--shadow-md);
+        }
+
+        .form-submit:hover:not(:disabled) {
+          background: var(--color-accent-light);
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-lg);
+        }
+
+        .form-submit:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+
+        body.dark-theme .form-submit {
+          color: var(--color-text-light);
+        }
+
+        @media (max-width: 1024px) {
+          .contact-content {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xxl);
+          }
+          
+          .form-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .contact-section {
+            padding: var(--section-padding-mobile);
+          }
+          
+          .contact-container {
+            padding: 0 var(--spacing-lg);
+          }
+          
+          .contact-header {
+            margin-bottom: var(--spacing-xxl);
+          }
+          
+          .contact-content {
+            gap: var(--spacing-xl);
+          }
+          
+          .contact-card,
+          .social-links,
+          .contact-form {
+            padding: var(--spacing-lg);
+          }
+          
+          .form-grid {
+            gap: var(--spacing-md);
+          }
+          
+          .contact-icon {
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .contact-section {
+            padding: var(--section-padding-small);
+          }
+          
+          .contact-container {
+            padding: 0 var(--spacing-md);
+          }
+          
+          .contact-card,
+          .social-links,
+          .contact-form {
+            padding: var(--spacing-md);
+          }
+          
+          .form-submit {
+            padding: var(--btn-padding-sm);
+            min-width: 180px;
+            min-height: 40px;
+          }
+        }
+      `}</style>
     </section>
   );
 };

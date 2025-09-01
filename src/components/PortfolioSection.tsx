@@ -1,16 +1,33 @@
+'use client'
+
 import React, { useRef, useEffect, useState, useMemo } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CommonSectionProps, PortfolioProject, PortfolioFilter } from '../types/components';
-import image2 from '../assets/parallaxe/2.jpg';
-import image3 from '../assets/parallaxe/3.jpg';
-import image4 from '../assets/parallaxe/4.jpg';
+import Image from 'next/image';
+import { initGSAP, createSafeScrollTrigger, safeGsapTimeline, cleanupGSAP, safeGsapSet } from '../utils/gsapConfig';
+import { isBuildMode } from '../utils/buildSafeAnimations';
+import '../styles/portfolio.css';
 
-gsap.registerPlugin(ScrollTrigger);
+interface PortfolioProject {
+  id: number;
+  image: string;
+  images: string[];
+  title: string;
+  category: 'portrait' | 'mode' | 'produit';
+  year: number;
+  client: string;
+  description: string;
+  tags: string[];
+}
 
-const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }) => {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const portfolioRef = useRef<HTMLDivElement | null>(null);
+type PortfolioFilter = 'all' | 'portrait' | 'mode' | 'produit';
+
+interface PortfolioSectionProps {
+  id?: string;
+  scrollManagerRef?: React.RefObject<HTMLElement>;
+}
+
+const PortfolioSection: React.FC<PortfolioSectionProps> = ({ id = "portfolio", scrollManagerRef }) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const portfolioRef = useRef<HTMLDivElement>(null);
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [cardImageIndices, setCardImageIndices] = useState<{[key: number]: number}>({});
@@ -19,16 +36,15 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
   const [itemsPerSlide, setItemsPerSlide] = useState<number>(3);
   const [isCarouselMode, setIsCarouselMode] = useState<boolean>(false);
   const [isChanging, setIsChanging] = useState<boolean>(false);
-  const animationRefs = useRef<gsap.core.Timeline[]>([]);
+  const animationRefs = useRef<any[]>([]);
+  const scrollPositionRef = useRef<number>(0);
 
-  // Images importées et prêtes
-
-  // Portfolio de Jover - approche photographique personnelle
+  // Portfolio projects data
   const projectsData = useMemo<PortfolioProject[]>(() => [
     {
       id: 1,
-      image: image2,
-      images: [image2, image3, image4], // Plusieurs images pour tester
+      image: "/images/portfolio/project-2.jpg",
+      images: ["/images/portfolio/project-2.jpg", "/images/portfolio/project-3.jpg", "/images/portfolio/project-4.jpg"],
       title: "Instants Bruts",
       category: "portrait",
       year: 2024,
@@ -38,8 +54,8 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     },
     {
       id: 2,
-      image: image3,
-      images: [image3], // Une seule image
+      image: "/images/portfolio/project-3.jpg",
+      images: ["/images/portfolio/project-3.jpg"],
       title: "Visions Graphiques",
       category: "mode",
       year: 2024,
@@ -49,8 +65,8 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     },
     {
       id: 3,
-      image: image4,
-      images: [image4, image2], // Deux images
+      image: "/images/portfolio/project-4.jpg",
+      images: ["/images/portfolio/project-4.jpg", "/images/portfolio/project-2.jpg"],
       title: "Expérimentations Créatives",
       category: "produit",
       year: 2023,
@@ -60,8 +76,8 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     },
     {
       id: 4,
-      image: image2,
-      images: [image2],
+      image: "/images/portfolio/project-1.jpg",
+      images: ["/images/portfolio/project-1.jpg"],
       title: "Portraits Intimes",
       category: "portrait",
       year: 2024,
@@ -71,8 +87,8 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     },
     {
       id: 5,
-      image: image3,
-      images: [image3],
+      image: "/images/portfolio/project-3.jpg",
+      images: ["/images/portfolio/project-3.jpg"],
       title: "Mode Urbaine",
       category: "mode",
       year: 2023,
@@ -82,8 +98,8 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     },
     {
       id: 6,
-      image: image4,
-      images: [image4],
+      image: "/images/portfolio/project-4.jpg",
+      images: ["/images/portfolio/project-4.jpg"],
       title: "Objets d'Art",
       category: "produit",
       year: 2024,
@@ -93,7 +109,7 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     }
   ], []);
 
-  // Filtres disponibles
+  // Available filters
   const filters = useMemo(() => [
     { id: 'all' as PortfolioFilter, label: 'Tous', count: projectsData.length },
     { id: 'portrait' as PortfolioFilter, label: 'Portrait', count: projectsData.filter(p => p.category === 'portrait').length },
@@ -101,19 +117,17 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     { id: 'produit' as PortfolioFilter, label: 'Produit', count: projectsData.filter(p => p.category === 'produit').length }
   ], [projectsData]);
 
-  // Projets filtrés
+  // Filtered projects
   const filteredProjects = useMemo(() => {
     const filtered = activeFilter === 'all' 
       ? projectsData 
       : projectsData.filter(project => project.category === activeFilter);
     
-    // Activer le carrousel si plus de 3 projets
     setIsCarouselMode(filtered.length > 3);
-    
     return filtered;
   }, [projectsData, activeFilter]);
 
-  // Projets visibles pour le carrousel
+  // Visible projects for carousel
   const visibleProjects = useMemo(() => {
     if (!isCarouselMode) {
       return filteredProjects;
@@ -123,7 +137,7 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     return filteredProjects.slice(startIndex, startIndex + itemsPerSlide);
   }, [filteredProjects, currentSlide, itemsPerSlide, isCarouselMode]);
 
-  // Navigation du carrousel
+  // Carousel navigation
   const totalSlides = Math.ceil(filteredProjects.length / itemsPerSlide);
   const canGoNext = currentSlide < totalSlides - 1;
   const canGoPrev = currentSlide > 0;
@@ -158,12 +172,12 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     }
   };
 
-  // Reset du slide lors du changement de filtre
+  // Reset slide on filter change
   useEffect(() => {
     setCurrentSlide(0);
   }, [activeFilter]);
 
-  // Gestion responsive du nombre d'éléments par slide
+  // Responsive items per slide
   useEffect(() => {
     const updateItemsPerSlide = () => {
       const width = window.innerWidth;
@@ -182,96 +196,87 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
     return () => window.removeEventListener('resize', updateItemsPerSlide);
   }, []);
 
-  // Animation des projets avec GSAP
+  // GSAP Animation for projects
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    if (isBuildMode()) return;
 
-    // Nettoyer les anciennes animations
-    animationRefs.current.forEach(animation => animation.kill());
-    animationRefs.current = [];
+    (async () => {
+      // Import dynamique de gsap et ScrollTrigger
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import('gsap'),
+        import('gsap/ScrollTrigger'),
+      ]);
+      gsap.registerPlugin(ScrollTrigger);
 
-    // Animation d'entrée de la section
-    const sectionTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: "top 80%",
-      end: "bottom 20%",
-      scrub: 1,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const projects = section.querySelectorAll('.portfolio-project');
-        
-        projects.forEach((project, index) => {
-          const delay = index * 0.1;
-          const elementProgress = Math.max(0, Math.min(1, progress - delay));
-          
-          gsap.set(project, {
-            opacity: Math.max(0.1, elementProgress),
-            y: (1 - elementProgress) * 50,
-            scale: 0.9 + (elementProgress * 0.1)
+      const gsapReady = initGSAP();
+      if (!gsapReady) return;
+      const section = sectionRef.current;
+      if (!section) return;
+
+      // Clear previous animations
+      animationRefs.current.forEach(animation => animation.kill());
+      animationRefs.current = [];
+
+      // Section entrance animation
+      const sectionTrigger = createSafeScrollTrigger({
+        trigger: section,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const projects = section.querySelectorAll('.portfolio-project');
+          projects.forEach((project, index) => {
+            const delay = index * 0.1;
+            const elementProgress = Math.max(0, Math.min(1, progress - delay));
+            safeGsapSet(project, {
+              opacity: Math.max(0.1, elementProgress),
+              y: (1 - elementProgress) * 50,
+              scale: 0.9 + (elementProgress * 0.1)
+            });
           });
-        });
+        }
+      });
+      if (sectionTrigger) {
+        animationRefs.current.push(sectionTrigger);
       }
-    });
-
-    animationRefs.current.push(sectionTrigger as any);
+    })();
 
     return () => {
-      animationRefs.current.forEach(animation => animation.kill());
+      cleanupGSAP();
       animationRefs.current = [];
     };
   }, [visibleProjects]);
 
-  // Désactiver le scroll quand le modal est ouvert
+  // Block scroll when modal is open
   useEffect(() => {
     if (selectedProject) {
-      // Bloquer le scroll
       document.body.style.overflow = 'hidden';
     } else {
-      // Restaurer le scroll sans redirection visible
       document.body.style.overflow = '';
     }
 
-    // Cleanup au démontage
     return () => {
       document.body.style.overflow = '';
     };
   }, [selectedProject]);
-
-  // Cleanup général
-  useEffect(() => {
-    const section = sectionRef.current;
-    
-    return () => {
-      // Nettoyer toutes les animations GSAP
-      animationRefs.current.forEach(animation => {
-        if (animation && typeof animation.kill === 'function') {
-          animation.kill();
-        }
-      });
-      
-      // Nettoyer tous les ScrollTriggers de cette section
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.trigger === section || 
-            (trigger.trigger && section?.contains(trigger.trigger as Node))) {
-          trigger.kill();
-        }
-      });
-    };
-  }, []);
 
   const handleFilterClick = (filter: PortfolioFilter): void => {
     setActiveFilter(filter);
   };
 
   const handleProjectClick = (project: PortfolioProject): void => {
+    scrollPositionRef.current = window.scrollY;
     setSelectedProject(project);
-    setCurrentImageIndex(0); // Reset à la première image
+    setCurrentImageIndex(0);
   };
 
   const handleCloseModal = (): void => {
     setSelectedProject(null);
     setCurrentImageIndex(0);
+    setTimeout(() => {
+      window.scrollTo({ top: scrollPositionRef.current, behavior: 'auto' });
+    }, 10);
   };
 
   const nextImage = (): void => {
@@ -302,10 +307,10 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
   };
 
   return (
-    <section id={id} className="portfolio-section" ref={sectionRef}>
+    <section id={id} ref={sectionRef} className="portfolio-section">
       <div className="portfolio-interface">
         
-        {/* Header avec style contact sheet */}
+        {/* Header with contact sheet style */}
         <div className="portfolio-header">
           <div className="portfolio-title">
             <h2>Portfolio Photographique</h2>
@@ -314,7 +319,7 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
             </p>
           </div>
           
-          {/* Filtres style appareil photo */}
+          {/* Camera-style filters */}
           <div className="portfolio-filters">
             {filters.map(filter => (
               <button
@@ -329,7 +334,7 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
           </div>
         </div>
 
-        {/* Navigation carrousel */}
+        {/* Carousel navigation */}
         {isCarouselMode && (
           <div className="carousel-controls">
             <div className="carousel-navigation">
@@ -379,7 +384,7 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
           </div>
         )}
 
-        {/* Grille style contact sheet */}
+        {/* Contact sheet style grid */}
         <div className={`portfolio-grid ${isCarouselMode ? 'carousel-mode' : ''} ${isChanging ? 'changing' : ''}`} ref={portfolioRef}>
           {visibleProjects.map((project, index) => (
             <div 
@@ -389,14 +394,16 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
             >
               <div className="frame-number">{`${String(index + 1).padStart(2, '0')}/24`}</div>
               <div className="project-image-container">
-                <div 
-                  className="project-image"
-                  style={{ 
-                    backgroundImage: `url(${project.images[getCardImageIndex(project.id)]})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                >
+                <div className="project-image">
+                  <Image
+                    src={project.images[0]}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 900px) 100vw, 33vw"
+                    priority={project.title === 'Instants Bruts'}
+                    className="portfolio-image"
+                    loading={project.title === 'Instants Bruts' ? undefined : 'lazy'}
+                  />
                   <div className="category-badge-overlay">
                     {project.category.toUpperCase()}
                   </div>
@@ -426,7 +433,7 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
                   ))}
                 </div>
                 
-                {/* Sélecteur d'images si plusieurs images */}
+                {/* Image selector for multiple images */}
                 {project.images.length > 1 && (
                   <div className="project-image-selector">
                     <span className="selector-label">Images:</span>
@@ -463,19 +470,22 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
 
       </div>
       
-      {/* Modal lightbox professionnelle */}
+      {/* Professional lightbox modal */}
       {selectedProject && (
         <div className="project-modal" onClick={handleCloseModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             
             <div className="modal-image">
-              <img 
+              <Image 
                 src={selectedProject.images[currentImageIndex]} 
-                alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
+                alt={selectedProject.title}
+                fill
+                sizes="(max-width: 900px) 100vw, 60vw"
                 className="modal-image-content"
+                loading="lazy"
               />
               
-              {/* Navigation images si plusieurs images */}
+              {/* Image navigation for multiple images */}
               {selectedProject.images.length > 1 && (
                 <>
                   <button 
@@ -517,7 +527,8 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
                   </div>
                 </>
               )}
-              {/* Données EXIF */}
+              
+              {/* EXIF data */}
               <div className="modal-exif">
                 <div className="modal-exif-row">
                   <span>Camera:</span>
@@ -569,6 +580,162 @@ const PortfolioSection: React.FC<CommonSectionProps> = ({ id, scrollManagerRef }
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        .portfolio-section {
+          min-height: 100vh;
+          padding: var(--section-padding);
+          background: transparent;
+        }
+
+        .portfolio-content {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 var(--spacing-xl);
+        }
+
+        .portfolio-header {
+          text-align: center;
+          margin-bottom: var(--spacing-xxxl);
+        }
+
+        .section-title {
+          font-size: var(--h2-font-size);
+          font-weight: var(--h2-font-weight);
+          color: var(--h2-color);
+          margin-bottom: var(--h2-margin-bottom);
+          text-transform: var(--h2-text-transform);
+          letter-spacing: var(--h2-letter-spacing);
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        .section-subtitle {
+          font-size: var(--p-font-size);
+          font-weight: var(--p-font-weight);
+          color: var(--p-color);
+          line-height: var(--p-line-height);
+          max-width: 600px;
+          margin: 0 auto;
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        .filter-buttons {
+          display: flex;
+          justify-content: center;
+          gap: var(--spacing-md);
+          margin-bottom: var(--spacing-xxxl);
+          flex-wrap: wrap;
+        }
+
+        .filter-btn {
+          padding: var(--spacing-sm) var(--spacing-lg);
+          background: transparent;
+          border: 2px solid var(--color-border);
+          border-radius: 0;
+          color: var(--color-text-secondary);
+          font-size: var(--type-small);
+          font-weight: var(--font-weight-medium);
+          text-transform: uppercase;
+          letter-spacing: var(--letter-spacing-tight);
+          cursor: pointer;
+          transition: all var(--duration-normal) var(--easing-ease);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+          background: var(--color-accent-primary);
+          border-color: var(--color-accent-primary);
+          color: var(--color-black);
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-md);
+        }
+
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: var(--spacing-xl);
+        }
+
+        .project-card {
+          background: var(--color-background-secondary);
+          border: 2px solid var(--color-border);
+          border-radius: 0;
+          overflow: hidden;
+          transition: all var(--duration-normal) var(--easing-ease);
+          backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-lg);
+          border-color: var(--color-accent-primary);
+        }
+
+        .project-image {
+          position: relative;
+          aspect-ratio: 4/3;
+          overflow: hidden;
+        }
+
+        .project-info {
+          padding: var(--spacing-lg);
+        }
+
+        .project-title {
+          font-size: var(--h4-font-size);
+          font-weight: var(--h4-font-weight);
+          color: var(--h4-color);
+          margin-bottom: var(--spacing-sm);
+          text-transform: uppercase;
+          letter-spacing: var(--letter-spacing-tight);
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        .project-description {
+          font-size: var(--type-small);
+          color: var(--color-text-muted);
+          line-height: 1.5;
+          transition: color var(--duration-slowest) var(--easing-ease);
+        }
+
+        @media (max-width: 768px) {
+          .portfolio-section {
+            padding: var(--section-padding-mobile);
+          }
+
+          .portfolio-content {
+            padding: 0 var(--spacing-lg);
+          }
+
+          .projects-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+          }
+
+          .filter-buttons {
+            gap: var(--spacing-sm);
+          }
+
+          .filter-btn {
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-size: var(--type-caption);
+          }
+        }
+
+        @media (max-width: 480px) {
+          .portfolio-section {
+            padding: var(--section-padding-small);
+          }
+
+          .portfolio-content {
+            padding: 0 var(--spacing-md);
+          }
+
+          .project-info {
+            padding: var(--spacing-md);
+          }
+        }
+      `}</style>
     </section>
   );
 };

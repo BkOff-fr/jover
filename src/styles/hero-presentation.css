@@ -20,6 +20,9 @@
   z-index: var(--z-base);
   animation: mainLogoEntrance 2s ease-out 2.5s both;
   transition: all var(--duration-slower) var(--easing-ease), filter var(--duration-slowest) var(--easing-ease);
+  /* Suppression de tout background ou filter */
+  background: none !important;
+  filter: none !important;
 }
 
 /* Scroll indicator */
@@ -360,18 +363,26 @@ body.dark-theme .parallax-gallery-image {
 }
 
 .presentation-title {
-  color: var(--color-white);
+  font-family: var(--font-family);
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  color: var(--h2-color);
   margin-bottom: var(--spacing-lg);
   line-height: 1.2;
+  letter-spacing: var(--h2-letter-spacing);
+  text-transform: var(--h2-text-transform);
   transition: color var(--duration-slowest) var(--easing-ease);
 }
 
-.App .presentation-title {
-  color: var(--color-gray-800);
+/* Texte adaptatif - thème par défaut */
+.presentation-title {
+  color: var(--h2-color);
+  transition: color var(--duration-slowest) var(--easing-ease);
 }
 
+/* Force le thème sombre */
 body.dark-theme .presentation-title {
-  color: var(--color-text-light);
+  color: var(--color-text-light) !important;
 }
 
 .presentation-location {
@@ -387,29 +398,36 @@ body.dark-theme .presentation-title {
   transition: color var(--duration-slowest) var(--easing-ease);
 }
 
-.App .location-text {
-  color: var(--color-gray-600);
-}
-
-body.dark-theme .location-text {
-  color: var(--color-gray-300);
-}
-
-.text-content {
-  color: var(--color-white);
-  font-size: var(--type-body);
-  line-height: 1.6;
-  letter-spacing: 0.1em;
-  font-weight: var(--font-weight-normal);
+/* Texte adaptatif - thème par défaut */
+.location-text {
+  color: var(--color-text-secondary);
   transition: color var(--duration-slowest) var(--easing-ease);
 }
 
-.App .text-content {
-  color: var(--color-gray-800);
+/* Force le thème sombre */
+body.dark-theme .location-text {
+  color: var(--color-gray-300) !important;
 }
 
+.text-content {
+  font-family: var(--font-family);
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  line-height: var(--p-line-height);
+  letter-spacing: var(--p-letter-spacing);
+  font-weight: var(--p-font-weight);
+  transition: color var(--duration-slowest) var(--easing-ease);
+}
+
+/* Texte adaptatif - thème par défaut */
+.text-content {
+  color: var(--p-color);
+  transition: color var(--duration-slowest) var(--easing-ease);
+}
+
+/* Force le thème sombre */
 body.dark-theme .text-content {
-  color: var(--color-text-light);
+  color: var(--color-text-light) !important;
 }
 
 .text-content .letter {
@@ -418,12 +436,15 @@ body.dark-theme .text-content {
   transition: all var(--duration-fast) var(--easing-ease), color var(--duration-slowest) var(--easing-ease);
 }
 
-.App .text-content .letter {
-  color: var(--color-gray-500);
+/* Lettres inactives */
+.text-content .letter {
+  color: var(--color-text-muted);
+  transition: color var(--duration-slowest) var(--easing-ease);
 }
 
+/* Lettres inactives - thème sombre */
 body.dark-theme .text-content .letter {
-  color: var(--color-gray-500);
+  color: var(--color-gray-500) !important;
 }
 
 .text-content .letter.active {
@@ -432,12 +453,15 @@ body.dark-theme .text-content .letter {
   transition: all var(--duration-fast) var(--easing-ease), color var(--duration-slowest) var(--easing-ease);
 }
 
-.App .text-content .letter.active {
-  color: var(--color-gray-800);
+/* Lettres actives - thème clair */
+.text-content .letter.active {
+  color: var(--color-text-primary);
+  transition: color var(--duration-slowest) var(--easing-ease);
 }
 
+/* Lettres actives - thème sombre */
 body.dark-theme .text-content .letter.active {
-  color: var(--color-text-light);
+  color: var(--color-text-light) !important;
 }
 
 /* Images additionnelles */

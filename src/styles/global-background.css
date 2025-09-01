@@ -1,6 +1,6 @@
 /**
- * Global Background System
- * Système de background mutualisé entre toutes les sections
+ * Global Background System - Simplifié
+ * Système de background basique pour les transitions de thème
  */
 
 .global-background {
@@ -10,182 +10,23 @@
   width: 100%;
   height: 100%;
   z-index: -1;
-  will-change: background, filter, transform;
-  transition: background var(--duration-slower) var(--easing-ease);
+  transition: background 1.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Effets ambient dynamiques */
-.global-background::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at var(--ambient-x, 50%) var(--ambient-y, 50%), 
-    rgba(30, 185, 0, 0.02) 0%, 
-    transparent 50%
-  );
-  pointer-events: none;
-  transition: background var(--duration-slow) var(--easing-ease);
-}
-
-/* Overlay pour effets supplémentaires */
-.global-background::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    180deg, 
-    transparent 0%, 
-    rgba(255, 255, 255, 0.05) 100%
-  );
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--duration-normal) var(--easing-ease);
-}
-
-/* États par section */
+/* États par section - Backgrounds simples */
 .global-background.accueil {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-}
-
-.global-background.accueil::before {
-  background: radial-gradient(
-    circle at var(--ambient-x, 50%) var(--ambient-y, 50%), 
-    rgba(30, 185, 0, 0.02) 0%, 
-    transparent 50%
-  );
 }
 
 .global-background.presentation {
   background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
 }
 
-.global-background.presentation::before {
-  background: radial-gradient(
-    circle at var(--ambient-x, 50%) var(--ambient-y, 50%), 
-    rgba(30, 185, 0, 0.04) 0%, 
-    transparent 60%
-  );
-}
-
-.global-background.presentation::after {
-  opacity: 0.3;
-  background: linear-gradient(
-    180deg, 
-    transparent 0%, 
-    rgba(0, 0, 0, 0.1) 100%
-  );
-}
-
-.global-background.experience {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-}
-
-.global-background.experience::before {
-  background: 
-    radial-gradient(
-      circle at var(--ambient-x, 50%) var(--ambient-y, 50%), 
-      rgba(30, 185, 0, 0.05) 0%, 
-      transparent 40%
-    ),
-    radial-gradient(
-      ellipse 40% 60% at 30% 40%, 
-      rgba(30, 185, 0, 0.03) 0%, 
-      transparent 70%
-    );
-}
-
-.global-background.experience::after {
-  opacity: 0.6;
-  background: linear-gradient(
-    180deg, 
-    rgba(0, 0, 0, 0.2) 0%, 
-    transparent 100%
-  );
-}
-
 .global-background.portfolio {
   background: linear-gradient(135deg, #000000 0%, #111111 100%);
 }
 
-.global-background.portfolio::before {
-  background: radial-gradient(
-    circle at var(--ambient-x, 50%) var(--ambient-y, 50%), 
-    rgba(30, 185, 0, 0.08) 0%, 
-    transparent 50%
-  );
+.global-background.contact {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
 }
 
-.global-background.portfolio::after {
-  opacity: 0.4;
-  background: linear-gradient(
-    180deg, 
-    rgba(0, 0, 0, 0.3) 0%, 
-    transparent 100%
-  );
-}
-
-/* Animations de grain pour la section experience */
-.global-background.experience.grain-effect {
-  animation: backgroundGrain 8s linear infinite;
-}
-
-@keyframes backgroundGrain {
-  0%, 100% { 
-    filter: contrast(1.1) brightness(0.95) saturate(1.1); 
-  }
-  25% { 
-    filter: contrast(1.12) brightness(0.93) saturate(1.15) sepia(0.02); 
-  }
-  50% { 
-    filter: contrast(1.08) brightness(0.97) saturate(1.05) sepia(0.01); 
-  }
-  75% { 
-    filter: contrast(1.15) brightness(0.92) saturate(1.2) sepia(0.03); 
-  }
-}
-
-/* États de transition */
-.global-background.transitioning {
-  animation: backgroundTransition var(--duration-slower) var(--easing-ease);
-}
-
-@keyframes backgroundTransition {
-  0% { 
-    transform: scale(1);
-    filter: blur(0px);
-  }
-  50% { 
-    transform: scale(1.01);
-    filter: blur(1px);
-  }
-  100% { 
-    transform: scale(1);
-    filter: blur(0px);
-  }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .global-background::before {
-    background: radial-gradient(
-      circle at var(--ambient-x, 50%) var(--ambient-y, 50%), 
-      rgba(30, 185, 0, 0.01) 0%, 
-      transparent 70%
-    );
-  }
-}
-
-/* Performance optimizations */
-.global-background,
-.global-background::before,
-.global-background::after {
-  backface-visibility: hidden;
-  transform: translateZ(0);
-}

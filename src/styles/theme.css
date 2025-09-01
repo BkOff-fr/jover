@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --font-family: 'Pathway Extreme', sans-serif;
+  --color-text: #1a1a1a;
+  --color-background: #fff;
+  --color-background-alt: #f8f9fa;
+  --color-accent: #1EB900;
+  --color-error: #e53935;
+  --font-weight-light: 400;
+  --font-weight-normal: 500;
+  --font-weight-medium: 600;
+  --font-weight-semibold: 700;
+  --font-weight-bold: 800;
+  --font-weight-black: 900;
+  --letter-spacing-tight: 0.1em;
+  --letter-spacing-normal: 0.3em;
+  --letter-spacing-wide: 0.4em;
+  --h1-font-size: clamp(2.5rem, 6vw, 4.5rem);
+  --h2-font-size: clamp(2rem, 4vw, 3rem);
+  --h3-font-size: clamp(1.25rem, 2.5vw, 2rem);
+  --h4-font-size: clamp(1.1rem, 2vw, 1.3rem);
+  --type-body: clamp(1rem, 1.8vw, 1.125rem);
+  --type-small: clamp(0.875rem, 1.5vw, 0.9375rem);
+  --type-caption: clamp(0.75rem, 1vw, 0.875rem);
+  --transition-theme: 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.dark-theme {
+  --color-background: #111111;
+  --color-background-alt: #1a1a1a;
+  --color-text: #fff;
+  --color-accent: #1EB900;
+  --color-error: #e53935;
+}
+
+body {
+  font-family: var(--font-family);
+}
+
+body, html, * {
+  transition: color var(--transition-normal), background-color var(--transition-theme), border-color var(--transition-theme), box-shadow var(--transition-normal);
+}
+
+body, .dark-theme {
+  transition: color var(--transition-theme), background-color var(--transition-theme), border-color var(--transition-theme);
+} 

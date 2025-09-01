@@ -46,7 +46,7 @@ export const ANIMATION_CONFIG: AnimationConfig = {
 
 // Configuration des sections
 export const SECTIONS_CONFIG: SectionsConfig = {
-  ids: ['accueil', 'presentation', 'experience', 'portfolio', 'contact'],
+  ids: ['accueil', 'presentation', 'portfolio', 'contact'],
   thresholds: {
     detection: 0.5, // 50% de la hauteur pour la détection
     theme: 0.3, // 30% pour le changement de thème
